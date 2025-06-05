@@ -1,0 +1,418 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/Satoshi-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+body {
+  @apply antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-satoshi);
+  background-color: var(--background);
+  border: none;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  color: var(--black);
+}
+
+@layer utilities {
+  .user-drag-none {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+    user-select: none;
+  }
+
+  /* Typography Classes - Flexible approach */
+  .hero {
+    font-size: var(--hero);
+    line-height: 1.1; /* equivalent to leading-tight */
+    /* Removed @apply font-medium and color to allow overrides */
+  }
+
+  .headline-1 {
+    font-size: var(--headline-1);
+    line-height: 1.1; /* equivalent to leading-tight */
+    /* Removed @apply font-medium and color to allow overrides */
+  }
+
+  .headline-2 {
+    font-size: var(--headline-2);
+    line-height: 1.1; /* equivalent to leading-tight */
+  }
+
+  .headline-3 {
+    font-size: var(--headline-3);
+    line-height: 1.375; /* equivalent to leading-snug */
+  }
+
+  .headline-4 {
+    font-size: var(--headline-4);
+    line-height: 1.375; /* equivalent to leading-snug */
+  }
+
+  .headline-5 {
+    font-size: var(--headline-5);
+    line-height: 1.375; /* equivalent to leading-snug */
+  }
+
+  .headline-6 {
+    font-size: var(--headline-6);
+    line-height: 1.5; /* equivalent to leading-normal */
+  }
+
+  .headline-7 {
+    font-size: var(--headline-7);
+    line-height: 1.5; /* equivalent to leading-normal */
+  }
+
+  .body-1 {
+    font-size: var(--body-1);
+    line-height: 1.625; /* equivalent to leading-relaxed */
+  }
+
+  .body-1-semi {
+    font-size: var(--body-1--semi);
+    line-height: 1.625;
+    font-weight: 500; /* medium */
+  }
+
+  .body-1-bold {
+    font-size: var(--body-1--bold);
+    line-height: 1.625;
+    font-weight: 700; /* bold */
+  }
+
+  .body-2 {
+    font-size: var(--body-2);
+    line-height: 1.625;
+  }
+
+  .body-2-semi {
+    font-size: var(--body-2--semi);
+    line-height: 1.625;
+    font-weight: 500;
+  }
+
+  .body-2-bold {
+    font-size: var(--body-2--bold);
+    line-height: 1.625;
+    font-weight: 700;
+  }
+
+  .caption-1 {
+    font-size: var(--caption-1);
+    line-height: 1.5;
+  }
+
+  .caption-1-semi {
+    font-size: var(--caption-1--semi);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .caption-1-bold {
+    font-size: var(--caption-1--bold);
+    line-height: 1.5;
+    font-weight: 700;
+  }
+
+  .caption-2 {
+    font-size: var(--caption-2);
+    line-height: 1.5;
+  }
+
+  .caption-2-semi {
+    font-size: var(--caption-2--semi);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .caption-2-bold {
+    font-size: var(--caption-2--bold);
+    line-height: 1.5;
+    font-weight: 700;
+  }
+
+  .hairline-1 {
+    font-size: var(--hairline-1);
+    line-height: 1;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+  }
+
+  .hairline-2 {
+    font-size: var(--hairline-2);
+    line-height: 1;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+  }
+
+  .button-xl {
+    font-size: var(--button--x-l);
+    line-height: 1;
+    font-weight: 500;
+  }
+
+  .button-l {
+    font-size: var(--button--l);
+    line-height: 1;
+    font-weight: 500;
+  }
+
+  .button-m {
+    font-size: var(--button--m);
+    line-height: 1;
+    font-weight: 500;
+  }
+
+  .button-s {
+    font-size: var(--button--s);
+    line-height: 1;
+    font-weight: 500;
+  }
+
+  .button-xs {
+    font-size: var(--button--x-s);
+    line-height: 1;
+    font-weight: 500;
+  }
+
+  /* Default typography classes with base styling - these provide defaults but allow overrides */
+  .hero-default {
+    font-size: var(--hero);
+    line-height: 1.1;
+    font-weight: 500;
+    color: var(--black);
+  }
+
+  .headline-1-default {
+    font-size: var(--headline-1);
+    line-height: 1.1;
+    font-weight: 500;
+    color: var(--black);
+  }
+
+  /* dont mind this */
+  /* Force Tailwind color utilities to override typography colors */
+  .text-white {
+    color: white !important;
+  }
+  .text-black {
+    color: black !important;
+  }
+  .text-gray-100 {
+    color: rgb(243 244 246) !important;
+  }
+  .text-gray-200 {
+    color: rgb(229 231 235) !important;
+  }
+  .text-gray-300 {
+    color: rgb(209 213 219) !important;
+  }
+  .text-gray-400 {
+    color: rgb(156 163 175) !important;
+  }
+  .text-gray-500 {
+    color: rgb(107 114 128) !important;
+  }
+  .text-gray-600 {
+    color: rgb(75 85 99) !important;
+  }
+  .text-gray-700 {
+    color: rgb(55 65 81) !important;
+  }
+  .text-gray-800 {
+    color: rgb(31 41 55) !important;
+  }
+  .text-gray-900 {
+    color: rgb(17 24 39) !important;
+  }
+  .text-red-500 {
+    color: rgb(239 68 68) !important;
+  }
+  .text-blue-500 {
+    color: rgb(59 130 246) !important;
+  }
+  .text-green-500 {
+    color: rgb(34 197 94) !important;
+  }
+  .text-yellow-500 {
+    color: rgb(234 179 8) !important;
+  }
+  .text-purple-500 {
+    color: rgb(168 85 247) !important;
+  }
+  .text-pink-500 {
+    color: rgb(236 72 153) !important;
+  }
+  .text-indigo-500 {
+    color: rgb(99 102 241) !important;
+  }
+  /* dont mind this */
+
+  /* Color utilities for easy theming */
+  .text-primary {
+    color: var(--primary) !important;
+  }
+  .text-secondary {
+    color: var(--secondry) !important;
+  }
+  .text-tertiary {
+    color: var(--teritary) !important;
+  }
+  .text-quaternary {
+    color: var(--quaternary) !important;
+  }
+  .text-success {
+    color: var(--green) !important;
+  }
+  .text-warning {
+    color: var(--yellow) !important;
+  }
+  .text-danger {
+    color: var(--red) !important;
+  }
+  .text-purple {
+    color: var(--purple) !important;
+  }
+
+  .bg-primary {
+    background-color: var(--primary);
+  }
+  .bg-secondary {
+    background-color: var(--secondry);
+  }
+  .bg-tertiary {
+    background-color: var(--teritary);
+  }
+  .bg-quaternary {
+    background-color: var(--quaternary);
+  }
+  .bg-success {
+    background-color: var(--green);
+  }
+  .bg-warning {
+    background-color: var(--yellow);
+  }
+  .bg-danger {
+    background-color: var(--red);
+  }
+  .bg-purple {
+    background-color: var(--purple);
+  }
+}
+
+@layer base {
+  :root {
+    --font-satoshi: "Satoshi Variable", "Inter", sans-serif;
+
+    /* Light Theme (Default) */
+    --black: rgba(39, 37, 37, 1);
+    --secondry: rgba(255, 198, 51, 1);
+    --teritary: rgba(255, 104, 0, 1);
+    --quaternary: rgba(255, 68, 0, 1);
+    --primary: rgba(56, 124, 255, 1);
+    --background: rgba(232, 238, 244, 1);
+    --red: rgba(205, 36, 36, 1);
+    --green: rgba(5, 180, 40, 1);
+    --yellow: rgba(253, 203, 28, 1);
+    --purple: rgba(134, 91, 240, 1);
+
+    --neutral--01--100: rgba(254, 254, 254, 1);
+    --neutral--01--95: rgba(254, 254, 254, 0.95);
+    --neutral--01--20: rgba(254, 254, 254, 0.2);
+    --neutral--01--10: rgba(254, 254, 254, 0.1);
+
+    --neutral--02--100: rgba(243, 245, 247, 1);
+    --neutral--02--50: rgba(243, 245, 247, 0.5);
+
+    --neutral--03--100: rgba(232, 236, 239, 1);
+    --neutral--03--75: rgba(232, 236, 239, 0.75);
+    --neutral--03--50: rgba(232, 236, 239, 0.5);
+
+    --neutral--04--100: rgba(108, 114, 117, 1);
+    --neutral--04--75: rgba(108, 114, 117, 0.75);
+    --neutral--04--50: rgba(108, 114, 117, 0.5);
+    --neutral--04--25: rgba(108, 114, 117, 0.25);
+    --neutral--04--15: rgba(108, 114, 117, 0.15);
+
+    --neutral--05--100: rgba(52, 56, 57, 1);
+    --neutral--05--50: rgba(52, 56, 57, 0.5);
+
+    --neutral--06--100: rgba(35, 38, 39, 1);
+    --neutral--06--95: rgba(35, 38, 39, 0.95);
+    --neutral--06--90: rgba(35, 38, 39, 0.9);
+    --neutral--06--50: rgba(35, 38, 39, 0.5);
+
+    --neutral--07--100: rgba(20, 23, 24, 1);
+    --neutral--07--95: rgba(20, 23, 24, 0.95);
+    --neutral--07--50: rgba(20, 23, 24, 0.5);
+
+    /* Typography scale */
+    --hero: 96px;
+    --headline-1: 80px;
+    --headline-2: 72px;
+    --headline-3: 54px;
+    --headline-4: 40px;
+    --headline-5: 34px;
+    --headline-6: 28px;
+    --headline-7: 20px;
+
+    --body-1: 20px;
+    --body-1--semi: 20px;
+    --body-1--bold: 20px;
+
+    --body-2: 16px;
+    --body-2--semi: 16px;
+    --body-2--bold: 16px;
+
+    --caption-1: 14px;
+    --caption-1--semi: 14px;
+    --caption-1--bold: 14px;
+
+    --caption-2: 12px;
+    --caption-2--semi: 12px;
+    --caption-2--bold: 12px;
+
+    --hairline-1: 16px;
+    --hairline-2: 12px;
+
+    --button--x-l: 26px;
+    --button--l: 22px;
+    --button--m: 18px;
+    --button--s: 16px;
+    --button--x-s: 14px;
+  }
+
+  .dark {
+    --background: #0f172a;
+    --black: rgba(254, 254, 254, 1);
+  }
+
+  html {
+    font-family: var(--font-satoshi);
+    background-color: var(--background);
+    color: var(--black);
+  }
+
+  *,
+  *::before,
+  *::after {
+    @apply m-0 p-0 box-border;
+  }
+}
