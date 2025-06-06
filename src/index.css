@@ -30,6 +30,9 @@ body {
   font-weight: 100 900;
   font-display: swap;
 }
+::-webkit-scrollbar{
+  display: none;
+}
 
 @layer utilities {
   .user-drag-none {
@@ -52,9 +55,14 @@ body {
     color: var(--black);
   }
 
+  .orange-gradient {
+    background: linear-gradient(90deg, #FFC533 0%, #FF6A01 100%);
+  }
+
   *,
   *::before,
   *::after {
     @apply m-0 p-0 box-border;
   }
 }
+
