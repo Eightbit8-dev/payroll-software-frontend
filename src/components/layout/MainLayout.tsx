@@ -22,7 +22,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white shadow-sm border-b border-zinc-200 p-4"
+          className="bg-white  border-b-2 border-zinc-200 p-4"
         >
           <div className="flex items-center justify-between">
             {/* Welcome text */}
