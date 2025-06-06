@@ -26,11 +26,11 @@ body {
   box-sizing: border-box;
   color: var(--black);
   font-family: "Satoshi";
-  src: url("/fonts/Satoshi-Variable.woff2") format("woff2");
+
   font-weight: 100 900;
   font-display: swap;
 }
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   display: none;
 }
 
@@ -56,7 +56,7 @@ body {
   }
 
   .orange-gradient {
-    background: linear-gradient(90deg, #FFC533 0%, #FF6A01 100%);
+    background: linear-gradient(90deg, #ffc533 0%, #ff6a01 100%);
   }
 
   *,
@@ -65,4 +65,3 @@ body {
     @apply m-0 p-0 box-border;
   }
 }
-

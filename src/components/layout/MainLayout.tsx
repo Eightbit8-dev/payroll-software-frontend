@@ -33,10 +33,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           {/* Action icons */}
           <div className="flex justify-center items-center gap-3.5 ml-auto">
             <NotificationCenter />
-            <img
-              className="w-12 h-12 rounded-full"
-              src="./images/profile.png"
-            />
+            <img className="w-12 h-12 rounded-full" src="/images/profile.png" />
           </div>
         </header>
         {children}

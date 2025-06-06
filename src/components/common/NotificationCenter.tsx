@@ -20,8 +20,8 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({
       <img
         src={
           isNotificationPanelOpen
-            ? "./icons/bell-icon-enabled.svg"
-            : "./icons/bell-icon.svg"
+            ? "/icons/bell-icon-enabled.svg"
+            : "/icons/bell-icon.svg"
         }
         alt="notifications"
       />
