@@ -1,232 +1,299 @@
-import { useState } from 'react';
-import { ChevronDown, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { appRoutes } from "../../routes/appRoutes";
 
-interface NavItem {
-  id: string;
-  label: string;
-  iconSrc: string;
-  count?: number;
-  submenu?: SubmenuItem[];
-}
+const SideNav: React.FC = () => {
+  const [activeRoute, setActiveRoute] = useState<string>("");
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
-interface SubmenuItem {
-  id: string;
-  label: string;
-  href?: string;
-  count?: number;
-}
+  useEffect(() => {
+    // Get current pathname
+    const currentPath = window.location.pathname;
+    setActiveRoute(currentPath);
 
-interface NavSection extends NavItem {}
+    // Auto-expand section based on current route (only one at a time)
+    if (currentPath.startsWith("/company")) {
+      setExpandedSection("company");
+    } else if (currentPath.startsWith("/funds")) {
+      setExpandedSection("funds");
+    } else if (currentPath.startsWith("/approval")) {
+      setExpandedSection("approvals");
+    } else {
+      setExpandedSection(null);
+    }
+  }, []);
 
-const SideNav = () => {
-  const [expandedSection, setExpandedSection] = useState<string>('company');
-  const [selectedItem, setSelectedItem] = useState<string>('company-employees');
-
-  // Dynamic counts
-  const navCounts = {
-    company: 6,
-    funds: 4,
-    approvals: 8,
-    departments: 8,
-    employees: 12,
-    teams: 5,
-    offices: 3,
-    contractors: 15,
-    payroll: 23,
-    taxInvoice: 7,
-    benefits: 9,
-    expenses: 11,
-    leaveRequests: 14,
-    schedule: 6,
-    overtime: 3,
-    budgetApprovals: 2
+  const isRouteActive = (route: string): boolean => {
+    return activeRoute === route;
   };
 
-  // Main navigation sections with submenus
-  const navSections: NavSection[] = [
-    {
-      id: 'company',
-      label: 'Company',
-      iconSrc: './icons/Company-con.svg',
-      count: navCounts.company,
-      submenu: [
-        { id: 'company-departments', label: 'Departments', count: navCounts.departments },
-        { id: 'company-employees', label: 'Employees', count: navCounts.employees },
-        { id: 'company-teams', label: 'Teams', count: navCounts.teams },
-        { id: 'company-offices', label: 'Offices', count: navCounts.offices }
-      ]
-    },
-    {
-      id: 'funds',
-      label: 'Funds',
-      iconSrc: './icons/funds-icon.svg',
-      count: navCounts.funds,
-      submenu: [
-        { id: 'funds-payroll', label: 'Payroll', count: navCounts.payroll },
-        { id: 'funds-tax-invoice', label: 'Tax and invoice', count: navCounts.taxInvoice },
-        { id: 'funds-benefits', label: 'Benefits', count: navCounts.benefits },
-        { id: 'funds-expenses', label: 'Expenses', count: navCounts.expenses }
-      ]
-    },
-    {
-      id: 'approvals',
-      label: 'Approvals',
-      iconSrc: './icons/approval-icon.svg',
-      count: navCounts.approvals,
-      submenu: [
-        { id: 'approvals-leave-requests', label: 'Leave requests', count: navCounts.leaveRequests },
-        { id: 'approvals-schedule', label: 'Schedule', count: navCounts.schedule },
-        { id: 'approvals-overtime', label: 'Overtime', count: navCounts.overtime },
-        { id: 'approvals-budget-approvals', label: 'Budget ', count: navCounts.budgetApprovals }
-      ]
-    }
-  ];
+  const isSectionExpanded = (section: string): boolean => {
+    return expandedSection === section;
+  };
 
-  const toggleSection = (sectionId: string) => {
-    setExpandedSection(prev => prev === sectionId ? '' : sectionId);
+  const toggleSection = (section: string) => {
+    setExpandedSection((prev) => (prev === section ? null : section));
+  };
+
+  const navigateToRoute = (route: string) => {
+    setActiveRoute(route);
+    window.history.pushState({}, "", route);
+
+    // Dispatch popstate event to notify other components of route change
+    window.dispatchEvent(new PopStateEvent("popstate"));
   };
 
   return (
-    <>
-      <div className="w-64 bg-white border-r overflow-y-hidden border-gray-200 h-screen flex flex-col">
-        {/* Header */}
-        <div className="p-4 border-b border-gray-200 w-full flex items-center justify-between">
-          <div>
-            <img src="./images/logo.png" alt="Logo" />
-          </div>
-          <div>
-            <p className="text-3xl font-medium text-gray-800">PayRoll</p>
-          </div>
-          <div>
-            <p className="orange-gradient text-white text-sm font-normal px-2 py-1 rounded">HR</p>
-          </div>
+    <section className="w-[300px] flex flex-col h-screen py-3 gap-8 select-none">
+      {/* Header section */}
+      <div className="p-4 w-full flex items-center justify-start">
+        {/* logo */}
+        <div className="flex items-center gap-2 self-start">
+          <img src="./images/logo.png" alt="Logo" />
+          <p className="text-3xl font-medium text-gray-800">PayRoll</p>
         </div>
+        {/* Roles */}
+        <p className="orange-gradient mx-2 text-white text-sm font-normal px-2 py-1.5 rounded">
+          HR
+        </p>
+      </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 p-4 flex flex-col justify-between custom-scrollbar">
-          <ul className="space-y-2">
-            {/* Dashboard */}
-            <li>
-              <a
-                href="#"
-                className="flex items-center space-x-3 gap-3 px-3 py-[10px] text-lg font-medium text-slate-500  hover:bg-gray-50 rounded-lg"
-              >
-                <img src="./icons/dash-icon.svg" alt="Dashboard Icon" className="w-5 h-5" />
-                <span>Dashboard</span>
-              </a>
-            </li>
+      {/* Navigation items */}
+      <div className="main-navigation-items flex flex-col gap-2 px-3 w-full">
+        <Navigationdiv
+          labelName="Dashboard"
+          iconSrc="./icons/dashboard-icon.svg"
+          onClick={() => navigateToRoute(appRoutes.dashboardPage)}
+          isActive={isRouteActive(appRoutes.dashboardPage)}
+        />
 
-            {/* Dynamic Navigation Sections */}
-            {navSections.map((section) => (
-              <li key={section.id}>
-                <div
-                  className="flex items-center justify-between  gap-2 px-3 py-[10px]   text-lg font-medium text-slate-500 hover:bg-gray-50 rounded-lg cursor-pointer"
-                  onClick={() => toggleSection(section.id)}
-                >
-                  <div className="flex items-center gap-3">
-                    <img src={section.iconSrc} alt={`${section.label} Icon`} className="w-5 h-5" />
-                    <span>{section.label}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    {section.count && (
-                      <span className="bg-orange-400 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                        {section.count}
-                      </span>
-                    )}
-                    {expandedSection === section.id ? (
-                      <ChevronDown size={16} />
-                    ) : (
-                      <ChevronRight size={16} />
-                    )}
-                  </div>
-                </div>
+        <Navigationdiv
+          labelName="Company"
+          iconSrc="./icons/company-icon.svg"
+          onClick={() => toggleSection("company")}
+          isDropdown={true}
+          breadCrumbCount={3}
+          isExpanded={isSectionExpanded("company")}
+          children={
+            <>
+              <Navigationdiv
+                labelName="Department"
+                iconSrc="./icons/dashboard-icon.svg"
+                onClick={() => navigateToRoute(appRoutes.departmentPage)}
+                breadCrumbCount={3}
+                isNestedchild={true}
+                isActive={isRouteActive(appRoutes.departmentPage)}
+              />
+              <Navigationdiv
+                labelName="Employee"
+                iconSrc="./icons/dashboard-icon.svg"
+                onClick={() => navigateToRoute(appRoutes.employeePage)}
+                breadCrumbCount={3}
+                isActive={isRouteActive(appRoutes.employeePage)}
+                isNestedchild={true}
+              />
+              <Navigationdiv
+                labelName="Team"
+                iconSrc="./icons/dashboard-icon.svg"
+                onClick={() => navigateToRoute(appRoutes.teamPage)}
+                breadCrumbCount={3}
+                isNestedchild={true}
+                isActive={isRouteActive(appRoutes.teamPage)}
+              />
+            </>
+          }
+        />
 
-                {/* Submenu */}
-                {expandedSection === section.id && (
-                  <div className="ml-4 mt-2 relative ">
-                    <div className="max-h-100 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100  [&::-webkit-scrollbar-thumb]:bg-gray-300">
-                      <ul className="space-y-1">
-                        {section.submenu?.map((item) => (
-                          <li key={item.id}>
-                            <a
-                              href="#"
-                              className={`flex items-center justify-between px-7 py-[10px] rounded-lg font-medium text-base transition-colors ${
-                                selectedItem === item.id
-                                  ? 'text-white bg-blue-500'
-                                  : 'text-gray-500 hover:bg-gray-50'
-                              }`}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setSelectedItem(item.id);
-                              }}
-                            >
-                              <span>{item.label}</span>
-                              {item.count && (
-                                <span
-                                  className={`text-xs w-5 h-5 rounded-full flex items-center justify-center ${
-                                    selectedItem === item.id
-                                      ? 'bg-transparent  text-white'
-                                      : 'bg-orange-400 text-white'
-                                  }`}
-                                >
-                                  {item.count}
-                                </span>
-                              )}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
+        <Navigationdiv
+          labelName="Funds"
+          iconSrc="./icons/funds-icon.svg"
+          onClick={() => toggleSection("funds")}
+          isDropdown={true}
+          breadCrumbCount={3}
+          isExpanded={isSectionExpanded("funds")}
+          children={
+            <>
+              <Navigationdiv
+                labelName="Payroll"
+                iconSrc="./icons/dashboard-icon.svg"
+                onClick={() => navigateToRoute(appRoutes.payRollPage)}
+                breadCrumbCount={3}
+                isNestedchild={true}
+                isActive={isRouteActive(appRoutes.payRollPage)}
+              />
+              <Navigationdiv
+                labelName="Tax & Invoice"
+                iconSrc="./icons/dashboard-icon.svg"
+                onClick={() => navigateToRoute(appRoutes.taxInvoicePage)}
+                breadCrumbCount={3}
+                isActive={isRouteActive(appRoutes.taxInvoicePage)}
+                isNestedchild={true}
+              />
+            </>
+          }
+        />
 
-          {/* Cases Section */}
-          <div className="mt-8">
-            <h3 className="text-lg font-semibold text-gray-400 uppercase tracking-wide mb-3">CASES</h3>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href="#"
-                  className="flex items-center space-x-3 px-3 py-2 gap-2 text-lg font-medium text-slate-500 hover:bg-gray-50 rounded-lg"
-                >
-                  <img src="./icons/memo-icon.svg" alt="Memo Icon" className="w-5 h-5" />
-                  <span>Memo</span>
-                </a>
-              </li>
-              <li>
-              <a
-                href="#"
-                className="flex items-center space-x-3 px-3 py-2 text-lg font-medium gap-2 text-slate-500 hover:bg-gray-50 rounded-lg"
-              >
-                <img src="./icons/settings-icon.svg" alt="Settings Icon" className="w-5 h-5" />
-                <span>Settings</span>
-              </a>
-            </li>
-            </ul>
+        <Navigationdiv
+          labelName="Approvals"
+          iconSrc="./icons/approval-icon.svg"
+          onClick={() => toggleSection("approvals")}
+          isDropdown={true}
+          breadCrumbCount={3}
+          isExpanded={isSectionExpanded("approvals")}
+          children={
+            <>
+              <Navigationdiv
+                labelName="Leave Requests"
+                iconSrc="./icons/dashboard-icon.svg"
+                onClick={() => navigateToRoute(appRoutes.leaveRequestsPage)}
+                breadCrumbCount={3}
+                isNestedchild={true}
+                isActive={isRouteActive(appRoutes.leaveRequestsPage)}
+              />
+              <Navigationdiv
+                labelName="Schedules"
+                iconSrc="./icons/dashboard-icon.svg"
+                onClick={() => navigateToRoute(appRoutes.schedulePage)}
+                breadCrumbCount={3}
+                isActive={isRouteActive(appRoutes.schedulePage)}
+                isNestedchild={true}
+              />
+            </>
+          }
+        />
+        <div className="lower-settingns flex flex-col gap-2 w-full">
+          <h5 className="text-base font-medium text-slate-500 mt-3">Cases</h5>
+          <Navigationdiv
+            labelName="Memo"
+            iconSrc="./icons/memo-icon.svg"
+            onClick={() => navigateToRoute(appRoutes.memoPage)}
+            isActive={isRouteActive(appRoutes.memoPage)}
+          />
+          <Navigationdiv
+            labelName="Settings"
+            iconSrc="./icons/settings-icon.svg"
+            onClick={() => navigateToRoute(appRoutes.SettingsPage)}
+            isActive={isRouteActive(appRoutes.SettingsPage)}
+          />
+          {/* logout button with margin */}
+          <div className="margin flex min-h-full items-end justify-center bg-amber-200">
+            <div
+              className={`dropdown-navigation-div   cursor-pointer w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-lg font-medium transition-colors ease-in-out duration-150 text-slate-500 hover:bg-gray-100 active:bg-blue-500 active:text-white 
+          `}
+              onClick={() => console.log("Logout clicked")}
+            >
+              {/* Icon */}
+              <img
+                src="./icons/logout-icon.svg"
+                className="w-5 h-5 flex-shrink-0"
+              />
+              Logout
+            </div>
           </div>
-        </nav>
-
-        {/* Bottom Section */}
-        <div className="p-4 border-t border-gray-200">
-          <ul className="space-y-2">
-          
-            <li>
-              <a
-                href="#"
-                className="flex items-center space-x-3 px-3 py-2 text-lg font-medium gap-2 text-slate-500 hover:bg-gray-50 rounded-lg"
-              >
-                <img src="./icons/logout-icon.svg" alt="Logout Icon" className="w-5 h-5" />
-                <span>Logout</span>
-              </a>
-            </li>
-          </ul>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 
 export default SideNav;
+
+interface NavigationdivProps {
+  labelName: string;
+  iconSrc: string;
+  breadCrumbCount?: number;
+  isDropdown?: boolean;
+  children?: React.ReactNode;
+  onClick?: () => void;
+  isActive?: boolean;
+  className?: string;
+  isNestedchild?: boolean;
+  isExpanded?: boolean;
+}
+
+const Navigationdiv: React.FC<NavigationdivProps> = ({
+  labelName,
+  iconSrc,
+  breadCrumbCount,
+  isDropdown = false,
+  children,
+  onClick,
+  isActive = false,
+  className = "",
+  isNestedchild = false,
+  isExpanded = false,
+}) => {
+  const handleClick = () => {
+    onClick?.();
+  };
+
+  return (
+    <div className={`navigation-div-container ${className}`}>
+      <div className="main-button-container flex flex-row gap-2">
+        {isNestedchild && (
+          <div className="current-section-indicator flex min-h-full w-[3px] relative overflow-clip bg-yellow-300/30 flex-col gap-2">
+            <div
+              className={`current-section-indicator flex h-6 absolute top-3 w-[3px] flex-1 rounded-full  ${
+                isActive ? "bg-orange-500" : "bg-transparent"
+              } `}
+            >
+              <h1 className="hidden">dummy</h1>
+            </div>
+          </div>
+        )}
+        <div
+          className={`dropdown-navigation-div w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-lg font-medium transition-colors ease-in-out duration-150 ${
+            isActive
+              ? "bg-blue-500 text-white"
+              : "text-slate-500 hover:bg-gray-100"
+          } cursor-pointer`}
+          onClick={handleClick}
+        >
+          {/* Icon */}
+          {!isNestedchild && (
+            <img
+              src={iconSrc}
+              alt={labelName.toLowerCase()}
+              className="w-5 h-5 flex-shrink-0"
+            />
+          )}
+
+          {/* Label */}
+          <h6 className="w-full text-start font-medium">{labelName}</h6>
+
+          {/* Badge/Count */}
+          {breadCrumbCount !== undefined && breadCrumbCount > 0 && (
+            <div
+              className={`min-w-6 min-h-6 rounded-full  text-xs font-normal text-white flex items-center justify-center flex-shrink-0 
+            ${isActive ? "transparent" : "bg-orange-500"}`}
+            >
+              {breadCrumbCount > 99 ? "99+" : breadCrumbCount}
+            </div>
+          )}
+
+          {/* Dropdown Arrow */}
+          {isDropdown && (
+            <div
+              className={`transform transition-transform ease-in-out duration-300 flex-shrink-0 ${
+                isExpanded ? "rotate-180" : "rotate-90"
+              }`}
+              tabIndex={-1}
+            >
+              <img
+                src="./icons/arrow-icon.svg"
+                alt="dropdown arrow"
+                className="w-4 h-4"
+              />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Dropdown Content */}
+      {isDropdown && isExpanded && children && (
+        <div className="dropdown-content flex flex-col px-6 mt-2.5  w-full">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+};

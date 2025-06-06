@@ -1,14 +1,11 @@
 import React from "react";
-import MainLayout from "../../components/layout/MainLayout";
 
-const FundsPage: React.FC = () => {
+const PayRollPage: React.FC = () => {
   return (
-    <MainLayout>
-      <div className="funds-page-container flex flex-row w-full">
-        <h1>Funds Page</h1>
-      </div>
-    </MainLayout>
+    <div className="funds-page-container flex flex-row w-full">
+      <h1>PayRollPage</h1>
+    </div>
   );
 };
 
-export default FundsPage;
+export default PayRollPage;

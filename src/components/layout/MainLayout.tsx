@@ -1,6 +1,7 @@
 import React from "react";
 import SearchBar from "../common/SearchBar";
 import NotificationCenter from "../common/NotificationCenter";
+import SideNav from "../common/SideNav";
 
 interface MainLayoutProps {
   children?: React.ReactNode;
@@ -10,9 +11,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   //TODO : Utility function to get the current date and format it
 
   return (
-    <div className="Main-entry-point flex flex-row w-screen">
-      <section className="h-screen border-2 border-slate-300 bg w-[270px]">
-        <h1>Sidebar</h1>
+    <div className="Main-entry-point flex flex-row w-screen h-screen">
+      <section className="min-h-full border-r-2 border-slate-300 flex ">
+        <SideNav />
       </section>
       <section className="flex w-full flex-col">
         {/* Top nav bar */}

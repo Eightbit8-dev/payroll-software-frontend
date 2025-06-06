@@ -1,13 +1,29 @@
 export const appRoutes = {
-  authenticationPage: "/authenticate",
-  errorPage: "/error",
+  // standalone routes
   homePage: "/",
+  authenticationPage: "/authenticate",
   dashboardPage: "/dashboard",
-  settingsPage: "/settings",
-  profilePage: "/profile",
-  aboutPage: "/about",
-  contactPage: "/contact",
-  helpPage: "/help",
-  termsPage: "/terms",
-  privacyPage: "/privacy",
+
+  // Company nested routes
+  companyPage: "/company",
+  departmentPage: "/company/department",
+  employeePage: "/company/employee",
+  teamPage: "/company/team",
+
+  // Funds nested routes
+  fundsPage: "/funds",
+  payRollPage: "/funds/payroll",
+  taxInvoicePage: "/funds/tax-invoice",
+
+  // Approval nested routes
+  approvalPage: "/approval",
+  leaveRequestsPage: "/approval/leave-requests",
+  schedulePage: "/approval/schedule",
+
+  // cases page
+  memoPage: "/memo",
+  SettingsPage: "/settings",
+
+  // Error page
+  errorPage: "/error",
 };

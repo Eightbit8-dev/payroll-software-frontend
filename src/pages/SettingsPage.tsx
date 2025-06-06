@@ -1,13 +1,10 @@
 import React from "react";
-import MainLayout from "../components/layout/MainLayout";
 
 const SettingsPage: React.FC = () => {
   return (
-    <MainLayout>
-      <div className="settings-page-container flex flex-row w-full">
-        <h1>Settings Page</h1>
-      </div>
-    </MainLayout>
+    <div className="funds-page-container flex flex-row w-full">
+      <h1>SettingsPage</h1>
+    </div>
   );
 };
 
