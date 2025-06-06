@@ -6,6 +6,7 @@ import { appRoutes } from "./routes/appRoutes";
 
 //Pages
 import ErrorPage from "./pages/ErrorPage";
+import HomePage from "./pages/HomePage";
 const AuthenticationPage = lazy(() => import("./pages/AuthPage"));
 
 export const App = () => {
@@ -14,6 +15,7 @@ export const App = () => {
       <Suspense fallback={<h1>Loading</h1>}>
         <Routes>
           <Route path="/*" element={<ErrorPage />} />
+          <Route path={appRoutes.homePage} element={<HomePage />} />
           <Route
             path={appRoutes.authenticationPage}
             element={<AuthenticationPage />}
