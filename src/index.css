@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/Satoshi-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+body {
+  @apply antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-satoshi);
+  background-color: var(--background);
+  border: none;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  color: var(--black);
+  font-family: "Satoshi";
+  src: url("/fonts/Satoshi-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+::-webkit-scrollbar{
+  display: none;
+}
+
+@layer utilities {
+  .user-drag-none {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+    user-select: none;
+  }
+
+  .dark {
+    --background: #0f172a;
+    --black: rgba(254, 254, 254, 1);
+  }
+
+  html {
+    font-family: var(--font-satoshi);
+    background-color: var(--background);
+    color: var(--black);
+  }
+
+  .orange-gradient {
+    background: linear-gradient(90deg, #FFC533 0%, #FF6A01 100%);
+  }
+
+  *,
+  *::before,
+  *::after {
+    @apply m-0 p-0 box-border;
+  }
+}
+
