@@ -37,174 +37,501 @@ body {
     user-select: none;
   }
 
-  /* Typography Classes - Flexible approach */
-  .hero {
-    font-size: var(--hero);
-    line-height: 1.1; /* equivalent to leading-tight */
-    /* Removed @apply font-medium and color to allow overrides */
-  }
-
-  .headline-1 {
-    font-size: var(--headline-1);
-    line-height: 1.1; /* equivalent to leading-tight */
-    /* Removed @apply font-medium and color to allow overrides */
-  }
-
-  .headline-2 {
-    font-size: var(--headline-2);
-    line-height: 1.1; /* equivalent to leading-tight */
-  }
-
-  .headline-3 {
-    font-size: var(--headline-3);
-    line-height: 1.375; /* equivalent to leading-snug */
-  }
-
-  .headline-4 {
-    font-size: var(--headline-4);
-    line-height: 1.375; /* equivalent to leading-snug */
-  }
-
-  .headline-5 {
-    font-size: var(--headline-5);
-    line-height: 1.375; /* equivalent to leading-snug */
-  }
-
-  .headline-6 {
-    font-size: var(--headline-6);
-    line-height: 1.5; /* equivalent to leading-normal */
-  }
-
-  .headline-7 {
-    font-size: var(--headline-7);
-    line-height: 1.5; /* equivalent to leading-normal */
-  }
-
-  .body-1 {
-    font-size: var(--body-1);
-    line-height: 1.625; /* equivalent to leading-relaxed */
-  }
-
-  .body-1-semi {
-    font-size: var(--body-1--semi);
-    line-height: 1.625;
-    font-weight: 500; /* medium */
-  }
-
-  .body-1-bold {
-    font-size: var(--body-1--bold);
-    line-height: 1.625;
-    font-weight: 700; /* bold */
-  }
-
-  .body-2 {
-    font-size: var(--body-2);
-    line-height: 1.625;
-  }
-
-  .body-2-semi {
-    font-size: var(--body-2--semi);
-    line-height: 1.625;
-    font-weight: 500;
-  }
-
-  .body-2-bold {
-    font-size: var(--body-2--bold);
-    line-height: 1.625;
-    font-weight: 700;
-  }
-
-  .caption-1 {
-    font-size: var(--caption-1);
-    line-height: 1.5;
-  }
-
-  .caption-1-semi {
-    font-size: var(--caption-1--semi);
-    line-height: 1.5;
-    font-weight: 500;
-  }
-
-  .caption-1-bold {
-    font-size: var(--caption-1--bold);
-    line-height: 1.5;
-    font-weight: 700;
-  }
-
-  .caption-2 {
-    font-size: var(--caption-2);
-    line-height: 1.5;
-  }
-
-  .caption-2-semi {
-    font-size: var(--caption-2--semi);
-    line-height: 1.5;
-    font-weight: 500;
-  }
-
-  .caption-2-bold {
-    font-size: var(--caption-2--bold);
-    line-height: 1.5;
-    font-weight: 700;
-  }
-
-  .hairline-1 {
-    font-size: var(--hairline-1);
-    line-height: 1;
-    letter-spacing: 0.05em;
-    font-weight: 700;
-  }
-
-  .hairline-2 {
-    font-size: var(--hairline-2);
-    line-height: 1;
-    letter-spacing: 0.05em;
-    font-weight: 700;
-  }
-
-  .button-xl {
-    font-size: var(--button--x-l);
-    line-height: 1;
-    font-weight: 500;
-  }
-
-  .button-l {
-    font-size: var(--button--l);
-    line-height: 1;
-    font-weight: 500;
-  }
-
-  .button-m {
-    font-size: var(--button--m);
-    line-height: 1;
-    font-weight: 500;
-  }
-
-  .button-s {
-    font-size: var(--button--s);
-    line-height: 1;
-    font-weight: 500;
-  }
-
-  .button-xs {
-    font-size: var(--button--x-s);
-    line-height: 1;
-    font-weight: 500;
-  }
-
-  /* Default typography classes with base styling - these provide defaults but allow overrides */
-  .hero-default {
-    font-size: var(--hero);
+  /* New Typography Classes */
+  .display-medium-large {
+    font-size: var(--display---medium---large);
     line-height: 1.1;
     font-weight: 500;
-    color: var(--black);
   }
 
-  .headline-1-default {
-    font-size: var(--headline-1);
+  .display-medium-small {
+    font-size: var(--display---medium---small);
     line-height: 1.1;
     font-weight: 500;
-    color: var(--black);
+  }
+
+  .display-semibold-large {
+    font-size: var(--display---semibold---large);
+    line-height: 1.1;
+    font-weight: 600;
+  }
+
+  .display-semibold-small {
+    font-size: var(--display---semibold---small);
+    line-height: 1.1;
+    font-weight: 600;
+  }
+
+  .display-bold-large {
+    font-size: var(--display---bold---large);
+    line-height: 1.1;
+    font-weight: 700;
+  }
+
+  .display-bold-small {
+    font-size: var(--display---bold---small);
+    line-height: 1.1;
+    font-weight: 700;
+  }
+
+  .display-extrabold-large {
+    font-size: var(--display---extrabold---large);
+    line-height: 1.1;
+    font-weight: 800;
+  }
+
+  .display-extrabold-small {
+    font-size: var(--display---extrabold---small);
+    line-height: 1.1;
+    font-weight: 800;
+  }
+
+  .heading-h1-medium-desktop {
+    font-size: var(--heading---h1---medium---desktop);
+    line-height: 1.2;
+    font-weight: 500;
+  }
+
+  .heading-h1-medium-mobile {
+    font-size: var(--heading---h1---medium---mobile);
+    line-height: 1.2;
+    font-weight: 500;
+  }
+
+  .heading-h1-semibold-desktop {
+    font-size: var(--heading---h1---semibold---desktop);
+    line-height: 1.2;
+    font-weight: 600;
+  }
+
+  .heading-h1-semibold-mobile {
+    font-size: var(--heading---h1---semibold---mobile);
+    line-height: 1.2;
+    font-weight: 600;
+  }
+
+  .heading-h1-bold-desktop {
+    font-size: var(--heading---h1---bold---desktop);
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .heading-h1-bold-mobile {
+    font-size: var(--heading---h1---bold---mobile);
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .heading-h1-extrabold-desktop {
+    font-size: var(--heading---h1---extrabold---desktop);
+    line-height: 1.2;
+    font-weight: 800;
+  }
+
+  .heading-h1-extrabold-mobile {
+    font-size: var(--heading---h1---extrabold---mobile);
+    line-height: 1.2;
+    font-weight: 800;
+  }
+
+  .heading-h2-medium-desktop {
+    font-size: var(--heading---h2---medium---desktop);
+    line-height: 1.2;
+    font-weight: 500;
+  }
+
+  .heading-h2-medium-mobile {
+    font-size: var(--heading-----h2-----medium-----mobile);
+    line-height: 1.2;
+    font-weight: 500;
+  }
+
+  .heading-h2-semibold-desktop {
+    font-size: var(--heading---h2---semibold---desktop);
+    line-height: 1.2;
+    font-weight: 600;
+  }
+
+  .heading-h2-semibold-mobile {
+    font-size: var(--heading-----h2-----semibold-----mobile);
+    line-height: 1.2;
+    font-weight: 600;
+  }
+
+  .heading-h2-bold-desktop {
+    font-size: var(--heading---h2---bold---desktop);
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .heading-h2-bold-mobile {
+    font-size: var(--heading-----h2-----bold-----mobile);
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .heading-h2-extrabold-desktop {
+    font-size: var(--heading---h2---extrabold---desktop);
+    line-height: 1.2;
+    font-weight: 800;
+  }
+
+  .heading-h2-extrabold-mobile {
+    font-size: var(--heading-----h2-----extrabold-----mobile);
+    line-height: 1.2;
+    font-weight: 800;
+  }
+
+  .heading-h3-medium-desktop {
+    font-size: var(--heading---h3---medium---desktop);
+    line-height: 1.3;
+    font-weight: 500;
+  }
+
+  .heading-h3-medium-mobile {
+    font-size: var(--heading-----h3-----medium-----mobile);
+    line-height: 1.3;
+    font-weight: 500;
+  }
+
+  .heading-h3-semibold-desktop {
+    font-size: var(--heading---h3---semibold---dektop);
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  .heading-h3-semibold-mobile {
+    font-size: var(--heading-----h3-----semibold-----mobile);
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  .heading-h3-bold-desktop {
+    font-size: var(--heading---h3---bold---desktop);
+    line-height: 1.3;
+    font-weight: 700;
+  }
+
+  .heading-h3-bold-mobile {
+    font-size: var(--heading-----h3-----bold-----mobile);
+    line-height: 1.3;
+    font-weight: 700;
+  }
+
+  .heading-h3-extrabold-desktop {
+    font-size: var(--heading---h3---extrabold---desktop);
+    line-height: 1.3;
+    font-weight: 800;
+  }
+
+  .heading-h3-extrabold-mobile {
+    font-size: var(--heading-----h3-----extrabold-----mobile);
+    line-height: 1.3;
+    font-weight: 800;
+  }
+
+  .heading-h4-medium-desktop {
+    font-size: var(--heading---h4---medium---desktop);
+    line-height: 1.3;
+    font-weight: 500;
+  }
+
+  .heading-h4-medium-mobile {
+    font-size: var(--heading-----h4-----medium-----mobile);
+    line-height: 1.3;
+    font-weight: 500;
+  }
+
+  .heading-h4-semibold-desktop {
+    font-size: var(--heading---h4---semibold---desktop);
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  .heading-h4-semibold-mobile {
+    font-size: var(--heading-----h4-----semibold-----mobile);
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  .heading-h4-bold-desktop {
+    font-size: var(--heading---h4---bold---desktop);
+    line-height: 1.3;
+    font-weight: 700;
+  }
+
+  .heading-h4-bold-mobile {
+    font-size: var(--heading-----h4-----bold-----mobile);
+    line-height: 1.3;
+    font-weight: 700;
+  }
+
+  .heading-h4-extrabold-desktop {
+    font-size: var(--heading---h4---extrabold---desktop);
+    line-height: 1.3;
+    font-weight: 800;
+  }
+
+  .heading-h4-extrabold-mobile {
+    font-size: var(--heading-----h4-----extrabold-----mobile);
+    line-height: 1.3;
+    font-weight: 800;
+  }
+
+  .heading-h5-medium-desktop {
+    font-size: var(--heading---h5---medium---desktop);
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  .heading-h5-medium-mobile {
+    font-size: var(--heading---h5---medium---mobile);
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  .heading-h5-semibold-desktop {
+    font-size: var(--heading---h5---semibold---desktop);
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  .heading-h5-semibold-mobile {
+    font-size: var(--heading-----h5-----semibold-----mobile);
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  .heading-h5-bold-desktop {
+    font-size: var(--heading---h5---bold---desktop);
+    line-height: 1.4;
+    font-weight: 700;
+  }
+
+  .heading-h5-bold-mobile {
+    font-size: var(--heading-----h5-----bold-----mobile);
+    line-height: 1.4;
+    font-weight: 700;
+  }
+
+  .heading-h5-extrabold-desktop {
+    font-size: var(--heading---h5---extrabold---desktop);
+    line-height: 1.4;
+    font-weight: 800;
+  }
+
+  .heading-h5-extrabold-mobile {
+    font-size: var(--heading-----h5-----extrabold-----mobile);
+    line-height: 1.4;
+    font-weight: 800;
+  }
+
+  .heading-h6-medium-desktop {
+    font-size: var(--heading---h6---medium---desktop);
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  .heading-h6-medium-mobile {
+    font-size: var(--heading-----h6-----medium-----mobile);
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  .heading-h6-semibold-desktop {
+    font-size: var(--heading---h6---semibold---desktop);
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  .heading-h6-semibold-mobile {
+    font-size: var(--heading-----h6-----semibold-----mobile);
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  .heading-h6-bold-desktop {
+    font-size: var(--heading---h6---bold---desktop);
+    line-height: 1.4;
+    font-weight: 700;
+  }
+
+  .heading-h6-bold-mobile {
+    font-size: var(--heading-----h6-----bold-----mobile);
+    line-height: 1.4;
+    font-weight: 700;
+  }
+
+  .heading-h6-extrabold-desktop {
+    font-size: var(--heading---h6---extrabold---desktop);
+    line-height: 1.4;
+    font-weight: 800;
+  }
+
+  .heading-h6-extrabold-mobile {
+    font-size: var(--heading-----h6-----extrabold-----mobile);
+    line-height: 1.4;
+    font-weight: 800;
+  }
+
+  .paragraph-large-regular {
+    font-size: var(--paragraph---large---regular);
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  .paragraph-large-medium {
+    font-size: var(--paragraph---large---medium);
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  .paragraph-large-semibold {
+    font-size: var(--paragraph---large---semibold);
+    line-height: 1.6;
+    font-weight: 600;
+  }
+
+  .paragraph-medium-regular {
+    font-size: var(--paragraph---medium---regular);
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  .paragraph-medium-medium {
+    font-size: var(--paragraph---medium---medium);
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  .paragraph-medium-semibold {
+    font-size: var(--paragraph---medium---semibold);
+    line-height: 1.6;
+    font-weight: 600;
+  }
+
+  .paragraph-small-regular {
+    font-size: var(--paragraph---small---regular);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .paragraph-small-medium {
+    font-size: var(--paragraph---small---medium);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .paragraph-small-semibold {
+    font-size: var(--paragraph---small---semibold);
+    line-height: 1.5;
+    font-weight: 600;
+  }
+
+  .paragraph-xsmall-regular {
+    font-size: var(--paragraph---x-small---regular);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .paragraph-xsmall-medium {
+    font-size: var(--paragraph---x-small---medium);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .paragraph-xsmall-semibold {
+    font-size: var(--paragraph---x-small---semibold);
+    line-height: 1.5;
+    font-weight: 600;
+  }
+
+  .paragraph-overline-large {
+    font-size: var(--paragraph---overline---large);
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .paragraph-overline-small {
+    font-size: var(--paragraph---overline---small);
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .label-large-regular {
+    font-size: var(--label---large---regular);
+    line-height: 1.4;
+    font-weight: 400;
+  }
+
+  .label-large-medium {
+    font-size: var(--label---large---medium);
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  .label-large-semibold {
+    font-size: var(--label---large---semi--bold);
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  .label-medium-regular {
+    font-size: var(--label---medium---regular);
+    line-height: 1.4;
+    font-weight: 400;
+  }
+
+  .label-medium-medium {
+    font-size: var(--label---medium---medium);
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  .label-medium-semibold {
+    font-size: var(--label---medium---semi--bold);
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  .label-small-regular {
+    font-size: var(--label---small---regular);
+    line-height: 1.4;
+    font-weight: 400;
+  }
+
+  .label-small-medium {
+    font-size: var(--label---small---medium);
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  .label-small-semibold {
+    font-size: var(--label---small---semi--bold);
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  .label-xsmall-regular {
+    font-size: var(--label---x-small---regular);
+    line-height: 1.4;
+    font-weight: 400;
+  }
+
+  .label-xsmall-medium {
+    font-size: var(--label---x-small---medium);
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  .label-xsmall-semibold {
+    font-size: var(--label---x-small---semibold);
+    line-height: 1.4;
+    font-weight: 600;
   }
 
   /* dont mind this */
@@ -363,40 +690,89 @@ body {
     --neutral--07--95: rgba(20, 23, 24, 0.95);
     --neutral--07--50: rgba(20, 23, 24, 0.5);
 
-    /* Typography scale */
-    --hero: 96px;
-    --headline-1: 80px;
-    --headline-2: 72px;
-    --headline-3: 54px;
-    --headline-4: 40px;
-    --headline-5: 34px;
-    --headline-6: 28px;
-    --headline-7: 20px;
-
-    --body-1: 20px;
-    --body-1--semi: 20px;
-    --body-1--bold: 20px;
-
-    --body-2: 16px;
-    --body-2--semi: 16px;
-    --body-2--bold: 16px;
-
-    --caption-1: 14px;
-    --caption-1--semi: 14px;
-    --caption-1--bold: 14px;
-
-    --caption-2: 12px;
-    --caption-2--semi: 12px;
-    --caption-2--bold: 12px;
-
-    --hairline-1: 16px;
-    --hairline-2: 12px;
-
-    --button--x-l: 26px;
-    --button--l: 22px;
-    --button--m: 18px;
-    --button--s: 16px;
-    --button--x-s: 14px;
+    /* New Typography Variables */
+    --display---medium---large: 52px;
+    --display---medium---small: 44px;
+    --display---semibold---large: 52px;
+    --display---semibold---small: 44px;
+    --display---bold---large: 52px;
+    --display---bold---small: 44px;
+    --display---extrabold---large: 52px;
+    --display---extrabold---small: 44px;
+    --heading---h1---medium---desktop: 40px;
+    --heading---h1---medium---mobile: 36px;
+    --heading---h1---semibold---desktop: 40px;
+    --heading---h1---semibold---mobile: 36px;
+    --heading---h1---bold---desktop: 40px;
+    --heading---h1---bold---mobile: 36px;
+    --heading---h1---extrabold---desktop: 40px;
+    --heading---h1---extrabold---mobile: 36px;
+    --heading---h2---medium---desktop: 36px;
+    --heading-----h2-----medium-----mobile: 32px;
+    --heading---h2---semibold---desktop: 36px;
+    --heading-----h2-----semibold-----mobile: 32px;
+    --heading---h2---bold---desktop: 36px;
+    --heading-----h2-----bold-----mobile: 32px;
+    --heading---h2---extrabold---desktop: 36px;
+    --heading-----h2-----extrabold-----mobile: 32px;
+    --heading---h3---medium---desktop: 32px;
+    --heading-----h3-----medium-----mobile: 28px;
+    --heading---h3---semibold---dektop: 32px;
+    --heading-----h3-----semibold-----mobile: 28px;
+    --heading---h3---bold---desktop: 32px;
+    --heading-----h3-----bold-----mobile: 28px;
+    --heading---h3---extrabold---desktop: 32px;
+    --heading-----h3-----extrabold-----mobile: 28px;
+    --heading---h4---medium---desktop: 28px;
+    --heading-----h4-----medium-----mobile: 24px;
+    --heading---h4---semibold---desktop: 28px;
+    --heading-----h4-----semibold-----mobile: 24px;
+    --heading---h4---bold---desktop: 28px;
+    --heading-----h4-----bold-----mobile: 24px;
+    --heading---h4---extrabold---desktop: 28px;
+    --heading-----h4-----extrabold-----mobile: 24px;
+    --heading---h5---medium---desktop: 24px;
+    --heading---h5---medium---mobile: 20px;
+    --heading---h5---semibold---desktop: 24px;
+    --heading-----h5-----semibold-----mobile: 20px;
+    --heading---h5---bold---desktop: 24px;
+    --heading-----h5-----bold-----mobile: 20px;
+    --heading---h5---extrabold---desktop: 24px;
+    --heading-----h5-----extrabold-----mobile: 20px;
+    --heading---h6---medium---desktop: 20px;
+    --heading-----h6-----medium-----mobile: 18px;
+    --heading---h6---semibold---desktop: 20px;
+    --heading-----h6-----semibold-----mobile: 18px;
+    --heading---h6---bold---desktop: 20px;
+    --heading-----h6-----bold-----mobile: 18px;
+    --heading---h6---extrabold---desktop: 20px;
+    --heading-----h6-----extrabold-----mobile: 18px;
+    --paragraph---large---regular: 18px;
+    --paragraph---large---medium: 18px;
+    --paragraph---large---semibold: 18px;
+    --paragraph---medium---regular: 16px;
+    --paragraph---medium---medium: 16px;
+    --paragraph---medium---semibold: 16px;
+    --paragraph---small---regular: 14px;
+    --paragraph---small---medium: 14px;
+    --paragraph---small---semibold: 14px;
+    --paragraph---x-small---regular: 12px;
+    --paragraph---x-small---medium: 12px;
+    --paragraph---x-small---semibold: 12px;
+    --paragraph---overline---large: 14px;
+    --paragraph---overline---small: 12px;
+    --label---large---regular: 16px;
+    --label---large---medium: 16px;
+    --label---large---semi--bold: 16px;
+    --label---medium---regular: 14px;
+    --label---medium---medium: 14px;
+    --label---medium---semi--bold: 14px;
+    --label---small---regular: 12px;
+    --label---small---medium: 12px;
+    --label---small---semi--bold: 12px;
+    --label---x-small---regular: 10px;
+    --label---x-small---medium: 10px;
+    --label---x-small---semibold: 10px;
   }
 
   .dark {
