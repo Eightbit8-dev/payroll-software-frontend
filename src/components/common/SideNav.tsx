@@ -48,7 +48,7 @@ const SideNav: React.FC = () => {
       <div className="p-4 w-full flex items-center justify-start">
         {/* logo */}
         <div className="flex items-center gap-2 self-start">
-          <img src="./images/logo.png" alt="Logo" />
+          <img src="/images/logo.png" alt="Logo" />
           <p className="text-3xl font-medium text-gray-800">PayRoll</p>
         </div>
         {/* Roles */}
