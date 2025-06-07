@@ -65,17 +65,17 @@ const SideNav: React.FC = () => {
             transition={{ type: "tween", stiffness: 300 }}
           >
             <motion.img
-              className="w-10 h-10"
+              className="w-7 h-7"
               src="/icons/logo-icon.svg"
               alt="Logo"
               whileHover={{ rotate: 360 }}
               transition={{ duration: 0.5 }}
             />
-            <p className="text-3xl font-medium text-gray-800">PayRoll</p>
+            <p className="text-2xl font-medium text-gray-800">PayRoll</p>
           </motion.div>
           {/* Roles */}
           <motion.p
-            className="orange-gradient mx-2 text-white text-sm font-normal px-2 py-1.5 rounded"
+            className="orange-gradient  mx-2 text-white text-xs font-normal px-1.5 py-1 rounded"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.4, type: "tween", stiffness: 200 }}
