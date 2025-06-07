@@ -59,6 +59,10 @@ body {
     background: linear-gradient(0deg, #ffc533 0%, #ff6a01 100%);
   }
 
+  .blue-gradient {
+    background: linear-gradient(0deg, #4a7dff 0%, #ffffff 100%);
+  }
+
   *,
   *::before,
   *::after {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { appRoutes } from "../../routes/appRoutes";
+import { useNavigate } from "react-router-dom";
 
 const SideNav: React.FC = () => {
   const [activeRoute, setActiveRoute] = useState<string>("");
@@ -35,259 +36,259 @@ const SideNav: React.FC = () => {
     setExpandedSection((prev) => (prev === section ? null : section));
   };
 
+  const navigate = useNavigate();
   const navigateToRoute = (route: string) => {
     setActiveRoute(route);
-    window.history.pushState({}, "", route);
-
-    // Dispatch popstate event to notify other components of route change
-    window.dispatchEvent(new PopStateEvent("popstate"));
+    navigate(route);
   };
 
   return (
-    <motion.section
-      className="w-[300px] flex flex-col h-screen py-3 gap-3 select-none"
-      initial={{ x: -300, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ type: "tween", stiffness: 100, damping: 20 }}
-    >
-      {/* Header section */}
-      <motion.div
-        className="p-4 w-full flex items-center justify-start"
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
+    <div className="floating-container flex relative h-screen w-[380px]  border-r-2 border-slate-300 ">
+      <motion.section
+        className="w-[300px] flex flex-col h-screen top-0 fixed  gap-3 select-none overflow-clip"
+        initial={{ x: -300, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ type: "tween", stiffness: 100, damping: 20 }}
       >
-        {/* logo */}
+        {/* Header section */}
         <motion.div
-          className="flex items-center gap-2 self-start"
-          whileHover={{ scale: 1.05 }}
-          transition={{ type: "tween", stiffness: 300 }}
-        >
-          <motion.img
-            className="w-10 h-10"
-            src="/icons/logo-icon.svg"
-            alt="Logo"
-            whileHover={{ rotate: 360 }}
-            transition={{ duration: 0.5 }}
-          />
-          <p className="text-3xl font-medium text-gray-800">PayRoll</p>
-        </motion.div>
-        {/* Roles */}
-        <motion.p
-          className="orange-gradient mx-2 text-white text-sm font-normal px-2 py-1.5 rounded"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.4, type: "tween", stiffness: 200 }}
-        >
-          HR
-        </motion.p>
-      </motion.div>
-
-      {/* Navigation items */}
-      <motion.div
-        className="main-navigation-items flex flex-col gap-2 px-3 w-full"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3, duration: 0.5 }}
-      >
-        <motion.div
-          initial={{ x: -50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.3 }}
-        >
-          <Navigationdiv
-            labelName="Dashboard"
-            iconSrc="/icons/dashboard-icon.svg"
-            activeIconSrc="/icons/dashboard-icon-active.svg"
-            onClick={() => navigateToRoute(appRoutes.dashboardPage)}
-            isActive={isRouteActive(appRoutes.dashboardPage)}
-          />
-        </motion.div>
-
-        <motion.div
-          initial={{ x: -50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.3 }}
-        >
-          <Navigationdiv
-            labelName="Company"
-            iconSrc="/icons/company-icon.svg"
-            onClick={() => toggleSection("company")}
-            isDropdown={true}
-            breadCrumbCount={3}
-            isExpanded={isSectionExpanded("company")}
-            children={
-              <>
-                <Navigationdiv
-                  labelName="Department"
-                  iconSrc="/icons/dashboard-icon.svg"
-                  onClick={() => navigateToRoute(appRoutes.departmentPage)}
-                  breadCrumbCount={3}
-                  isNestedchild={true}
-                  isActive={isRouteActive(appRoutes.departmentPage)}
-                />
-                <Navigationdiv
-                  labelName="Employee"
-                  iconSrc="/icons/dashboard-icon.svg"
-                  onClick={() => navigateToRoute(appRoutes.employeePage)}
-                  breadCrumbCount={3}
-                  isActive={isRouteActive(appRoutes.employeePage)}
-                  isNestedchild={true}
-                />
-                <Navigationdiv
-                  labelName="Team"
-                  iconSrc="/icons/dashboard-icon.svg"
-                  onClick={() => navigateToRoute(appRoutes.teamPage)}
-                  breadCrumbCount={3}
-                  isNestedchild={true}
-                  isActive={isRouteActive(appRoutes.teamPage)}
-                />
-              </>
-            }
-          />
-        </motion.div>
-
-        <motion.div
-          initial={{ x: -50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.7, duration: 0.3 }}
-        >
-          <Navigationdiv
-            labelName="Funds"
-            iconSrc="/icons/funds-icon.svg"
-            onClick={() => toggleSection("funds")}
-            isDropdown={true}
-            breadCrumbCount={3}
-            isExpanded={isSectionExpanded("funds")}
-            children={
-              <>
-                <Navigationdiv
-                  labelName="Payroll"
-                  iconSrc="/icons/dashboard-icon.svg"
-                  onClick={() => navigateToRoute(appRoutes.payRollPage)}
-                  breadCrumbCount={3}
-                  isNestedchild={true}
-                  isActive={isRouteActive(appRoutes.payRollPage)}
-                />
-                <Navigationdiv
-                  labelName="Tax & Invoice"
-                  iconSrc="/icons/dashboard-icon.svg"
-                  onClick={() => navigateToRoute(appRoutes.taxInvoicePage)}
-                  breadCrumbCount={3}
-                  isActive={isRouteActive(appRoutes.taxInvoicePage)}
-                  isNestedchild={true}
-                />
-              </>
-            }
-          />
-        </motion.div>
-
-        <motion.div
-          initial={{ x: -50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.3 }}
-        >
-          <Navigationdiv
-            labelName="Approvals"
-            iconSrc="/icons/approval-icon.svg"
-            onClick={() => toggleSection("approvals")}
-            isDropdown={true}
-            breadCrumbCount={3}
-            isExpanded={isSectionExpanded("approvals")}
-            children={
-              <>
-                <Navigationdiv
-                  labelName="Leave Requests"
-                  iconSrc="./icons/dashboard-icon.svg"
-                  onClick={() => navigateToRoute(appRoutes.leaveRequestsPage)}
-                  breadCrumbCount={3}
-                  isNestedchild={true}
-                  isActive={isRouteActive(appRoutes.leaveRequestsPage)}
-                />
-                <Navigationdiv
-                  labelName="Schedules"
-                  iconSrc="./icons/dashboard-icon.svg"
-                  onClick={() => navigateToRoute(appRoutes.schedulePage)}
-                  breadCrumbCount={3}
-                  isActive={isRouteActive(appRoutes.schedulePage)}
-                  isNestedchild={true}
-                />
-              </>
-            }
-          />
-        </motion.div>
-
-        <motion.div
-          className="lower-settingns flex flex-col gap-2 w-full"
-          initial={{ y: 50, opacity: 0 }}
+          className="p-4 w-full flex items-center justify-start"
+          initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.9, duration: 0.5 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
         >
-          <motion.h5
-            className="text-base font-medium text-slate-500 mt-3"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.0, duration: 0.3 }}
-          >
-            Cases
-          </motion.h5>
+          {/* logo */}
           <motion.div
-            initial={{ x: -30, opacity: 0 }}
+            className="flex items-center gap-2 self-start"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "tween", stiffness: 300 }}
+          >
+            <motion.img
+              className="w-10 h-10"
+              src="/icons/logo-icon.svg"
+              alt="Logo"
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.5 }}
+            />
+            <p className="text-3xl font-medium text-gray-800">PayRoll</p>
+          </motion.div>
+          {/* Roles */}
+          <motion.p
+            className="orange-gradient mx-2 text-white text-sm font-normal px-2 py-1.5 rounded"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.4, type: "tween", stiffness: 200 }}
+          >
+            HR
+          </motion.p>
+        </motion.div>
+
+        {/* Navigation items */}
+        <motion.div
+          className="main-navigation-items flex flex-col gap-2 px-3 w-full"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+        >
+          <motion.div
+            initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 1.1, duration: 0.3 }}
+            transition={{ delay: 0.5, duration: 0.3 }}
           >
             <Navigationdiv
-              labelName="Memo"
-              iconSrc="/icons/memo-icon.svg"
-              onClick={() => navigateToRoute(appRoutes.memoPage)}
-              isActive={isRouteActive(appRoutes.memoPage)}
-              activeIconSrc="/icons/memo-icon-active.svg"
+              labelName="Dashboard"
+              iconSrc="/icons/dashboard-icon.svg"
+              activeIconSrc="/icons/dashboard-icon-active.svg"
+              onClick={() => navigateToRoute(appRoutes.dashboardPage)}
+              isActive={isRouteActive(appRoutes.dashboardPage)}
             />
           </motion.div>
+
           <motion.div
-            initial={{ x: -30, opacity: 0 }}
+            initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 1.2, duration: 0.3 }}
+            transition={{ delay: 0.6, duration: 0.3 }}
           >
             <Navigationdiv
-              labelName="Settings"
-              iconSrc="/icons/settings-icon.svg"
-              activeIconSrc="/icons/settings-icon-active.svg"
-              onClick={() => navigateToRoute(appRoutes.SettingsPage)}
-              isActive={isRouteActive(appRoutes.SettingsPage)}
+              labelName="Company"
+              iconSrc="/icons/company-icon.svg"
+              onClick={() => toggleSection("company")}
+              isDropdown={true}
+              breadCrumbCount={3}
+              isExpanded={isSectionExpanded("company")}
+              children={
+                <>
+                  <Navigationdiv
+                    labelName="Department"
+                    iconSrc="/icons/dashboard-icon.svg"
+                    onClick={() => navigateToRoute(appRoutes.departmentPage)}
+                    breadCrumbCount={3}
+                    isNestedchild={true}
+                    isActive={isRouteActive(appRoutes.departmentPage)}
+                  />
+                  <Navigationdiv
+                    labelName="Employee"
+                    iconSrc="/icons/dashboard-icon.svg"
+                    onClick={() => navigateToRoute(appRoutes.employeePage)}
+                    breadCrumbCount={3}
+                    isActive={isRouteActive(appRoutes.employeePage)}
+                    isNestedchild={true}
+                  />
+                  <Navigationdiv
+                    labelName="Team"
+                    iconSrc="/icons/dashboard-icon.svg"
+                    onClick={() => navigateToRoute(appRoutes.teamPage)}
+                    breadCrumbCount={3}
+                    isNestedchild={true}
+                    isActive={isRouteActive(appRoutes.teamPage)}
+                  />
+                </>
+              }
             />
           </motion.div>
-          {/* logout button with margin */}
+
           <motion.div
-            className="margin flex mt-auto "
-            initial={{ y: 100, opacity: 0 }}
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.7, duration: 0.3 }}
+          >
+            <Navigationdiv
+              labelName="Funds"
+              iconSrc="/icons/funds-icon.svg"
+              onClick={() => toggleSection("funds")}
+              isDropdown={true}
+              breadCrumbCount={3}
+              isExpanded={isSectionExpanded("funds")}
+              children={
+                <>
+                  <Navigationdiv
+                    labelName="Payroll"
+                    iconSrc="/icons/dashboard-icon.svg"
+                    onClick={() => navigateToRoute(appRoutes.payRollPage)}
+                    breadCrumbCount={3}
+                    isNestedchild={true}
+                    isActive={isRouteActive(appRoutes.payRollPage)}
+                  />
+                  <Navigationdiv
+                    labelName="Tax & Invoice"
+                    iconSrc="/icons/dashboard-icon.svg"
+                    onClick={() => navigateToRoute(appRoutes.taxInvoicePage)}
+                    breadCrumbCount={3}
+                    isActive={isRouteActive(appRoutes.taxInvoicePage)}
+                    isNestedchild={true}
+                  />
+                </>
+              }
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.8, duration: 0.3 }}
+          >
+            <Navigationdiv
+              labelName="Approvals"
+              iconSrc="/icons/approval-icon.svg"
+              onClick={() => toggleSection("approvals")}
+              isDropdown={true}
+              breadCrumbCount={3}
+              isExpanded={isSectionExpanded("approvals")}
+              children={
+                <>
+                  <Navigationdiv
+                    labelName="Leave Requests"
+                    iconSrc="./icons/dashboard-icon.svg"
+                    onClick={() => navigateToRoute(appRoutes.leaveRequestsPage)}
+                    breadCrumbCount={3}
+                    isNestedchild={true}
+                    isActive={isRouteActive(appRoutes.leaveRequestsPage)}
+                  />
+                  <Navigationdiv
+                    labelName="Schedules"
+                    iconSrc="./icons/dashboard-icon.svg"
+                    onClick={() => navigateToRoute(appRoutes.schedulePage)}
+                    breadCrumbCount={3}
+                    isActive={isRouteActive(appRoutes.schedulePage)}
+                    isNestedchild={true}
+                  />
+                </>
+              }
+            />
+          </motion.div>
+
+          <motion.div
+            className="lower-settingns flex flex-col gap-2 w-full"
+            initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 1.3, type: "tween", stiffness: 100 }}
+            transition={{ delay: 0.9, duration: 0.5 }}
           >
-            <motion.div
-              className={`dropdown-navigation-div   cursor-pointer w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-lg font-medium transition-colors ease-in-out duration-150 text-slate-500 hover:bg-gray-100 active:bg-blue-500 active:text-white 
-          `}
-              onClick={() => console.log("Logout clicked")}
-              whileHover={{
-                scale: 1.02,
-                backgroundColor: "rgba(156, 163, 175, 0.1)",
-              }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ type: "tween", stiffness: 300 }}
+            <motion.h5
+              className="text-base font-medium text-slate-500 mt-3"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.0, duration: 0.3 }}
             >
-              {/* Icon */}
-              <motion.img
-                src="/icons/logout-icon.svg"
-                className="w-5 h-5 flex-shrink-0"
-                whileHover={{ rotate: 15 }}
-                transition={{ duration: 0.2 }}
+              Cases
+            </motion.h5>
+            <motion.div
+              initial={{ x: -30, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 1.1, duration: 0.3 }}
+            >
+              <Navigationdiv
+                labelName="Memo"
+                iconSrc="/icons/memo-icon.svg"
+                onClick={() => navigateToRoute(appRoutes.memoPage)}
+                isActive={isRouteActive(appRoutes.memoPage)}
+                activeIconSrc="/icons/memo-icon-active.svg"
               />
-              Logout
+            </motion.div>
+            <motion.div
+              initial={{ x: -30, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 1.2, duration: 0.3 }}
+            >
+              <Navigationdiv
+                labelName="Settings"
+                iconSrc="/icons/settings-icon.svg"
+                activeIconSrc="/icons/settings-icon-active.svg"
+                onClick={() => navigateToRoute(appRoutes.SettingsPage)}
+                isActive={isRouteActive(appRoutes.SettingsPage)}
+              />
+            </motion.div>
+            {/* logout button with margin */}
+            <motion.div
+              className="margin flex mt-auto "
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 1.3, type: "tween", stiffness: 100 }}
+            >
+              <motion.div
+                className={`dropdown-navigation-div   cursor-pointer w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-lg font-medium transition-colors ease-in-out duration-150 text-slate-500 hover:bg-gray-100 active:bg-blue-500 active:text-white 
+          `}
+                onClick={() => console.log("Logout clicked")}
+                whileHover={{
+                  scale: 1.02,
+                  backgroundColor: "rgba(156, 163, 175, 0.1)",
+                }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "tween", stiffness: 300 }}
+              >
+                {/* Icon */}
+                <motion.img
+                  src="/icons/logout-icon.svg"
+                  className="w-5 h-5 flex-shrink-0"
+                  whileHover={{ rotate: 15 }}
+                  transition={{ duration: 0.2 }}
+                />
+                Logout
+              </motion.div>
             </motion.div>
           </motion.div>
         </motion.div>
-      </motion.div>
-    </motion.section>
+      </motion.section>
+    </div>
   );
 };
 

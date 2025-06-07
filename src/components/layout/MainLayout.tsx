@@ -13,9 +13,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   return (
     <div className="Main-entry-point flex flex-row w-screen h-screen">
-      <section className="min-h-full border-r-2 border-slate-300 flex ">
-        <SideNav />
-      </section>
+      <SideNav />
+
       <section className="flex w-full flex-col">
         {/* Top nav bar */}
         <motion.div

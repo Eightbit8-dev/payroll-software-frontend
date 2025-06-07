@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,  
+  Navigate,
+} from "react-router-dom";
 import { Suspense, lazy } from "react";
 
 // Page routes
@@ -24,6 +29,11 @@ export const App = () => {
       <Suspense fallback={<h1>Loading</h1>}>
         <Routes>
           <Route path="/*" element={<ErrorPage />} />
+          <Route
+            path="/"
+            element={<Navigate to={appRoutes.dashboardPage} replace />}
+          />
+
           <Route path={appRoutes.dashboardPage} element={<HomePage />} />
 
           {/* Company Pages*/}
