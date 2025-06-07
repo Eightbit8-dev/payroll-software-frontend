@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { appRoutes } from "../../routes/appRoutes";
-import { useNavigate } from "react-router-dom";
 
 const SideNav: React.FC = () => {
   const [activeRoute, setActiveRoute] = useState<string>("");
@@ -36,10 +35,12 @@ const SideNav: React.FC = () => {
     setExpandedSection((prev) => (prev === section ? null : section));
   };
 
-  const navigate = useNavigate();
   const navigateToRoute = (route: string) => {
     setActiveRoute(route);
-    navigate(route);
+    window.history.pushState({}, "", route);
+
+    // Dispatch popstate event to notify other components of route change
+    window.dispatchEvent(new PopStateEvent("popstate"));
   };
 
   return (
