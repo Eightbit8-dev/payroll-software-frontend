@@ -3,6 +3,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { appRoutes } from "../../routes/appRoutes";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
+/**
+ * @state - isSideNavExpanded: boolean
+ * @state - activeRoute: string
+ * @state - expandedSection: string | null
+ * **/
 const SideNav: React.FC = () => {
   const [activeRoute, setActiveRoute] = useState<string>("");
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
@@ -179,7 +184,7 @@ const SideNav: React.FC = () => {
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.3 }}
           >
-            <Navigationdiv
+            <NavigationButton
               labelName="Dashboard"
               iconSrc="/icons/dashboard-icon.svg"
               activeIconSrc="/icons/dashboard-icon-active.svg"
@@ -194,7 +199,7 @@ const SideNav: React.FC = () => {
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.3 }}
           >
-            <Navigationdiv
+            <NavigationButton
               labelName="Company"
               iconSrc="/icons/company-icon.svg"
               onClick={() => navigateToRoute(appRoutes.companyPage)}
@@ -207,7 +212,7 @@ const SideNav: React.FC = () => {
               isSideNavExpanded={isSideNavExpanded}
               children={
                 <>
-                  <Navigationdiv
+                  <NavigationButton
                     labelName="Department"
                     iconSrc="/icons/dashboard-icon.svg"
                     onClick={() => navigateToRoute(appRoutes.departmentPage)}
@@ -216,7 +221,7 @@ const SideNav: React.FC = () => {
                     isActive={isRouteActive(appRoutes.departmentPage)}
                     isSideNavExpanded={isSideNavExpanded}
                   />
-                  <Navigationdiv
+                  <NavigationButton
                     labelName="Employee"
                     iconSrc="/icons/dashboard-icon.svg"
                     onClick={() => navigateToRoute(appRoutes.employeePage)}
@@ -225,7 +230,7 @@ const SideNav: React.FC = () => {
                     isNestedchild={true}
                     isSideNavExpanded={isSideNavExpanded}
                   />
-                  <Navigationdiv
+                  <NavigationButton
                     labelName="Team"
                     iconSrc="/icons/dashboard-icon.svg"
                     onClick={() => navigateToRoute(appRoutes.teamPage)}
@@ -244,7 +249,7 @@ const SideNav: React.FC = () => {
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.7, duration: 0.3 }}
           >
-            <Navigationdiv
+            <NavigationButton
               labelName="Funds"
               iconSrc="/icons/funds-icon.svg"
               onClick={() => navigateToRoute(appRoutes.fundsPage)}
@@ -257,7 +262,7 @@ const SideNav: React.FC = () => {
               isSideNavExpanded={isSideNavExpanded}
               children={
                 <>
-                  <Navigationdiv
+                  <NavigationButton
                     labelName="Payroll"
                     iconSrc="/icons/dashboard-icon.svg"
                     onClick={() => navigateToRoute(appRoutes.payRollPage)}
@@ -266,7 +271,7 @@ const SideNav: React.FC = () => {
                     isActive={isRouteActive(appRoutes.payRollPage)}
                     isSideNavExpanded={isSideNavExpanded}
                   />
-                  <Navigationdiv
+                  <NavigationButton
                     labelName="Tax & Invoice"
                     iconSrc="/icons/dashboard-icon.svg"
                     onClick={() => navigateToRoute(appRoutes.taxInvoicePage)}
@@ -285,7 +290,7 @@ const SideNav: React.FC = () => {
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.3 }}
           >
-            <Navigationdiv
+            <NavigationButton
               labelName="Approvals"
               iconSrc="/icons/approval-icon.svg"
               onClick={() => navigateToRoute(appRoutes.approvalPage)}
@@ -298,7 +303,7 @@ const SideNav: React.FC = () => {
               isSideNavExpanded={isSideNavExpanded}
               children={
                 <>
-                  <Navigationdiv
+                  <NavigationButton
                     labelName="Leave Requests"
                     iconSrc="./icons/dashboard-icon.svg"
                     onClick={() => navigateToRoute(appRoutes.leaveRequestsPage)}
@@ -307,7 +312,7 @@ const SideNav: React.FC = () => {
                     isActive={isRouteActive(appRoutes.leaveRequestsPage)}
                     isSideNavExpanded={isSideNavExpanded}
                   />
-                  <Navigationdiv
+                  <NavigationButton
                     labelName="Schedules"
                     iconSrc="./icons/dashboard-icon.svg"
                     onClick={() => navigateToRoute(appRoutes.schedulePage)}
@@ -345,7 +350,7 @@ const SideNav: React.FC = () => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 1.1, duration: 0.3 }}
             >
-              <Navigationdiv
+              <NavigationButton
                 labelName="Memo"
                 iconSrc="/icons/memo-icon.svg"
                 onClick={() => navigateToRoute(appRoutes.memoPage)}
@@ -359,7 +364,7 @@ const SideNav: React.FC = () => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 1.2, duration: 0.3 }}
             >
-              <Navigationdiv
+              <NavigationButton
                 labelName="Settings"
                 iconSrc="/icons/settings-icon.svg"
                 activeIconSrc="/icons/settings-icon-active.svg"
@@ -417,7 +422,21 @@ const SideNav: React.FC = () => {
 
 export default SideNav;
 
-interface NavigationdivProps {
+/**
+    @param labelName - The name of the navigation button to be displayed.
+    @param iconSrc - The source URL of the icon to be displayed when in-active.
+    @param breadCrumbCount - Optional count to display as a badge .
+    @param isDropdown - Boolean to indicate if the button has a dropdown.
+    @param children - The dropdown content to be displayed when the button is clicked
+    @param onClick - The function to be called when the button is clicked.
+    @param onDropDownClick - The function to be called when the dropdown arrow is clicked.
+    @param isActive - Boolean to indicate if the button is active.
+    @param className - Additional CSS classes to apply to the button.
+    @param isNestedchild - Boolean to indicate if the button is a nested child.
+    @param isExpanded - Boolean to indicate if the dropdown is expanded.
+ **/
+
+interface NavigationButtonProps {
   labelName: string;
   iconSrc: string;
   breadCrumbCount?: number;
@@ -433,7 +452,7 @@ interface NavigationdivProps {
   onDropDownClick?: () => void;
 }
 
-const Navigationdiv: React.FC<NavigationdivProps> = ({
+const NavigationButton: React.FC<NavigationButtonProps> = ({
   labelName,
   iconSrc,
   breadCrumbCount,
@@ -496,7 +515,7 @@ const Navigationdiv: React.FC<NavigationdivProps> = ({
             <motion.div
               className={`dropdown-navigation-div w-full flex items-center ${
                 !isSideNavExpanded && !isNestedchild ? "justify-center" : ""
-              } gap-2 p-3 ${
+              } gap-2 p-4 ${
                 isNestedchild && "my-1"
               } rounded-xl text-lg font-medium transition-colors ease-in-out duration-150 ${
                 isActive
@@ -522,7 +541,7 @@ const Navigationdiv: React.FC<NavigationdivProps> = ({
                 <motion.img
                   src={isActive ? activeIconSrc : iconSrc}
                   alt={labelName.toLowerCase()}
-                  className="w-5 h-5 flex-shrink-0"
+                  className="w-5 h-5 "
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   transition={{ duration: 0.2 }}
                 />
