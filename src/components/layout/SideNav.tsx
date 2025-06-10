@@ -466,11 +466,11 @@ const Navigationdiv: React.FC<NavigationdivProps> = ({
       layout
       transition={{ type: "tween", stiffness: 300, damping: 30 }}
     >
-      <div className="main-button-container flex flex-row gap-2 ">
+      <div className="main-button-container flex flex-row gap-2  ">
         {isNestedchild && (
-          <div className="current-section-indicator flex min-h-full w-[3px] relative overflow-clip bg-yellow-300/30 flex-col gap-2">
+          <div className="current-section-indicator flex min-h-full min-w-[2px] relative overflow-clip bg-yellow-300/30 flex-col gap-2">
             <motion.div
-              className={`current-section-indicator flex h-14 absolute top-0 w-[3px] flex-1 rounded-full transition-all ease-in-out duration-500 ${
+              className={`current-section-indicator flex h-14  absolute top-0 w-[3px] flex-1 rounded-full transition-all ease-in-out duration-500 ${
                 isActive ? "bg-orange-500" : "bg-transparent"
               }`}
               animate={{
