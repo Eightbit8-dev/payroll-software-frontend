@@ -5,6 +5,9 @@ import MainLayout from "./components/layout/MainLayout";
 // Routes
 import { appRoutes } from "./routes/appRoutes";
 import { Spinner } from "./components/layout/Spinner";
+import CompanyPage from "./pages/CompanyPages/CompanyPage";
+import PayRollPage from "./pages/FundsPages/PayRollPage";
+import ApprovalPage from "./pages/ApprovalPages/ApprovalPage";
 
 // Pages
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
@@ -50,15 +53,18 @@ const App = () => {
           <Route path={appRoutes.dashboardPage} element={<HomePage />} />
 
           {/* Company */}
+          <Route path={appRoutes.companyPage} element={<CompanyPage />} />
           <Route path={appRoutes.departmentPage} element={<DepartmentPage />} />
           <Route path={appRoutes.employeePage} element={<EmployeePage />} />
           <Route path={appRoutes.teamPage} element={<TeamPage />} />
 
           {/* Funds */}
-          <Route path={appRoutes.payRollPage} element={<FundsPage />} />
+          <Route path={appRoutes.fundsPage} element={<FundsPage />} />
+          <Route path={appRoutes.payRollPage} element={<PayRollPage />} />
           <Route path={appRoutes.taxInvoicePage} element={<TaxInvoicePage />} />
 
           {/* Approvals */}
+          <Route path={appRoutes.approvalPage} element={<ApprovalPage />} />
           <Route
             path={appRoutes.leaveRequestsPage}
             element={<LeaveRequestsPage />}

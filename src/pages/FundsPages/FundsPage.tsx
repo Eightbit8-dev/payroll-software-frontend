@@ -1,11 +1,11 @@
 import React from "react";
 
-const PayRollPage: React.FC = () => {
+const FundsPage: React.FC = () => {
   return (
     <div className="funds-page-container flex flex-row w-full">
-      <h1>PayRollPage</h1>
+      <h1>FundsPage</h1>
     </div>
   );
 };
 
-export default PayRollPage;
+export default FundsPage;
