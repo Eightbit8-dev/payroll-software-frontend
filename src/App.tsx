@@ -1,25 +1,83 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
+import MainLayout from "./components/layout/MainLayout";
 
-// Page routes
+// Routes
 import { appRoutes } from "./routes/appRoutes";
+import { Spinner } from "./components/layout/Spinner";
+import CompanyPage from "./pages/CompanyPages/CompanyPage";
+import PayRollPage from "./pages/FundsPages/PayRollPage";
+import ApprovalPage from "./pages/ApprovalPages/ApprovalPage";
 
-//Pages
-import ErrorPage from "./pages/ErrorPage";
+// Pages
+const ErrorPage = lazy(() => import("./pages/ErrorPage"));
+const HomePage = lazy(() => import("./pages/DashBoardPage"));
+const FundsPage = lazy(() => import("./pages/FundsPages/FundsPage"));
+const MemoPage = lazy(() => import("./pages/MemoPage"));
+const SettingsPage = lazy(() => import("./pages/SettingsPage"));
+const DepartmentPage = lazy(
+  () => import("./pages/CompanyPages/DepartmentPage")
+);
+const EmployeePage = lazy(() => import("./pages/CompanyPages/EmployeePage"));
+const TeamPage = lazy(() => import("./pages/CompanyPages/TeamPage"));
+const TaxInvoicePage = lazy(() => import("./pages/FundsPages/TaxInvoicePage"));
+const LeaveRequestsPage = lazy(
+  () => import("./pages/ApprovalPages/LeaveRequestsPage")
+);
+const SchedulePage = lazy(() => import("./pages/ApprovalPages/SchedulesPage"));
 const AuthenticationPage = lazy(() => import("./pages/AuthPage"));
 
-export const App = () => {
+const App = () => {
   return (
-    <Router>
-      <Suspense fallback={<h1>Loading</h1>}>
-        <Routes>
-          <Route path="/*" element={<ErrorPage />} />
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center w-full h-screen">
+          <Spinner />
+        </div>
+      }
+    >
+      <Routes>
+        {/* Auth Page - No Layout */}
+        <Route
+          path={appRoutes.authenticationPage}
+          element={<AuthenticationPage />}
+        />
+
+        {/* Main Layout Routes */}
+        <Route element={<MainLayout />}>
           <Route
-            path={appRoutes.authenticationPage}
-            element={<AuthenticationPage />}
+            path="/"
+            element={<Navigate to={appRoutes.dashboardPage} replace />}
           />
-        </Routes>
-      </Suspense>
-    </Router>
+          <Route path="*" element={<ErrorPage />} />
+          <Route path={appRoutes.dashboardPage} element={<HomePage />} />
+
+          {/* Company */}
+          <Route path={appRoutes.companyPage} element={<CompanyPage />} />
+          <Route path={appRoutes.departmentPage} element={<DepartmentPage />} />
+          <Route path={appRoutes.employeePage} element={<EmployeePage />} />
+          <Route path={appRoutes.teamPage} element={<TeamPage />} />
+
+          {/* Funds */}
+          <Route path={appRoutes.fundsPage} element={<FundsPage />} />
+          <Route path={appRoutes.payRollPage} element={<PayRollPage />} />
+          <Route path={appRoutes.taxInvoicePage} element={<TaxInvoicePage />} />
+
+          {/* Approvals */}
+          <Route path={appRoutes.approvalPage} element={<ApprovalPage />} />
+          <Route
+            path={appRoutes.leaveRequestsPage}
+            element={<LeaveRequestsPage />}
+          />
+          <Route path={appRoutes.schedulePage} element={<SchedulePage />} />
+
+          {/* Others */}
+          <Route path={appRoutes.memoPage} element={<MemoPage />} />
+          <Route path={appRoutes.SettingsPage} element={<SettingsPage />} />
+        </Route>
+      </Routes>
+    </Suspense>
   );
 };
+
+export default App;
