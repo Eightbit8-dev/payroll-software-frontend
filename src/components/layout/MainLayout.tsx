@@ -11,13 +11,13 @@ const MainLayout: React.FC = () => {
   const formattedDate = "Saturday, 11th November 2022";
 
   return (
-    <div className="Main-entry-point flex flex-row w-screen h-screen bg-gray-50 overflow-hidden">
+    <div className="Main-entry-point flex h-screen w-screen flex-row overflow-hidden bg-gray-50">
       <SideNav />
-      <section className="flex flex-col w-full h-full overflow-hidden">
+      <section className="flex h-full w-full flex-col overflow-hidden">
         {/* Top Navbar */}
         <TopNav userName={userName} formattedDate={formattedDate} />
         {/* Content */}
-        <main className="flex-1 overflow-y-auto px-6 py-4 bg-zinc-50 bg-gradient-to-b from-white/0 to-blue-500/30">
+        <main className="flex-1 overflow-y-auto bg-zinc-50 bg-gradient-to-b from-white/0 to-blue-500/30 px-6 py-4">
           {/*This is where the nested routes will be rendered which will be given my router dom from app.tsx  */}
           <Outlet />
         </main>

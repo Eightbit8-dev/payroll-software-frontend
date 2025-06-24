@@ -22,7 +22,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsNotificationPanelOpen(!isNotificationPanelOpen)}
-        className={`font-medium p-3 relative rounded-full cursor-pointer transition-all ease-in-out duration-200 ${
+        className={`relative cursor-pointer rounded-full p-3 font-medium transition-all duration-200 ease-in-out ${
           isNotificationPanelOpen ? "bg-blue-500" : "bg-slate-100"
         }`}
       >
@@ -50,7 +50,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+              className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white"
             >
               <motion.span
                 initial={{ scale: 0 }}
@@ -71,10 +71,10 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50"
+            className="absolute right-0 z-50 mt-2 w-80 rounded-lg border border-gray-200 bg-white shadow-lg"
           >
             <div className="p-4">
-              <h3 className="font-semibold text-gray-800 mb-3">
+              <h3 className="mb-3 font-semibold text-gray-800">
                 Notifications
               </h3>
               <div className="space-y-2">
@@ -82,21 +82,21 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="p-3 bg-blue-50 rounded-md"
+                  className="rounded-md bg-blue-50 p-3"
                 >
                   <p className="text-sm text-gray-700">New message received</p>
-                  <p className="text-xs text-gray-500 mt-1">2 minutes ago</p>
+                  <p className="mt-1 text-xs text-gray-500">2 minutes ago</p>
                 </motion.div>
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="p-3 bg-green-50 rounded-md"
+                  className="rounded-md bg-green-50 p-3"
                 >
                   <p className="text-sm text-gray-700">
                     Task completed successfully
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">1 hour ago</p>
+                  <p className="mt-1 text-xs text-gray-500">1 hour ago</p>
                 </motion.div>
               </div>
             </div>
