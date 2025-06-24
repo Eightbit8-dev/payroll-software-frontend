@@ -9,6 +9,9 @@ export const appRoutes = {
   loanPage: "/loan",
   usersPage: "/users",
 
+  //master routes
+  masterPage: "/master",
+
   // Company nested routes
   masterPage: "/master",
 
