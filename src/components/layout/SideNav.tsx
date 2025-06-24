@@ -202,9 +202,9 @@ const SideNav: React.FC = () => {
             <NavigationButton
               labelName="Master"
               iconSrc="/icons/company-icon.svg"
-              onClick={() => navigateToRoute(appRoutes.masterPage)}
+              onClick={() => navigateToRoute(appRoutes.masterRoutes.masterPage)}
               onDropDownClick={() => toggleSection("company")}
-              isActive={isRouteActive(appRoutes.masterPage)}
+              isActive={isRouteActive(appRoutes.masterRoutes.masterPage)}
               activeIconSrc="/icons/company-icon-active.svg"
               isExpanded={isSectionExpanded("company")}
               isSideNavExpanded={isSideNavExpanded}
