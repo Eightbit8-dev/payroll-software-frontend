@@ -17,7 +17,7 @@ const MainLayout: React.FC = () => {
         {/* Top Navbar */}
         <TopNav userName={userName} formattedDate={formattedDate} />
         {/* Content */}
-        <main className="flex-1 overflow-y-auto px-6 py-4">
+        <main className="flex-1 overflow-y-auto px-6 py-4 bg-zinc-50 bg-gradient-to-b from-white/0 to-blue-500/30">
           {/*This is where the nested routes will be rendered which will be given my router dom from app.tsx  */}
           <Outlet />
         </main>

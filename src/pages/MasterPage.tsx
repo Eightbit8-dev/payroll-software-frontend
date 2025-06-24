@@ -1,12 +1,150 @@
-import React from "react";
+import ConfigCard from "../components/common/ConfigCard";
+import SearchBar from "../components/common/SearchBar";
+import { type ConfigCardtype } from "../types/ConfigCard";
 
-const MasterPage: React.FC = () => {
+const configCards: ConfigCardtype[] = [
+  {
+    img: "./icons/Configpage/Allowance.svg",
+    title: "Branch",
+    desc: "Manage different office branches to streamline your organizational structure.",
+    label: "Organisation",
+    labelColor: "bg-red-500",
+    btnText: "Configure",
+    onAction: () => console.log("Branch clicked"),
+  },
+  {
+    img: "./icons/Configpage/Department.svg",
+    title: "Department",
+    desc: "Handle team member permissions and access levels.",
+    label: "Organisation",
+    labelColor: "bg-red-500",
+    btnText: "Configure",
+    onAction: () => console.log("Users clicked"),
+  },
+  {
+    img: "./icons/Configpage/Desigination.svg",
+    title: "Desigination",
+    desc: "Configure payroll settings and salary structures.",
+    label: "HR Essentials",
+    labelColor: "bg-yellow-500",
+    btnText: "Configure",
+    onAction: () => console.log("Payroll clicked"),
+  },
+  {
+    img: "./icons/Configpage/Resigination.svg",
+    title: "Resigination",
+    desc: "Track & manage employee attendance and working hours.",
+    label: "HR Essentials",
+    labelColor: "bg-yellow-500",
+    btnText: "Configure",
+    onAction: () => console.log("Attendance clicked"),
+  },
+  {
+    img: "./icons/Configpage/BloodGroup.svg",
+    title: "Blood Group",
+    desc: "Manage employee leave requests and balances.",
+    label: "HR Essentials",
+    labelColor: "bg-yellow-500",
+    btnText: "Configure",
+    onAction: () => console.log("Leaves clicked"),
+  },
+  {
+    img: "./icons/Configpage/Attendance.svg",
+    title: "Attendance",
+    desc: "Maintain an inventory of all office assets and equipment.",
+    label: "Attendance",
+    labelColor: "bg-green-500",
+    btnText: "Configure",
+    onAction: () => console.log("Assets clicked"),
+  },
+  {
+    img: "./icons/Configpage/Permission.svg",
+    title: "Permission",
+    desc: "Oversee project timelines, teams, and deliverables.",
+    label: "Attendance",
+    labelColor: "bg-green-500",
+    btnText: "Configure",
+    onAction: () => console.log("Projects clicked"),
+  },
+  {
+    img: "./icons/Configpage/Lop.svg",
+    title: "LOP",
+    desc: "Monitor and approve timesheet entries submitted by employees.",
+    label: "Attendance",
+    labelColor: "bg-green-500",
+    btnText: "Configure",
+    onAction: () => console.log("Timesheet clicked"),
+  },
+  {
+    img: "../icons/Configpage/Shift.svg",
+    title: "Shift",
+    desc: "Ensure all regulatory and policy requirements are met.",
+    label: "Attendance",
+    labelColor: "bg-green-500",
+    btnText: "Configure",
+    onAction: () => console.log("Compliance clicked"),
+  },
+  {
+    img: "./icons/Configpage/Holiday.svg",
+    title: "Holiday",
+    desc: "Evaluate employee performance and appraisals.",
+    label: " Holiday & Benefits",
+    labelColor: "bg-purple-500",
+    btnText: "Configure",
+    onAction: () => console.log("Performance clicked"),
+  },
+  {
+    img: "./icons/Configpage/Loan.svg",
+    title: "Loan",
+    desc: "Organize skill development sessions for employees.",
+    label: " Holiday & Benefits",
+    labelColor: "bg-purple-500",
+    btnText: "Configure",
+    onAction: () => console.log("Training clicked"),
+  },
+  {
+    img: "./icons/Configpage/Allowance.svg",
+    title: "Allowance",
+    desc: "Access detailed analytics and operational reports.",
+    label: " Holiday & Benefits",
+    labelColor: "bg-purple-500",
+    btnText: "Configure",
+    onAction: () => console.log("Reports clicked"),
+  },
+];
+
+export const MasterPage = () => {
   return (
-    <div className="dashboard-page-container flex flex-row w-full">
-      {/* Left side */}
-      <h3 className="text-zinc-800">
-        MasterPage <span className="text-blue-500">#7125ECB1</span>
-      </h3>
+    <div className="flex flex-col gap-8 px-6 py-5 w-full max-w-[1390px] mx-auto">
+      <div className="flex justify-between items-center">
+        <div className="flex flex-col gap-[5px]">
+          <div>
+            <p className="text-2xl font-bold text-zinc-800">Configuration</p>
+          </div>
+          <div>
+            <p className="text-base font-medium text-slate-500">
+              Configure your app and connecct the tool your app will need
+            </p>
+          </div>
+        </div>
+        <div>
+          <SearchBar />
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {configCards.map((card, index) => (
+          <ConfigCard
+            key={index}
+            img={card.img}
+            title={card.title}
+            desc={card.desc}
+            label={card.label}
+            labelColor={card.labelColor}
+            btnText={card.btnText}
+            onAction={card.onAction}
+          />
+        ))}
+      </div>
     </div>
   );
 };
