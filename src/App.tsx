@@ -15,10 +15,8 @@ const MasterPage = lazy(() => import("./pages/MasterPage"));
 const UsersPage = lazy(() => import("./pages/UsersPage"));
 
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
-const ConfigPage = lazy(() => import("../src/pages/MasterPages/ConfigurationPage"));
-const HomePage = lazy(() => import("./pages/DashBoardPage"));
 
-const AuthenticationPage = lazy(() => import("./pages/AuthPage"));
+// const AuthenticationPage = lazy(() => import("./pages/AuthPage"));
 
 const App = () => {
   return (
@@ -36,13 +34,13 @@ const App = () => {
             path="/"
             element={<Navigate to={appRoutes.dashboardPage} replace />}
           />
-          
           <Route path="*" element={<ErrorPage />} />
-          <Route path={appRoutes.dashboardPage} element={<HomePage />} />
-          <Route path={appRoutes.homePage} element={<Navigate to="/" />} />
-          <Route path={appRoutes.masterPage} element={<ConfigPage />} />
-          {/* Company */}
-
+          <Route path={appRoutes.dashboardPage} element={<DashBoardPage />} />
+          <Route path={appRoutes.attendancePage} element={<AttendancePage />} />
+          <Route path={appRoutes.employeesPage} element={<EmployeesPage />} />
+          <Route path={appRoutes.loanPage} element={<LoanPage />} />
+          <Route path={appRoutes.masterPage} element={<MasterPage />} />
+          <Route path={appRoutes.usersPage} element={<UsersPage />} />
         </Route>
       </Routes>
     </Suspense>

@@ -1,7 +1,6 @@
 export const appRoutes = {
-  // standalone routes
-
   homePage: "/",
+  masterPage: "/master",
   authenticationPage: "/authenticate",
   dashboardPage: "/dashboard",
   attendancePage: "/attendance",
