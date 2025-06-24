@@ -12,8 +12,6 @@ export const appRoutes = {
   //master routes
   masterPage: "/master",
 
-  // Company nested routes
-  masterPage: "/master",
 
   // Error page
   errorPage: "/error",
