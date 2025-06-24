@@ -8,10 +8,6 @@ export const appRoutes = {
   loanPage: "/loan",
   usersPage: "/users",
 
-  //master routes
-  masterPage: "/master",
-
-
   // Error page
   errorPage: "/error",
 };
