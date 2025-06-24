@@ -39,7 +39,14 @@ const App = () => {
           <Route path={appRoutes.attendancePage} element={<AttendancePage />} />
           <Route path={appRoutes.employeesPage} element={<EmployeesPage />} />
           <Route path={appRoutes.loanPage} element={<LoanPage />} />
-          <Route path={appRoutes.masterPage} element={<MasterPage />} />
+          <Route
+            path={appRoutes.masterRoutes.masterPage}
+            element={<MasterPage />}
+          >
+            {/* <Route path="branches" element={<BranchesPage />} />
+            <Route path="departments" element={<DepartmentsPage />} /> */}
+          </Route>
+
           <Route path={appRoutes.usersPage} element={<UsersPage />} />
         </Route>
       </Routes>

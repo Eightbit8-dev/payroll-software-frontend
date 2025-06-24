@@ -79,7 +79,7 @@ const SideNav: React.FC = () => {
       >
         {/* Header section */}
         <motion.div
-          className="flex max-w-full items-center justify-center overflow-clip p-4"
+          className="flex max-w-full origin-left scale-110 items-center justify-center overflow-clip px-6 py-6"
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
@@ -291,7 +291,7 @@ const SideNav: React.FC = () => {
                   exit={{ opacity: 0 }}
                   transition={{ delay: 1.0, duration: 0.3 }}
                 >
-                  Cases
+                  Manage
                 </motion.h5>
               )}
             </AnimatePresence>

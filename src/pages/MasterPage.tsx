@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import ConfigCard from "../components/common/ConfigCard";
 import SearchBar from "../components/common/SearchBar";
 import { type ConfigCardtype } from "../types/ConfigCard";
@@ -145,6 +146,7 @@ export const MasterPage = () => {
           />
         ))}
       </div>
+      <Outlet />
     </div>
   );
 };
