@@ -5,15 +5,19 @@ import MainLayout from "./components/layout/MainLayout";
 // Routes
 import { appRoutes } from "./routes/appRoutes";
 import { Spinner } from "./components/layout/Spinner";
+import Branchedit from "./pages/MasterPages/Branch/Branchedit";
 
 // Pages
 const AttendancePage = lazy(() => import("./pages/AttendancePage"));
 const DashBoardPage = lazy(() => import("./pages/DashBoardPage"));
 const EmployeesPage = lazy(() => import("./pages/EmployeesPage"));
 const LoanPage = lazy(() => import("./pages/LoanPage"));
-const MasterPage = lazy(() => import("./pages/MasterPage"));
-const UsersPage = lazy(() => import("./pages/UsersPage"));
 
+// Master Pages
+const MasterPage = lazy(() => import("./pages/MasterPages/MasterPage"));
+const BranchPage = lazy(() => import("./pages/MasterPages/Branch/BranchPage"));
+
+const UsersPage = lazy(() => import("./pages/UsersPage"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 
 // const AuthenticationPage = lazy(() => import("./pages/AuthPage"));
@@ -39,13 +43,16 @@ const App = () => {
           <Route path={appRoutes.attendancePage} element={<AttendancePage />} />
           <Route path={appRoutes.employeesPage} element={<EmployeesPage />} />
           <Route path={appRoutes.loanPage} element={<LoanPage />} />
+
+          {/* Master Page and its nested components */}
           <Route
             path={appRoutes.masterRoutes.masterPage}
             element={<MasterPage />}
-          >
-            {/* <Route path="branches" element={<BranchesPage />} />
-            <Route path="departments" element={<DepartmentsPage />} /> */}
-          </Route>
+          />
+          <Route
+            path={appRoutes.masterRoutes.children.branches}
+            element={<Branchedit/>}
+          />
 
           <Route path={appRoutes.usersPage} element={<UsersPage />} />
         </Route>

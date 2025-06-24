@@ -19,12 +19,12 @@ const SideNav: React.FC = () => {
     setActiveRoute(currentPath);
 
     // Auto-expand section based on current route (only one at a time)
-    if (currentPath.startsWith("/company")) {
-      setExpandedSection("company");
-    } else if (currentPath.startsWith("/funds")) {
-      setExpandedSection("funds");
-    } else if (currentPath.startsWith("/approval")) {
-      setExpandedSection("approvals");
+    if (currentPath.startsWith("/master")) {
+      setActiveRoute(appRoutes.masterRoutes.masterPage);
+    } else if (currentPath.startsWith("/dashboard")) {
+      setActiveRoute(appRoutes.dashboardPage);
+    } else if (currentPath.startsWith("/loan")) {
+      setActiveRoute(appRoutes.loanPage);
     } else {
       setExpandedSection(null);
     }
