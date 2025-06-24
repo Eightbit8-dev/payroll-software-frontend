@@ -61,25 +61,25 @@ const SideNav: React.FC = () => {
 
   return (
     <div
-      className={`floating-container flex relative h-screen ${
-        isSideNavExpanded ? "w-[380px]" : "w-[80px]"
+      className={`floating-container flex  relative h-screen ${
+        isSideNavExpanded ? "w-[260px]" : "w-[80px]"
       } transition-all duration-300 border-r-2 border-slate-300  `}
     >
       <motion.section
-        className={`flex flex-col h-screen top-0 left-0 right-0 fixed gap-3  items-center justify-start select-none overflow-clip transition-all duration-300 ${
-          isSideNavExpanded ? "w-[380px]" : "w-[80px]"
+        className={`flex flex-col h-screen gap-3   items-start justify-start select-none overflow-clip transition-all duration-300 ${
+          isSideNavExpanded ? "w-[260px]" : "w-[80px]"
         }`}
-        initial={{ x: -300, opacity: 0 }}
+        initial={{ x: -260, opacity: 0 }}
         animate={{
           x: 0,
           opacity: 1,
-          width: isSideNavExpanded ? 300 : 80,
+          width: isSideNavExpanded ? 260 : 80,
         }}
         transition={{ type: "tween", stiffness: 100, damping: 20 }}
       >
         {/* Header section */}
         <motion.div
-          className="p-4 w-full flex items-center justify-center"
+          className="p-4 max-w-full overflow-clip flex items-center justify-center"
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
@@ -125,7 +125,7 @@ const SideNav: React.FC = () => {
                 exit={{ scale: 0, opacity: 0 }}
                 transition={{ delay: 0.4, type: "tween", stiffness: 200 }}
               >
-                HR
+                Master
               </motion.p>
             )}
           </AnimatePresence>
@@ -133,7 +133,7 @@ const SideNav: React.FC = () => {
           {/* collapse button */}
           {isSideNavExpanded && (
             <motion.img
-              className={`w-6 h-6 cursor-pointer ${
+              className={`w-6 h-6 cursor-pointer hidden ${
                 isSideNavExpanded ? "ml-auto" : "ml-0"
               }`}
               src="/icons/collapse-icon.svg"
@@ -200,47 +200,45 @@ const SideNav: React.FC = () => {
             transition={{ delay: 0.6, duration: 0.3 }}
           >
             <NavigationButton
-              labelName="Company"
+              labelName="Master"
               iconSrc="/icons/company-icon.svg"
-              onClick={() => navigateToRoute(appRoutes.companyPage)}
+              onClick={() => navigateToRoute(appRoutes.masterPage)}
               onDropDownClick={() => toggleSection("company")}
-              isDropdown={true}
-              isActive={isRouteActive(appRoutes.companyPage)}
+              isActive={isRouteActive(appRoutes.masterPage)}
               activeIconSrc="/icons/company-icon-active.svg"
-              breadCrumbCount={3}
               isExpanded={isSectionExpanded("company")}
               isSideNavExpanded={isSideNavExpanded}
-              children={
-                <>
-                  <NavigationButton
-                    labelName="Department"
-                    iconSrc="/icons/dashboard-icon.svg"
-                    onClick={() => navigateToRoute(appRoutes.departmentPage)}
-                    breadCrumbCount={3}
-                    isNestedchild={true}
-                    isActive={isRouteActive(appRoutes.departmentPage)}
-                    isSideNavExpanded={isSideNavExpanded}
-                  />
-                  <NavigationButton
-                    labelName="Employee"
-                    iconSrc="/icons/dashboard-icon.svg"
-                    onClick={() => navigateToRoute(appRoutes.employeePage)}
-                    breadCrumbCount={3}
-                    isActive={isRouteActive(appRoutes.employeePage)}
-                    isNestedchild={true}
-                    isSideNavExpanded={isSideNavExpanded}
-                  />
-                  <NavigationButton
-                    labelName="Team"
-                    iconSrc="/icons/dashboard-icon.svg"
-                    onClick={() => navigateToRoute(appRoutes.teamPage)}
-                    breadCrumbCount={3}
-                    isNestedchild={true}
-                    isActive={isRouteActive(appRoutes.teamPage)}
-                    isSideNavExpanded={isSideNavExpanded}
-                  />
-                </>
-              }
+              // children={
+              //   <>
+              //     <NavigationButton
+              //       labelName="Department"
+              //       iconSrc="/icons/dashboard-icon.svg"
+              //       onClick={() => navigateToRoute(appRoutes.departmentPage)}
+              //       breadCrumbCount={3}
+              //       isNestedchild={true}
+              //       isActive={isRouteActive(appRoutes.departmentPage)}
+              //       isSideNavExpanded={isSideNavExpanded}
+              //     />
+              //     <NavigationButton
+              //       labelName="Employee"
+              //       iconSrc="/icons/dashboard-icon.svg"
+              //       onClick={() => navigateToRoute(appRoutes.employeePage)}
+              //       breadCrumbCount={3}
+              //       isActive={isRouteActive(appRoutes.employeePage)}
+              //       isNestedchild={true}
+              //       isSideNavExpanded={isSideNavExpanded}
+              //     />
+              //     <NavigationButton
+              //       labelName="Team"
+              //       iconSrc="/icons/dashboard-icon.svg"
+              //       onClick={() => navigateToRoute(appRoutes.teamPage)}
+              //       breadCrumbCount={3}
+              //       isNestedchild={true}
+              //       isActive={isRouteActive(appRoutes.teamPage)}
+              //       isSideNavExpanded={isSideNavExpanded}
+              //     />
+              //   </>
+              // }
             />
           </motion.div>
 
@@ -250,38 +248,14 @@ const SideNav: React.FC = () => {
             transition={{ delay: 0.7, duration: 0.3 }}
           >
             <NavigationButton
-              labelName="Funds"
+              labelName="Loan"
               iconSrc="/icons/funds-icon.svg"
-              onClick={() => navigateToRoute(appRoutes.fundsPage)}
+              onClick={() => navigateToRoute(appRoutes.loanPage)}
               onDropDownClick={() => toggleSection("funds")}
               activeIconSrc="/icons/funds-icon-active.svg"
-              isActive={isRouteActive(appRoutes.fundsPage)}
-              isDropdown={true}
-              breadCrumbCount={3}
+              isActive={isRouteActive(appRoutes.loanPage)}
               isExpanded={isSectionExpanded("funds")}
               isSideNavExpanded={isSideNavExpanded}
-              children={
-                <>
-                  <NavigationButton
-                    labelName="Payroll"
-                    iconSrc="/icons/dashboard-icon.svg"
-                    onClick={() => navigateToRoute(appRoutes.payRollPage)}
-                    breadCrumbCount={3}
-                    isNestedchild={true}
-                    isActive={isRouteActive(appRoutes.payRollPage)}
-                    isSideNavExpanded={isSideNavExpanded}
-                  />
-                  <NavigationButton
-                    labelName="Tax & Invoice"
-                    iconSrc="/icons/dashboard-icon.svg"
-                    onClick={() => navigateToRoute(appRoutes.taxInvoicePage)}
-                    breadCrumbCount={3}
-                    isActive={isRouteActive(appRoutes.taxInvoicePage)}
-                    isNestedchild={true}
-                    isSideNavExpanded={isSideNavExpanded}
-                  />
-                </>
-              }
             />
           </motion.div>
 
@@ -291,43 +265,19 @@ const SideNav: React.FC = () => {
             transition={{ delay: 0.8, duration: 0.3 }}
           >
             <NavigationButton
-              labelName="Approvals"
-              iconSrc="/icons/approval-icon.svg"
-              onClick={() => navigateToRoute(appRoutes.approvalPage)}
-              isActive={isRouteActive(appRoutes.approvalPage)}
+              labelName="Attendance"
+              iconSrc="/icons/attendance-icon.svg"
+              onClick={() => navigateToRoute(appRoutes.attendancePage)}
+              isActive={isRouteActive(appRoutes.attendancePage)}
               onDropDownClick={() => toggleSection("approvals")}
-              isDropdown={true}
-              activeIconSrc="/icons/approval-icon-active.svg"
-              breadCrumbCount={3}
+              activeIconSrc="/icons/attendance-icon-active.svg"
               isExpanded={isSectionExpanded("approvals")}
               isSideNavExpanded={isSideNavExpanded}
-              children={
-                <>
-                  <NavigationButton
-                    labelName="Leave Requests"
-                    iconSrc="./icons/dashboard-icon.svg"
-                    onClick={() => navigateToRoute(appRoutes.leaveRequestsPage)}
-                    breadCrumbCount={3}
-                    isNestedchild={true}
-                    isActive={isRouteActive(appRoutes.leaveRequestsPage)}
-                    isSideNavExpanded={isSideNavExpanded}
-                  />
-                  <NavigationButton
-                    labelName="Schedules"
-                    iconSrc="./icons/dashboard-icon.svg"
-                    onClick={() => navigateToRoute(appRoutes.schedulePage)}
-                    breadCrumbCount={3}
-                    isActive={isRouteActive(appRoutes.schedulePage)}
-                    isNestedchild={true}
-                    isSideNavExpanded={isSideNavExpanded}
-                  />
-                </>
-              }
             />
           </motion.div>
 
           <motion.div
-            className="lower-settingns flex flex-col gap-2 w-full"
+            className="lower-settingns flex flex-col gap-2 w-full min-h-full"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.9, duration: 0.5 }}
@@ -335,7 +285,7 @@ const SideNav: React.FC = () => {
             <AnimatePresence>
               {isSideNavExpanded && (
                 <motion.h5
-                  className="text-base font-medium text-slate-500 mt-3"
+                  className="text-base font-medium text-slate-500 mt-3 "
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -351,11 +301,11 @@ const SideNav: React.FC = () => {
               transition={{ delay: 1.1, duration: 0.3 }}
             >
               <NavigationButton
-                labelName="Memo"
-                iconSrc="/icons/memo-icon.svg"
-                onClick={() => navigateToRoute(appRoutes.memoPage)}
-                isActive={isRouteActive(appRoutes.memoPage)}
-                activeIconSrc="/icons/memo-icon-active.svg"
+                labelName="Users"
+                iconSrc="/icons/users-icon.svg"
+                onClick={() => navigateToRoute(appRoutes.usersPage)}
+                isActive={isRouteActive(appRoutes.usersPage)}
+                activeIconSrc="/icons/users-icon-active.svg"
                 isSideNavExpanded={isSideNavExpanded}
               />
             </motion.div>
@@ -365,53 +315,46 @@ const SideNav: React.FC = () => {
               transition={{ delay: 1.2, duration: 0.3 }}
             >
               <NavigationButton
-                labelName="Settings"
-                iconSrc="/icons/settings-icon.svg"
-                activeIconSrc="/icons/settings-icon-active.svg"
-                onClick={() => navigateToRoute(appRoutes.SettingsPage)}
-                isActive={isRouteActive(appRoutes.SettingsPage)}
+                labelName="Employees"
+                iconSrc="/icons/employees-icon.svg"
+                activeIconSrc="/icons/employees-icon-active.svg"
+                onClick={() => navigateToRoute(appRoutes.employeesPage)}
+                isActive={isRouteActive(appRoutes.employeesPage)}
                 isSideNavExpanded={isSideNavExpanded}
               />
             </motion.div>
             {/* logout button with margin */}
             <motion.div
-              className="margin flex mt-auto"
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 1.3, type: "tween", stiffness: 100 }}
+              className={`dropdown-navigation-div cursor-pointer hidden w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-lg font-medium transition-colors ease-in-out duration-150 text-slate-500 hover:bg-gray-100 active:bg-blue-500 active:text-white ${
+                !isSideNavExpanded ? "justify-center" : ""
+              }`}
+              onClick={() => console.log("Logout clicked")}
+              whileHover={{
+                scale: 1.02,
+                backgroundColor: "rgba(156, 163, 175, 0.1)",
+              }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "tween", stiffness: 300 }}
             >
-              <motion.div
-                className={`dropdown-navigation-div cursor-pointer w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-lg font-medium transition-colors ease-in-out duration-150 text-slate-500 hover:bg-gray-100 active:bg-blue-500 active:text-white ${
-                  !isSideNavExpanded ? "justify-center" : ""
-                }`}
-                onClick={() => console.log("Logout clicked")}
-                whileHover={{
-                  scale: 1.02,
-                  backgroundColor: "rgba(156, 163, 175, 0.1)",
-                }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "tween", stiffness: 300 }}
-              >
-                {/* Icon */}
-                <motion.img
-                  src="/icons/logout-icon.svg"
-                  className="w-5 h-5 flex-shrink-0"
-                  whileHover={{ rotate: 15 }}
-                  transition={{ duration: 0.2 }}
-                />
-                <AnimatePresence>
-                  {isSideNavExpanded && (
-                    <motion.span
-                      initial={{ opacity: 0, width: 0 }}
-                      animate={{ opacity: 1, width: "auto" }}
-                      exit={{ opacity: 0, width: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      Logout
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </motion.div>
+              {/* Icon */}
+              <motion.img
+                src="/icons/logout-icon.svg"
+                className="w-5 h-5 flex-shrink-0"
+                whileHover={{ rotate: 15 }}
+                transition={{ duration: 0.2 }}
+              />
+              <AnimatePresence>
+                {isSideNavExpanded && (
+                  <motion.span
+                    initial={{ opacity: 0, width: 0 }}
+                    animate={{ opacity: 1, width: "auto" }}
+                    exit={{ opacity: 0, width: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    Logout
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </motion.div>
           </motion.div>
         </motion.div>
@@ -587,7 +530,8 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
               <AnimatePresence>
                 {showOrangeDot && (
                   <motion.div
-                    className="absolute top-1 right-2 w-3 h-3 bg-orange-500 rounded-full"
+                    className="absolute top-2 right-2
+                     w-2 h-2 bg-orange-500 rounded-full"
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0, opacity: 0 }}
