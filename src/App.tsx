@@ -8,6 +8,7 @@ import { Spinner } from "./components/layout/Spinner";
 
 // Pages
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
+const ConfigPage = lazy(() => import("../src/pages/MasterPages/ConfigurationPage"));
 const HomePage = lazy(() => import("./pages/DashBoardPage"));
 const FundsPage = lazy(() => import("./pages/FundsPages/FundsPage"));
 const MemoPage = lazy(() => import("./pages/MemoPage"));
@@ -46,9 +47,11 @@ const App = () => {
             path="/"
             element={<Navigate to={appRoutes.dashboardPage} replace />}
           />
+          
           <Route path="*" element={<ErrorPage />} />
           <Route path={appRoutes.dashboardPage} element={<HomePage />} />
-
+          <Route path={appRoutes.homePage} element={<Navigate to="/" />} />
+          <Route path={appRoutes.masterPage} element={<ConfigPage />} />
           {/* Company */}
           <Route path={appRoutes.departmentPage} element={<DepartmentPage />} />
           <Route path={appRoutes.employeePage} element={<EmployeePage />} />

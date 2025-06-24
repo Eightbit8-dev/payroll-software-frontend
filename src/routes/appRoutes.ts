@@ -4,6 +4,9 @@ export const appRoutes = {
   authenticationPage: "/authenticate",
   dashboardPage: "/dashboard",
 
+  //master routes
+  masterPage: "/master",
+
   // Company nested routes
   companyPage: "/company",
   departmentPage: "/company/department",
