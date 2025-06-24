@@ -115,8 +115,8 @@ const configCards: ConfigCardtype[] = [
 
 export const MasterPage = () => {
   return (
-    <div className="flex flex-col gap-8 px-6 py-5 w-full max-w-[1390px] mx-auto">
-      <div className="flex justify-between items-center">
+    <div className="mx-auto flex w-full max-w-[1390px] flex-col gap-8 px-6 py-5">
+      <div className="flex items-center justify-between">
         <div className="flex flex-col gap-[5px]">
           <div>
             <p className="text-2xl font-bold text-zinc-800">Configuration</p>
@@ -131,7 +131,7 @@ export const MasterPage = () => {
           <SearchBar />
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {configCards.map((card, index) => (
           <ConfigCard
             key={index}

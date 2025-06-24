@@ -13,7 +13,7 @@ export const TopNav: React.FC<TopNavProps> = ({ userName, formattedDate }) => {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="bg-white border-b border-zinc-200 px-6 py-4 shadow-sm"
+      className="border-b border-zinc-200 bg-white px-6 py-4 shadow-sm"
     >
       <div className="flex items-center justify-between">
         {/* Welcome Section */}
@@ -37,7 +37,7 @@ export const TopNav: React.FC<TopNavProps> = ({ userName, formattedDate }) => {
         </div>
 
         {/* Search bar */}
-        <div className="flex-1 max-w-lg mx-8">
+        <div className="mx-8 max-w-lg flex-1">
           <SearchBar />
         </div>
 
@@ -57,12 +57,12 @@ export const TopNav: React.FC<TopNavProps> = ({ userName, formattedDate }) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ delay: 0.3 }}
-            className="rounded-full overflow-hidden bg-slate-100 hover:bg-slate-200 transition-all"
+            className="overflow-hidden rounded-full bg-slate-100 transition-all hover:bg-slate-200"
           >
             <img
               src="/images/profile.png"
               alt="Profile"
-              className="w-10 h-10 object-cover rounded-full"
+              className="h-10 w-10 rounded-full object-cover"
               onError={(e) => {
                 (e.target as HTMLImageElement).src = "/images/default-user.png";
               }}

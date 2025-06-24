@@ -61,12 +61,12 @@ const SideNav: React.FC = () => {
 
   return (
     <div
-      className={`floating-container flex  relative h-screen ${
+      className={`floating-container relative flex h-screen ${
         isSideNavExpanded ? "w-[260px]" : "w-[80px]"
-      } transition-all duration-300 border-r-2 border-slate-300  `}
+      } border-r-2 border-slate-300 transition-all duration-300`}
     >
       <motion.section
-        className={`flex flex-col h-screen gap-3   items-start justify-start select-none overflow-clip transition-all duration-300 ${
+        className={`flex h-screen flex-col items-start justify-start gap-3 overflow-clip transition-all duration-300 select-none ${
           isSideNavExpanded ? "w-[260px]" : "w-[80px]"
         }`}
         initial={{ x: -260, opacity: 0 }}
@@ -79,7 +79,7 @@ const SideNav: React.FC = () => {
       >
         {/* Header section */}
         <motion.div
-          className="p-4 max-w-full overflow-clip flex items-center justify-center"
+          className="flex max-w-full items-center justify-center overflow-clip p-4"
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
@@ -87,13 +87,13 @@ const SideNav: React.FC = () => {
           {/* logo */}
           <motion.div
             onClick={() => window.location.reload()}
-            className="flex items-center gap-2 self-start cursor-pointer"
+            className="flex cursor-pointer items-center gap-2 self-start"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "tween", stiffness: 300 }}
           >
             <motion.img
               className={`${
-                isSideNavExpanded ? "w-8 h-8 " : "min-w-10 min-h-10 "
+                isSideNavExpanded ? "h-8 w-8" : "min-h-10 min-w-10"
               }`}
               src="/icons/logo-icon-side-nav.svg"
               alt="Logo"
@@ -119,7 +119,7 @@ const SideNav: React.FC = () => {
           <AnimatePresence>
             {isSideNavExpanded && (
               <motion.p
-                className="orange-gradient mx-2 text-white text-xs font-normal px-1.5 py-1 rounded"
+                className="orange-gradient mx-2 rounded px-1.5 py-1 text-xs font-normal text-white"
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0, opacity: 0 }}
@@ -133,7 +133,7 @@ const SideNav: React.FC = () => {
           {/* collapse button */}
           {isSideNavExpanded && (
             <motion.img
-              className={`w-6 h-6 cursor-pointer hidden ${
+              className={`hidden h-6 w-6 cursor-pointer ${
                 isSideNavExpanded ? "ml-auto" : "ml-0"
               }`}
               src="/icons/collapse-icon.svg"
@@ -153,14 +153,14 @@ const SideNav: React.FC = () => {
         <AnimatePresence>
           {!isSideNavExpanded && (
             <motion.div
-              className="px-4 "
+              className="px-4"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
             >
               <motion.img
-                className="w-6 h-6 cursor-pointer mx-auto"
+                className="mx-auto h-6 w-6 cursor-pointer"
                 src="/icons/collapse-icon.svg"
                 alt="Expand"
                 onClick={toggleSideNav}
@@ -174,7 +174,7 @@ const SideNav: React.FC = () => {
 
         {/* Navigation items */}
         <motion.div
-          className="main-navigation-items flex flex-col gap-2 px-3 w-full"
+          className="main-navigation-items flex w-full flex-col gap-2 px-3"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
@@ -277,7 +277,7 @@ const SideNav: React.FC = () => {
           </motion.div>
 
           <motion.div
-            className="lower-settingns flex flex-col gap-2 w-full min-h-full"
+            className="lower-settingns flex min-h-full w-full flex-col gap-2"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.9, duration: 0.5 }}
@@ -285,7 +285,7 @@ const SideNav: React.FC = () => {
             <AnimatePresence>
               {isSideNavExpanded && (
                 <motion.h5
-                  className="text-base font-medium text-slate-500 mt-3 "
+                  className="mt-3 text-base font-medium text-slate-500"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -325,7 +325,7 @@ const SideNav: React.FC = () => {
             </motion.div>
             {/* logout button with margin */}
             <motion.div
-              className={`dropdown-navigation-div cursor-pointer hidden w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-lg font-medium transition-colors ease-in-out duration-150 text-slate-500 hover:bg-gray-100 active:bg-blue-500 active:text-white ${
+              className={`dropdown-navigation-div flex hidden w-full cursor-pointer items-center gap-2 rounded-xl px-3 py-2.5 text-lg font-medium text-slate-500 transition-colors duration-150 ease-in-out hover:bg-gray-100 active:bg-blue-500 active:text-white ${
                 !isSideNavExpanded ? "justify-center" : ""
               }`}
               onClick={() => console.log("Logout clicked")}
@@ -339,7 +339,7 @@ const SideNav: React.FC = () => {
               {/* Icon */}
               <motion.img
                 src="/icons/logout-icon.svg"
-                className="w-5 h-5 flex-shrink-0"
+                className="h-5 w-5 flex-shrink-0"
                 whileHover={{ rotate: 15 }}
                 transition={{ duration: 0.2 }}
               />
@@ -428,11 +428,11 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
       layout
       transition={{ type: "tween", stiffness: 300, damping: 30 }}
     >
-      <div className="main-button-container flex flex-row gap-2  ">
+      <div className="main-button-container flex flex-row gap-2">
         {isNestedchild && (
-          <div className="current-section-indicator flex min-h-full min-w-[2px] relative overflow-clip bg-yellow-300/30 flex-col gap-2">
+          <div className="current-section-indicator relative flex min-h-full min-w-[2px] flex-col gap-2 overflow-clip bg-yellow-300/30">
             <motion.div
-              className={`current-section-indicator flex h-14  absolute top-0 w-[3px] flex-1 rounded-full transition-all ease-in-out duration-500 ${
+              className={`current-section-indicator absolute top-0 flex h-14 w-[3px] flex-1 rounded-full transition-all duration-500 ease-in-out ${
                 isActive ? "bg-orange-500" : "bg-transparent"
               }`}
               animate={{
@@ -450,21 +450,21 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
               <TooltipContent
                 side="right"
                 sideOffset={10}
-                className="bg-slate-200 text-zinc-800 ] "
+                className="] bg-slate-200 text-zinc-800"
               >
                 {<h2 className="text-sm font-medium">{labelName}</h2>}
               </TooltipContent>
             )}
             <motion.div
-              className={`dropdown-navigation-div w-full flex items-center ${
+              className={`dropdown-navigation-div flex w-full items-center ${
                 !isSideNavExpanded && !isNestedchild ? "justify-center" : ""
               } gap-2 p-4 ${
                 isNestedchild && "my-1"
-              } rounded-xl text-lg font-medium transition-colors ease-in-out duration-150 ${
+              } rounded-xl text-lg font-medium transition-colors duration-150 ease-in-out ${
                 isActive
                   ? "bg-blue-500 text-white"
                   : "text-slate-500 hover:bg-gray-100"
-              } cursor-pointer relative`}
+              } relative cursor-pointer`}
               onClick={handleClick}
               whileHover={{
                 scale: 1.02,
@@ -484,7 +484,7 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
                 <motion.img
                   src={isActive ? activeIconSrc : iconSrc}
                   alt={labelName.toLowerCase()}
-                  className="w-5 h-5 "
+                  className="h-5 w-5"
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   transition={{ duration: 0.2 }}
                 />
@@ -512,7 +512,7 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
                   breadCrumbCount !== undefined &&
                   breadCrumbCount > 0 && (
                     <motion.div
-                      className={`min-w-6 min-h-6 rounded-full text-xs font-normal text-white flex items-center justify-center flex-shrink-0 ${
+                      className={`flex min-h-6 min-w-6 flex-shrink-0 items-center justify-center rounded-full text-xs font-normal text-white ${
                         isActive ? "transparent" : "bg-orange-500"
                       }`}
                       initial={{ scale: 0, opacity: 0 }}
@@ -530,8 +530,7 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
               <AnimatePresence>
                 {showOrangeDot && (
                   <motion.div
-                    className="absolute top-2 right-2
-                     w-2 h-2 bg-orange-500 rounded-full"
+                    className="absolute top-2 right-2 h-2 w-2 rounded-full bg-orange-500"
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0, opacity: 0 }}
@@ -545,7 +544,7 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
                 {isDropdown && isSideNavExpanded && (
                   <motion.div
                     onClick={handleDropDownClick}
-                    className={`transform transition-transform ease-in-out duration-300 flex-shrink-0 ${
+                    className={`flex-shrink-0 transform transition-transform duration-300 ease-in-out ${
                       isExpanded ? "rotate-180" : "rotate-90"
                     }`}
                     initial={{ opacity: 0, scale: 0 }}
@@ -569,7 +568,7 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
                           : "/icons/arrow-icon.svg"
                       }
                       alt="dropdown arrow"
-                      className="w-5 h-5"
+                      className="h-5 w-5"
                       whileHover={{ scale: 1.3 }}
                       transition={{ duration: 0.2 }}
                     />
@@ -585,7 +584,7 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
       <AnimatePresence>
         {isDropdown && isExpanded && children && isSideNavExpanded && (
           <motion.div
-            className="dropdown-content flex flex-col px-6 mt-2.5 w-full"
+            className="dropdown-content mt-2.5 flex w-full flex-col px-6"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}

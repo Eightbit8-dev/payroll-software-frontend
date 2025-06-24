@@ -22,7 +22,7 @@ const App = () => {
   return (
     <Suspense
       fallback={
-        <div className="flex items-center justify-center w-full h-screen">
+        <div className="flex h-screen w-full items-center justify-center">
           <Spinner />
         </div>
       }
