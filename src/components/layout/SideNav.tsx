@@ -20,7 +20,7 @@ const SideNav: React.FC = () => {
 
     // Auto-expand section based on current route (only one at a time)
     if (currentPath.startsWith("/company")) {
-      setExpandedSection("company");
+      setExpandedSection("company");  
     } else if (currentPath.startsWith("/funds")) {
       setExpandedSection("funds");
     } else if (currentPath.startsWith("/approval")) {
