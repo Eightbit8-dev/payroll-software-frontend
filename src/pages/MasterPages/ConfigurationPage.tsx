@@ -5,7 +5,7 @@ import { type  ConfigCardtype } from "../../types/ConfigCard";
 
 const configCards: ConfigCardtype[] = [
   {
-    img: "../../../public/icons/Configpage/Allowance.svg",
+    img: "./icons/Configpage/Allowance.svg",
     title: "Branch",
     desc: "Manage different office branches to streamline your organizational structure.",
     label: "Organisation",
@@ -14,7 +14,7 @@ const configCards: ConfigCardtype[] = [
     onAction: () => console.log("Branch clicked"),
   },
   {
-    img: "../../../public/icons/Configpage/Department.svg",
+    img: "./icons/Configpage/Department.svg",
     title: "Department",
     desc: "Handle team member permissions and access levels.",
     label: "Organisation",
@@ -23,7 +23,7 @@ const configCards: ConfigCardtype[] = [
     onAction: () => console.log("Users clicked"),
   },
   {
-    img: "../../../public/icons/Configpage/Desigination.svg",
+    img: "./icons/Configpage/Desigination.svg",
     title: "Desigination",
     desc: "Configure payroll settings and salary structures.",
     label: "HR Essentials",
@@ -32,7 +32,7 @@ const configCards: ConfigCardtype[] = [
     onAction: () => console.log("Payroll clicked"),
   },
   {
-    img: "../../../public/icons/Configpage/Resigination.svg",
+    img: "./icons/Configpage/Resigination.svg",
     title: "Resigination",
     desc: "Track employee attendance and working hours.",
     label: "HR Essentials",
@@ -41,7 +41,7 @@ const configCards: ConfigCardtype[] = [
     onAction: () => console.log("Attendance clicked"),
   },
     {
-    img: "../../../public/icons/Configpage/BloodGroup.svg",
+    img: "./icons/Configpage/BloodGroup.svg",
     title: "Blood Group",
     desc: "Manage employee leave requests and balances.",
     label: "HR Essentials",
@@ -50,7 +50,7 @@ const configCards: ConfigCardtype[] = [
     onAction: () => console.log("Leaves clicked"),
   },
   {
-    img: "../../../public/icons/Configpage/Attendance.svg",
+    img: "./icons/Configpage/Attendance.svg",
     title: "Attendance",
     desc: "Maintain an inventory of all office assets and equipment.",
     label: "Attendance",
@@ -59,7 +59,7 @@ const configCards: ConfigCardtype[] = [
     onAction: () => console.log("Assets clicked"),
   },
   {
-    img: "../../../public/icons/Configpage/Permission.svg",
+    img: "./icons/Configpage/Permission.svg",
     title: "Permission",
     desc: "Oversee project timelines, teams, and deliverables.",
     label: "Attendance",
@@ -68,7 +68,7 @@ const configCards: ConfigCardtype[] = [
     onAction: () => console.log("Projects clicked"),
   },
   {
-    img: "../../../public/icons/Configpage/Lop.svg",
+    img: "./icons/Configpage/Lop.svg",
     title: "LOP",
     desc: "Monitor and approve timesheet entries submitted by employees.",
     label: "Attendance",
@@ -77,7 +77,7 @@ const configCards: ConfigCardtype[] = [
     onAction: () => console.log("Timesheet clicked"),
   },
   {
-    img: "../../../public/icons/Configpage/Shift.svg",
+    img: "../icons/Configpage/Shift.svg",
     title: "Shift",
     desc: "Ensure all regulatory and policy requirements are met.",
     label: "Attendance",
@@ -86,7 +86,7 @@ const configCards: ConfigCardtype[] = [
     onAction: () => console.log("Compliance clicked"),
   },
   {
-    img: "../../../public/icons/Configpage/Holiday.svg",
+    img: "./icons/Configpage/Holiday.svg",
     title: "Holiday",
     desc: "Evaluate employee performance and appraisals.",
     label: " Holiday & Benefits",
@@ -95,7 +95,7 @@ const configCards: ConfigCardtype[] = [
     onAction: () => console.log("Performance clicked"),
   },
   {
-    img: "../../../public/icons/Configpage/Loan.svg",
+    img: "./icons/Configpage/Loan.svg",
     title: "Loan",
     desc: "Organize skill development sessions for employees.",
     label: " Holiday & Benefits",
@@ -104,7 +104,7 @@ const configCards: ConfigCardtype[] = [
     onAction: () => console.log("Training clicked"),
   },
   {
-    img: "../../../public/icons/Configpage/Allowance.svg",
+    img: "./icons/Configpage/Allowance.svg",
     title: "Allowance",
     desc: "Access detailed analytics and operational reports.",
     label: " Holiday & Benefits",
