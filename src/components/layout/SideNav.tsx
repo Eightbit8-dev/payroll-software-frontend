@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { appRoutes } from "../../routes/appRoutes";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { AnimatePresence, motion } from "motion/react";
 
 /**
  * @state - isSideNavExpanded: boolean

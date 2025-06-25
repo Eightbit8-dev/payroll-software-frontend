@@ -95,7 +95,7 @@ const Input = <T extends string | number>({
       <h3 className="mb-0.5 w-full justify-start text-xs leading-loose font-semibold text-slate-700">
         {title}
       </h3>
-      <div className="input-container flex cursor-text flex-row items-center justify-center gap-0 overflow-clip rounded-2xl border-2 border-slate-300 bg-white transition-all focus-within:border-slate-500">
+      <div className="input-container flex cursor-text flex-row items-center justify-center gap-0 overflow-clip rounded-xl border-2 border-slate-300 bg-white transition-all focus-within:border-slate-500">
         {prefixText && (
           <div className="flex h-full items-center justify-start bg-slate-100 px-3 py-2 text-base leading-loose font-medium text-gray-800">
             {prefixText}

@@ -38,6 +38,9 @@ body {
 }
 
 @layer utilities {
+  .shadow-sm {
+    box-shadow: 0 0px 40px rgba(0, 0, 0, 0.1);
+  }
   .user-drag-none {
     -webkit-user-drag: none;
     -khtml-user-drag: none;
