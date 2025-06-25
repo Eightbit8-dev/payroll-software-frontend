@@ -5,6 +5,7 @@ import MainLayout from "./components/layout/MainLayout";
 // Routes
 import { appRoutes } from "./routes/appRoutes";
 import { Spinner } from "./components/layout/Spinner";
+import Branchedit from "./pages/MasterPages/Branch/Branchedit";
 
 // Pages
 const AttendancePage = lazy(() => import("./pages/AttendancePage"));
@@ -14,7 +15,7 @@ const LoanPage = lazy(() => import("./pages/LoanPage"));
 
 // Master Pages
 const MasterPage = lazy(() => import("./pages/MasterPages/MasterPage"));
-const BranchPage = lazy(() => import("./pages/MasterPages/BranchPage"));
+const BranchPage = lazy(() => import("./pages/MasterPages/Branch/BranchPage"));
 
 const UsersPage = lazy(() => import("./pages/UsersPage"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
@@ -50,7 +51,7 @@ const App = () => {
           />
           <Route
             path={appRoutes.masterRoutes.children.branches}
-            element={<BranchPage />}
+            element={<Branchedit/>}
           />
 
           <Route path={appRoutes.usersPage} element={<UsersPage />} />
