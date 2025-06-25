@@ -9,7 +9,7 @@ export const MasterPage = () => {
 
   const configCards: ConfigCardtype[] = [
     {
-      img: "/icons/Configpage/Allowance.svg",
+      img: "/icons/Configpage/Branch.svg",
       title: "Branch",
       desc: "Manage different office branches to streamline your organizational structure.",
       label: "Organisation",

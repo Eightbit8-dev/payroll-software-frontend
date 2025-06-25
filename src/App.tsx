@@ -14,9 +14,9 @@ const LoanPage = lazy(() => import("./pages/LoanPage"));
 
 // Master Pages
 const MasterPage = lazy(() => import("./pages/MasterPages/MasterPage"));
-const BranchPage = lazy(() => import("./pages/MasterPages/Branch/BranchPage"));
+const BranchPage = lazy(() => import("./pages/MasterPages/Branch/BranchesPage"));
 const BrancheditPage = lazy(
-  () => import("./pages/MasterPages/Branch/Branchedit"),
+  () => import("./pages/MasterPages/Branch/BranchPage"),
 );
 
 const UsersPage = lazy(() => import("./pages/UsersPage"));
@@ -56,7 +56,7 @@ const App = () => {
             element={<BranchPage />}
           />
           <Route
-            path={appRoutes.masterRoutes.children.branchesEdit}
+            path={appRoutes.masterRoutes.children.branchDetails}
             element={<BrancheditPage />}
           />
 

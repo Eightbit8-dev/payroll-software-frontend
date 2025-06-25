@@ -5,7 +5,7 @@ export const appRoutes = {
     masterPage: "/master",
     children: {
       branches: "/master/branches",
-      branchesEdit: "/master/branches/edit/:branchId",
+      branchDetails: "/master/branches/:branchId",
       departments: "/master/departments",
       designations: "/master/designations",
       resignations: "/master/resignations",
