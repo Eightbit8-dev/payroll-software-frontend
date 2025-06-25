@@ -46,7 +46,7 @@ export const ButtonLg: React.FC<ButtonLgProps> = ({
 }) => {
   return (
     <button
-      className={`btn-sm text-medium flex cursor-pointer flex-row items-center justify-center gap-2 rounded-[9px] px-4 py-3 text-center text-base transition-all duration-200 ease-in-out ${state === "default" ? "btn-primary bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700" : "btn-outline text-blue-500 outline-2 -outline-offset-2 outline-blue-500 hover:bg-blue-50 active:bg-blue-200"} disabled:opacity-45 ${className}`}
+      className={`btn-sm flex cursor-pointer flex-row items-center justify-center gap-2 rounded-[9px] px-4 py-3 text-center text-base font-medium transition-all duration-200 ease-in-out ${state === "default" ? "btn-primary bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700" : "btn-outline bg-white text-blue-500 outline-2 -outline-offset-2 outline-blue-500 hover:bg-blue-50 active:bg-blue-200"} disabled:opacity-45 ${className}`}
       onClick={onClick}
       type={type}
       disabled={disabled}

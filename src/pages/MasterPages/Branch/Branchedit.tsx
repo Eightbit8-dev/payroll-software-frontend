@@ -1,175 +1,247 @@
-import React, { useState } from 'react';
-import Input from '../../../components/common/Input';
-import Textarea from '../../../components/common/Textarea';
+import { useState } from "react";
+import Input from "../../../components/common/Input";
+import Textarea from "../../../components/common/Textarea";
+import PageTitleAndDescription from "../../../components/masterPage.components/PageTitleAndDescription";
+import { ButtonLg } from "../../../components/common/Buttons";
+import type { BranchDetails } from "../../../types/commonTypes";
 
 const Branchedit = () => {
-  // Sample user data
+  // Dummy data for branch and users for api simulation
+  const BranchData: BranchDetails = {
+    branchId: 1,
+    name: "Chennai Branch",
+    address1: "26,4d murugan layout coimbatore",
+    address2: "Tamil nadu",
+    remarks:
+      "The designation clearly outlines the  and level within the organization, helping to others",
+  };
   const usersData = [
-    { id: 1, name: 'Sabarish Vijayakumar', role: 'Human resource manager', isChecked: false },
-    { id: 2, name: 'Shanthi Saba', role: 'Human resource manager', isChecked: false },
-    { id: 3, name: 'Sachin S', role: 'Human resource manager', isChecked: false },
-    { id: 4, name: 'Santosh V VP', role: 'Human resource manager', isChecked: false },
-    { id: 5, name: 'Panther parama', role: 'Human resource manager', isChecked: true },
-    { id: 6, name: 'Santosh V VP', role: 'Human resource manager', isChecked: false },
-    { id: 7, name: 'Panther parama', role: 'Human resource manager', isChecked: true },
+    {
+      id: 1,
+      name: "Sabarish Vijayakumar",
+      role: "Human resource manager",
+      isChecked: false,
+    },
+    {
+      id: 2,
+      name: "Shanthi Saba",
+      role: "Human resource manager",
+      isChecked: false,
+    },
+    {
+      id: 3,
+      name: "Sachin S",
+      role: "Human resource manager",
+      isChecked: false,
+    },
+    {
+      id: 4,
+      name: "Santosh V VP",
+      role: "Human resource manager",
+      isChecked: false,
+    },
+    {
+      id: 5,
+      name: "Panther parama",
+      role: "Human resource manager",
+      isChecked: true,
+    },
+    {
+      id: 6,
+      name: "Santosh V VP",
+      role: "Human resource manager",
+      isChecked: false,
+    },
+    {
+      id: 7,
+      name: "Panther parama",
+      role: "Human resource manager",
+      isChecked: true,
+    },
   ];
 
   const [users, setUsers] = useState(usersData);
+  const [branchData, setBranchData] = useState<BranchDetails>(BranchData); //Original branch data
+  const [newbranchData, setNewBranchData] = useState<BranchDetails>(BranchData); //Duplicate state for editing and reverting changes
 
   const handleCheck = (id: number) => {
     setUsers(
       users.map((user) =>
-        user.id === id ? { ...user, isChecked: !user.isChecked } : user
-      )
+        user.id === id ? { ...user, isChecked: !user.isChecked } : user,
+      ),
     );
   };
 
   return (
-    <div>
-      <div className='flex flex-col gap-4'>
-        <div>
-          <div className="flex items-start">
-            <div className="flex flex-col gap-[5px]">
-              <div>
-                <p className="text-2xl font-bold text-zinc-800">Chennai Branch configuration</p>
-              </div>
-              <div>
-                <p className="text-base font-medium text-slate-500">
-                  Manage different office branches to streamline your organizational structure.
-                </p>
-              </div>
+    <main className="mx-auto flex w-full max-w-[870px] flex-col gap-6">
+      <PageTitleAndDescription
+        title=" Chennai Branch configuration"
+        subtitle="Manage different office branches to streamline your organizational structure."
+      />
+
+      {/* Branch Configuration container */}
+      <div className="branch-config-container flex flex-col gap-4 rounded-[20px] bg-white/80 px-10 py-8">
+        {/* Branch Details */}
+        <section className="branch-details-section flex w-full flex-col gap-3">
+          <header className="text-start text-xl font-medium text-zinc-800">
+            Branch Details
+          </header>
+
+          <section className="flex w-full flex-col gap-4">
+            <Input
+              title="Branch Name *"
+              type="str"
+              inputValue={newbranchData.name}
+              name="branch"
+              placeholder="Enter branch name"
+              maxLength={50}
+              onChange={(value) =>
+                setNewBranchData({ ...newbranchData, name: value })
+              }
+            />
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3">
+              <Input
+                title="Address Line 1 *"
+                type="str"
+                inputValue={newbranchData.address1}
+                name="address1"
+                placeholder="Enter address line 1"
+                maxLength={100}
+                onChange={(value) =>
+                  setNewBranchData({ ...newbranchData, address1: value })
+                }
+              />
+              <Input
+                title="Address Line 2"
+                type="str"
+                inputValue={newbranchData.address2}
+                name="address2"
+                placeholder="Enter address line 2"
+                maxLength={100}
+                onChange={(value) =>
+                  setNewBranchData({ ...newbranchData, address2: value })
+                }
+              />
             </div>
-          </div>
-        </div>
 
-        <div className="bg-white/80 rounded-[20px] px-11 py-9 gap-[10px] w-full">
-          <div className="flex flex-col gap-8 w-full">
-            <div>
-              <p className="text-2xl font-medium text-zinc-800 text-start">Branch Details</p>
-            </div>
+            <Textarea
+              title="Remarks *"
+              inputValue={newbranchData.remarks}
+              name="remarks"
+              placeholder="Enter remarks"
+              maxLength={300}
+              onChange={(value) =>
+                setNewBranchData({ ...newbranchData, remarks: value })
+              }
+            />
+          </section>
+        </section>
 
-            <div className="flex flex-wrap w-[804px] gap-4">
-              <div className="w-full md:w-[48%]">
-                <Input title="Company Name" inputValue={'8-Bit-Tech'} onChange={(val) => console.log(val)} type="str" prefixText="" max={100} />
-              </div>
-              <div className="w-full md:w-[48%]">
-                <Input title="Branch Name" inputValue={'Coimbatore branch - in chennai'} onChange={(val) => console.log(val)} type="str" prefixText="" max={100} />
-              </div>
-              <div className="w-full md:w-[48%]">
-                <Input title="Address 1" inputValue={'26,4d murugan layout coimbatore'} onChange={(val) => console.log(val)} type="str" prefixText="" max={100} />
-              </div>
-              <div className="w-full md:w-[48%]">
-                <Input title="Address 2" inputValue={'Tamil nadu'} onChange={(val) => console.log(val)} type="str" prefixText="" max={100} />
-              </div>
-              <div className="w-full">
-                <Textarea title="Remarks" placeholder="Please enter your remarks" inputValue={"The designation clearly outlines the individual's position and level within the organization, helping to "} onChange={(val) => console.log(val)} name="" prefixText="" maxLength={500} />
-              </div>
-            </div>
-
-<div className="flex flex-col gap-[16px]">
-  <div>
-    <p className="text-2xl font-medium text-zinc-700">User access details</p>
-  </div>
-
-  {/* Columns Container */}
-  <div className="flex gap-6">
-    {Array.from({ length: Math.ceil(users.length / 5) }, (_, colIndex) => {
-      const columnUsers = users.slice(colIndex * 5, colIndex * 5 + 5);
-
-      return (
-        <div
-          key={colIndex}
-          className="w-[400px] p-4 overflow-y-auto bg-white shadow-sm px-6 items-start rounded-[12px] space-y-4"
-        >
-          {columnUsers.map((user) => (
-            <div
-              key={user.id}
-              className="flex items-center justify-between gap-3 py-2"
-            >
-              {/* ID */}
-
-
-              {/* User Info */}
-              <div className="flex-1">
-<div className='flex items-center gap-2'>
-                                <div className="text-base font-semibold text-zinc-800">
-                <p>{user.id}</p>
-              </div>
-                <div className="text-m font-semibold text-zinc-800">{user.name}</div>
-</div>
-                <div className=" ml-4 text-sm font-normal text-slate-400">{user.role}</div>
-              </div>
-
-              {/* Checkbox */}
-              <div className="relative flex items-center">
-                <input
-                  type="checkbox"
-                  id={`user-${user.id}`}
-                  checked={user.isChecked}
-                  onChange={() => handleCheck(user.id)}
-                  className="sr-only"
-                />
-                <label
-                  htmlFor={`user-${user.id}`}
-                  className={`block w-5 h-5 p-[12px] border-2 rounded-[8px] cursor-pointer relative outline-none focus:outline-none ${
-                    user.isChecked ? 'border-green-500 bg-green-500' : 'border-slate-300 bg-white'
-                  }`}
-                >
-                  {user.isChecked && (
-                    <span className="absolute inset-0 flex items-center justify-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4 text-white"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+        {/* User Access Details */}
+        <section className="edit-access-section flex w-full flex-col gap-3">
+          <h2 className="text-xl font-medium text-zinc-800">
+            User access details
+          </h2>
+          <main className="flex gap-6">
+            {Array.from(
+              { length: Math.ceil(users.length / 5) },
+              (_, colIndex) => {
+                const columnUsers = users.slice(colIndex * 5, colIndex * 5 + 5);
+                return (
+                  <fieldset
+                    key={colIndex}
+                    className="w-[400px] items-start space-y-4 overflow-y-auto rounded-[12px] bg-white p-4 px-6 shadow-sm"
+                  >
+                    {columnUsers.map((user) => (
+                      <article
+                        key={user.id}
+                        className="flex items-center justify-between gap-3 py-2"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={3}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                    </span>
-                  )}
-                </label>
-              </div>
-            </div>
-          ))}
-        </div>
-      );
-    })}
-  </div>
-</div>
+                        <div className="flex-1">
+                          <div className="id-and-details-container flex items-start gap-2">
+                            <p className="text-base font-semibold text-zinc-800">
+                              {user.id}
+                            </p>
+                            <p className="text-m font-semibold text-zinc-800">
+                              {user.name}
+                            </p>
+                          </div>
+                          <p className="ml-4 text-sm font-normal text-slate-400">
+                            {user.role}
+                          </p>
+                        </div>
+                        <div className="relative flex items-center">
+                          <input
+                            type="checkbox"
+                            id={`user-${user.id}`}
+                            checked={user.isChecked}
+                            onChange={() => handleCheck(user.id)}
+                            className="sr-only"
+                          />
+                          <label
+                            htmlFor={`user-${user.id}`}
+                            className={`relative block h-5 w-5 cursor-pointer rounded-[8px] border-2 p-[12px] outline-none focus:outline-none ${
+                              user.isChecked
+                                ? "border-green-500 bg-green-500"
+                                : "border-slate-300 bg-white"
+                            }`}
+                          >
+                            {user.isChecked && (
+                              <span className="absolute inset-0 flex items-center justify-center">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-4 w-4 text-white"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={3}
+                                    d="M5 13l4 4L19 7"
+                                  />
+                                </svg>
+                              </span>
+                            )}
+                          </label>
+                        </div>
+                      </article>
+                    ))}
+                  </fieldset>
+                );
+              },
+            )}
+          </main>
+        </section>
+        {newbranchData !== branchData && (
+          <section className="ml-auto flex flex-row items-center gap-3">
+            <ButtonLg
+              text="Cancel"
+              state="outline"
+              onClick={() => setNewBranchData(branchData)}
+            />
+            <ButtonLg
+              text="Save Changes"
+              state="default"
+              onClick={() => console.log("save")}
+            />
+          </section>
+        )}
 
-            <div className="w-full flex justify-end gap-2">
-              <button className="border cursor-pointer border-blue-500 bg-transparent text-blue-500 px-6 py-2 rounded-[10px]">
-                Cancel
-              </button>
-              <button className="border cursor-pointer border-blue-500 bg-blue-500 text-white px-6 py-2 rounded-[10px]">
-                Save Changes
-              </button>
-            </div>
-
-            <div>
-              <div className='flex flex-col gap-1'>
-                <p className='text-2xl font-medium text-red-600'>Delete Branch</p>
-                <div>
-                  <p className='text-base font-medium text-slate-500'>By deleting this branch the configured users statuses will be affected, this action is irreversible</p>
-                  <div>
-                    <button className="border mt-1 cursor-pointer border-red-500 bg-red-500 text-white px-3 py-2 rounded-[9px]">
-                    Delete Branch
-                  </button>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
+        {/* delete branch section */}
+        <section className="delete-section flex w-full flex-col gap-3">
+          <h2 className="text-xl font-medium text-red-600">Delete Branch</h2>
+          <p className="text-base font-medium text-slate-500">
+            By deleting this branch the configured users statuses will be
+            affected, this action is irreversible
+          </p>
+          <button className="flex w-max cursor-pointer rounded-[9px] border border-red-500 bg-red-500 px-3 py-2 text-white">
+            Delete Branch
+          </button>
+        </section>
       </div>
-    </div>
+    </main>
   );
 };
 
