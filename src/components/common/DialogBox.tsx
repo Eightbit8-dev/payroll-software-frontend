@@ -30,6 +30,21 @@ const DialogBox: React.FC<DialogBoxProps> = ({
   }, [isVisible]);
 
   useEffect(() => {
+    // Close dialog when Escape key is pressed
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setToggleDialogueBox(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  useEffect(() => {
     setDomReady(true);
     // Lock body scroll when dialog is open
     document.body.style.overflow = "hidden";

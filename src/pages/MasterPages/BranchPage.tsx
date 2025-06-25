@@ -5,6 +5,7 @@ import PageTitleAndDescription from "../../components/masterPage.components/Page
 import DialogBox from "../../components/common/DialogBox";
 import Input from "../../components/common/Input";
 import { toast } from "react-toastify";
+import { AnimatePresence } from "motion/react";
 
 interface BranchDetails {
   branchId: number;
@@ -51,13 +52,15 @@ const BranchPage = () => {
   return (
     <div className="mx-auto flex w-full max-w-[1390px] flex-col gap-4">
       {/* Dialog box to add new branch */}
-      {isCreateBranchDialogOpen && (
-        <DialogBox setToggleDialogueBox={setIsCreateBranchDialogOpen}>
-          <DialogBoxChildren
-            setIsCreateBranchDialogOpen={setIsCreateBranchDialogOpen}
-          />
-        </DialogBox>
-      )}
+      <AnimatePresence>
+        {isCreateBranchDialogOpen && (
+          <DialogBox setToggleDialogueBox={setIsCreateBranchDialogOpen}>
+            <DialogBoxChildren
+              setIsCreateBranchDialogOpen={setIsCreateBranchDialogOpen}
+            />
+          </DialogBox>
+        )}
+      </AnimatePresence>
       <PageTitleAndDescription
         title="Branch Configuration"
         subtitle="Manage different office branches to streamline your organizational structure."
