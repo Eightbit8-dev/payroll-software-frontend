@@ -38,6 +38,9 @@ body {
 }
 
 @layer utilities {
+  .shadow-sm {
+    box-shadow: 0 0px 40px rgba(0, 0, 0, 0.1);
+  }
   .user-drag-none {
     -webkit-user-drag: none;
     -khtml-user-drag: none;
@@ -69,7 +72,7 @@ body {
   *,
   *::before,
   *::after {
-    @apply m-0 p-0 box-border;
+    @apply m-0 box-border p-0;
   }
 }
 

@@ -11,9 +11,15 @@ const AttendancePage = lazy(() => import("./pages/AttendancePage"));
 const DashBoardPage = lazy(() => import("./pages/DashBoardPage"));
 const EmployeesPage = lazy(() => import("./pages/EmployeesPage"));
 const LoanPage = lazy(() => import("./pages/LoanPage"));
-const MasterPage = lazy(() => import("./pages/MasterPage"));
-const UsersPage = lazy(() => import("./pages/UsersPage"));
 
+// Master Pages
+const MasterPage = lazy(() => import("./pages/MasterPages/MasterPage"));
+const BranchPage = lazy(() => import("./pages/MasterPages/Branch/BranchPage"));
+const BrancheditPage = lazy(
+  () => import("./pages/MasterPages/Branch/Branchedit"),
+);
+
+const UsersPage = lazy(() => import("./pages/UsersPage"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 
 // const AuthenticationPage = lazy(() => import("./pages/AuthPage"));
@@ -22,7 +28,7 @@ const App = () => {
   return (
     <Suspense
       fallback={
-        <div className="flex items-center justify-center w-full h-screen">
+        <div className="flex h-screen w-full items-center justify-center">
           <Spinner />
         </div>
       }
@@ -39,7 +45,21 @@ const App = () => {
           <Route path={appRoutes.attendancePage} element={<AttendancePage />} />
           <Route path={appRoutes.employeesPage} element={<EmployeesPage />} />
           <Route path={appRoutes.loanPage} element={<LoanPage />} />
-          <Route path={appRoutes.masterPage} element={<MasterPage />} />
+
+          {/* Master Page and its nested components */}
+          <Route
+            path={appRoutes.masterRoutes.masterPage}
+            element={<MasterPage />}
+          />
+          <Route
+            path={appRoutes.masterRoutes.children.branches}
+            element={<BranchPage />}
+          />
+          <Route
+            path={appRoutes.masterRoutes.children.branchesEdit}
+            element={<BrancheditPage />}
+          />
+
           <Route path={appRoutes.usersPage} element={<UsersPage />} />
         </Route>
       </Routes>
