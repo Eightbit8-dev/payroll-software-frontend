@@ -32,6 +32,7 @@ interface InputProps<T extends string | number> {
   min?: number;
   /** Maximum numeric value allowed (for type="num") */
   max?: number;
+  disabled?: boolean;
 }
 
 /**
@@ -61,6 +62,7 @@ const Input = <T extends string | number>({
   maxLength = 36,
   min,
   max,
+  disabled = false,
 }: InputProps<T>) => {
   const inputType = type === "num" ? "number" : "text";
 
@@ -102,12 +104,14 @@ const Input = <T extends string | number>({
           </div>
         )}
         <input
+          readOnly={disabled}
+          disabled={disabled}
           type={inputType}
           name={name}
           placeholder={placeholder}
           onChange={handleChange}
           value={inputValue}
-          className="min-h-max w-full px-3 py-3 text-start text-sm font-medium text-slate-600 autofill:text-black focus:outline-none"
+          className={`min-h-max w-full px-3 py-3 text-start text-sm font-medium text-slate-600 autofill:text-black focus:outline-none`}
           maxLength={type === "str" ? maxLength : undefined}
           min={type === "num" ? min : undefined}
           max={type === "num" ? max : undefined}

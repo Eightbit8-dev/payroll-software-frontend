@@ -1,5 +1,14 @@
 import React from "react";
-import { type ConfigCardtype } from "../../types/ConfigCard";
+
+type ConfigCardtype = {
+  img: string;
+  title: string;
+  desc: string;
+  label: string;
+  labelColor: string;
+  btnText: string;
+  onAction: () => void;
+};
 
 const ConfigCard: React.FC<ConfigCardtype> = ({
   img,

@@ -1,22 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../../../components/common/Input";
 import ButtonSm from "../../../components/common/Buttons";
-import type { BranchDetails } from "../../../types/commonTypes";
-import { AnimatePresence } from "motion/react";
-import DialogBox from "../../../components/common/DialogBox";
-import { DeleteBranchDialogBox } from "./DeleteBranchDialogBox";
-import { toast } from "react-toastify";
+import type { FormState } from "../../../types/appTypes";
+import { useCreateBranch, useEditBranch } from "../../../queries/BranchQuery";
+import type { BranchDetails } from "../../../types/apiTypes";
 
-const Branchedit = () => {
-  // Dummy data for branch and users for api simulation
-  const BranchData: BranchDetails = {
-    branchId: 1,
-    name: "Chennai Branch",
-    address1: "26,4d murugan layout coimbatore",
-    address2: "Tamil nadu",
-    remarks:
-      "The designation clearly outlines the  and level within the organization, helping to others",
-  };
+const BranchEdit = ({
+  branchDetails,
+  formState,
+  setFormState,
+}: {
+  branchDetails: BranchDetails | null;
+  formState: FormState;
+  setFormState: React.Dispatch<React.SetStateAction<FormState>>;
+}) => {
   const usersData = [
     {
       id: 1,
@@ -102,7 +99,6 @@ const Branchedit = () => {
       role: "Human resource manager",
       isChecked: true,
     },
-
     {
       id: 15,
       name: "Panther parama",
@@ -111,9 +107,39 @@ const Branchedit = () => {
     },
   ];
 
-  const [users, setUsers] = useState(usersData);
-  const [branchData] = useState<BranchDetails>(BranchData); //Original branch data
-  const [newbranchData, setNewBranchData] = useState<BranchDetails>(BranchData); //Duplicate state for editing and reverting changes
+  const [users, setUsers] = useState(usersData); //Dummy data
+  const [branchData, setBranchData] = useState<BranchDetails | null>(null); //Original branch data passed from above
+  const [newbranchData, setNewBranchData] = useState<BranchDetails | null>(
+    null,
+  ); //Local copy to reset if cancel is clicked
+
+  const { mutate: createBranch, isPending, isSuccess } = useCreateBranch();
+  const {
+    mutate: updateBranch,
+    isPending: isUpdatePending,
+    isSuccess: isUpdatingSuccess,
+  } = useEditBranch();
+
+  useEffect(() => {
+    if (branchDetails) {
+      setBranchData(branchDetails);
+      setNewBranchData(branchDetails);
+    }
+  }, [branchDetails]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setBranchData(newbranchData);
+      setFormState("display");
+    }
+  }, [isSuccess]); //cleaning after sumission
+
+  useEffect(() => {
+    if (isUpdatingSuccess) {
+      setBranchData(newbranchData);
+      setFormState("display");
+    }
+  }, [isUpdatingSuccess]); //.cleanign after user updates
 
   const handleCheck = (id: number) => {
     setUsers(
@@ -123,47 +149,62 @@ const Branchedit = () => {
     );
   };
 
-  const [isDeleteBranchDialogOpen, setIsDeleteBranchDialogOpen] =
-    useState(false);
+  if (!branchData || !newbranchData) {
+    return (
+      <p className="text-center text-sm text-gray-500">
+        Select a branch to view details.
+      </p>
+    );
+  }
 
   return (
-    <main className="flex max-h-full w-full max-w-[870px] flex-col gap-2">
-      <AnimatePresence>
-        {isDeleteBranchDialogOpen && (
-          <DialogBox setToggleDialogueBox={setIsDeleteBranchDialogOpen}>
-            <DeleteBranchDialogBox
-              setIsDeleteBranchDialogOpen={setIsDeleteBranchDialogOpen}
-            />
-          </DialogBox>
-        )}
-      </AnimatePresence>
-
+    <main className={`} flex max-h-full w-full max-w-[870px] flex-col gap-2`}>
       {/* Branch Configuration container */}
       <div className="branch-config-container flex flex-col gap-3 rounded-[20px] bg-white/80">
         <header className="header flex w-full flex-row items-center justify-between">
           <h1 className="text-start text-lg font-semibold text-zinc-800">
-            Chennai Branch configuration
+            {branchData.name} Configuration
           </h1>
-          {newbranchData !== branchData && (
-            <section className="ml-auto flex flex-row items-center gap-3">
-              <ButtonSm
-                className="font-medium"
-                text="Cancel"
-                state="outline"
-                onClick={() => setNewBranchData(branchData)}
-              />
-              <ButtonSm
-                className="font-medium text-white"
-                text="Save Changes"
-                state="default"
-                onClick={() => toast.success("Changes saved successfully!")}
-              />
-            </section>
+          {formState === "create" && (
+            <ButtonSm
+              className="font-semibold text-white"
+              state="default"
+              text={isPending ? "Creating..." : "Create new branch"}
+              onClick={() => {
+                createBranch(newbranchData);
+              }}
+            />
           )}
+          {JSON.stringify(newbranchData) !== JSON.stringify(branchData) &&
+            formState !== "create" && (
+              <section className="ml-auto flex flex-row items-center gap-3">
+                {formState === "edit" && (
+                  <>
+                    <ButtonSm
+                      className="font-medium"
+                      text="Cancel"
+                      state="outline"
+                      onClick={() => {
+                        setFormState("display");
+                        setNewBranchData(branchData);
+                      }}
+                    />
+                    <ButtonSm
+                      className="font-medium text-white"
+                      text={isUpdatePending ? "Updating..." : "Save Changes"}
+                      state="default"
+                      onClick={() => updateBranch(newbranchData)}
+                    />
+                  </>
+                )}
+              </section>
+            )}
         </header>
+
         {/* Branch Details */}
         <section className="branch-details-section flex max-h-full w-full flex-col gap-2 overflow-clip px-3">
           <Input
+            disabled={formState === "display"}
             title="Branch Name *"
             type="str"
             inputValue={newbranchData.name}
@@ -176,25 +217,27 @@ const Branchedit = () => {
           />
           <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3">
             <Input
+              disabled={formState === "display"}
               title="Address Line 1 *"
               type="str"
-              inputValue={newbranchData.address1}
+              inputValue={newbranchData.addressLine1}
               name="address1"
               placeholder="Enter address line 1"
               maxLength={100}
               onChange={(value) =>
-                setNewBranchData({ ...newbranchData, address1: value })
+                setNewBranchData({ ...newbranchData, addressLine1: value })
               }
             />
             <Input
+              disabled={formState === "display"}
               title="Address Line 2"
               type="str"
-              inputValue={newbranchData.address2}
+              inputValue={newbranchData.addressLine2}
               name="address2"
               placeholder="Enter address line 2"
               maxLength={100}
               onChange={(value) =>
-                setNewBranchData({ ...newbranchData, address2: value })
+                setNewBranchData({ ...newbranchData, addressLine2: value })
               }
             />
           </div>
@@ -203,7 +246,7 @@ const Branchedit = () => {
         {/* User Access Details */}
         <section className="edit-access-section flex w-full flex-col gap-3">
           <h1 className="text-start text-lg font-semibold text-zinc-800">
-            User access details
+            User access details TODO
           </h1>
           <main className="scrollbar-visible flex max-h-[300px] w-full scroll-m-0 flex-col gap-3 overflow-y-auto">
             <fieldset className="inline-block w-full rounded-[14px] bg-white px-3">
@@ -255,4 +298,4 @@ const Branchedit = () => {
   );
 };
 
-export default Branchedit;
+export default BranchEdit;

@@ -2,11 +2,12 @@ import { useMutation } from "@tanstack/react-query";
 import type {
   signInRequestType,
   SignInResponseType,
-} from "../types/SignInTypes";
+} from "../types/apiTypes";
 import axios from "../utils/axios";
 import { toast } from "react-toastify";
 import { SignInSchema } from "../utils/validationSchema";
 import { ZodError } from "zod";
+import { apiRoutes } from "../routes/apiRoutes";
 
 const signInRequest = async (
   data: signInRequestType,
@@ -14,7 +15,7 @@ const signInRequest = async (
   try {
     const parsed = SignInSchema.parse(data);
 
-    const response = await axios.post("/api/auth/login", parsed);
+    const response = await axios.post(apiRoutes.signin, parsed);
 
     if (response.status === 200) {
       localStorage.setItem("token", response.data.token);
@@ -24,6 +25,7 @@ const signInRequest = async (
       throw new Error(response.data?.message || "Login failed");
     }
   } catch (error: any) {
+    
     if (error instanceof ZodError) {
       const firstError = error.errors?.[0]?.message ?? "Invalid input";
       toast.error(firstError);

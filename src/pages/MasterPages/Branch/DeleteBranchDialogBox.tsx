@@ -1,14 +1,24 @@
 import { toast } from "react-toastify";
 import ButtonSm from "../../../components/common/Buttons";
+import { useDeleteBranch } from "../../../queries/BranchQuery";
+import type { BranchDetails } from "../../../types/apiTypes";
 
 export const DeleteBranchDialogBox = ({
   setIsDeleteBranchDialogOpen,
+  branch,
 }: {
   setIsDeleteBranchDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  branch: BranchDetails;
 }) => {
+  const { mutate: deleteBranch, isPending: isDeleteBranchLoading } =
+    useDeleteBranch();
+
+  const handleDelete = (branch: BranchDetails) => {
+    deleteBranch(branch);
+  };
   return (
     <form
-      className="flex w-full flex-col gap-4"
+      className="flex w-[300px] w-full flex-col gap-4"
       onSubmit={(e) => {
         e.preventDefault();
         toast.success("Deleted branch " + JSON.stringify(":"));
@@ -26,23 +36,25 @@ export const DeleteBranchDialogBox = ({
       </header>
 
       <p className="text-md font-medium text-zinc-700">
-        Are you sure want to delete the department “Packing department” ? This
-        action is irreversable
+        Are you sure want to delete the branch {branch.name} ? This action is
+        irreversable
       </p>
 
       <section className="mt-1 grid w-full grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3">
         <ButtonSm
-          className="bg-red-100"
+          className="justify-center font-semibold"
           state="outline"
           text="Cancel"
           onClick={() => setIsDeleteBranchDialogOpen(false)}
         />
         <ButtonSm
-          className="bg-red-500 hover:bg-red-700 active:bg-red-500"
+          className="items-center justify-center bg-red-500 text-center text-white hover:bg-red-700 active:bg-red-500"
           state="default"
-          type="submit"
-          disabled={!true}
-          text="Create Branch"
+          onClick={() => {
+            handleDelete(branch);
+            setIsDeleteBranchDialogOpen(false);
+          }}
+          text={isDeleteBranchLoading ? "Deleting..." : "Delete"}
         />
       </section>
     </form>

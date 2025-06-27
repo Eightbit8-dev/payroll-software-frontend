@@ -99,7 +99,7 @@ const AuthPage = () => {
               <button
                 type="submit"
                 className="w-full rounded-[16px] bg-blue-500 px-3.5 py-3 text-sm font-medium text-white transition hover:bg-blue-700 disabled:opacity-40"
-                disabled={isPending}
+                disabled={isPending || !username || !password}
               >
                 {isPending ? "Signing in..." : "Sign In"}
               </button>

@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { ButtonLg } from "../../../components/common/Buttons";
 import Input from "../../../components/common/Input";
 import Textarea from "../../../components/common/TextArea";
-import type { DepartmentDetails } from "../../../types/commonTypes";
+import type { DepartmentDetails } from "../../../types/appTypes";
 
 export const CreateDepartmentDialogBoxChildren = ({
   setIsCreateDepartmentDialogOpen,

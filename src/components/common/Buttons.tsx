@@ -8,7 +8,7 @@ interface ButtonSmProps {
   disabled?: boolean;
   imgUrl?: string;
   type?: "button" | "submit" | "reset";
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const ButtonSm: React.FC<ButtonSmProps> = ({
@@ -37,7 +37,7 @@ interface ButtonLgProps {
   state: ButtonState;
   text: string;
   imgUrl?: string;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
   className?: string;

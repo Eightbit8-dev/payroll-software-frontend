@@ -6,7 +6,7 @@ import CreateNewItemBar from "../../../components/masterPage.components/CreateNe
 import PageTitleAndDescription from "../../../components/masterPage.components/PageHeader";
 import { useNavigate } from "react-router-dom";
 import { appRoutes } from "../../../routes/appRoutes";
-import type { DepartmentDetails } from "../../../types/commonTypes";
+import type { DepartmentDetails } from "../../../types/appTypes";
 
 import { CreateDepartmentDialogBoxChildren } from "./createDepartmentDialogBox";
 

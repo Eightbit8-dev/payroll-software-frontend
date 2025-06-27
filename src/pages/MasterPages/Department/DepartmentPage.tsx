@@ -3,7 +3,7 @@ import Input from "../../../components/common/Input";
 import Textarea from "../../../components/common/TextArea";
 import PageTitleAndDescription from "../../../components/masterPage.components/PageHeader";
 import { ButtonLg } from "../../../components/common/Buttons";
-import type { DepartmentDetails } from "../../../types/commonTypes";
+import type { DepartmentDetails } from "../../../types/appTypes";
 import { AnimatePresence } from "motion/react";
 import DialogBox from "../../../components/common/DialogBox";
 import { DeleteBranchDialogBox } from "./../Branch/DeleteBranchDialogBox";

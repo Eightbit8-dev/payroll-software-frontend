@@ -1,8 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import ConfigCard from "../../components/common/ConfigCard";
 import SearchBar from "../../components/common/SearchBar";
-import type { ConfigCardtype } from "../../types/ConfigCard";
 import { appRoutes } from "../../routes/appRoutes";
+
+export interface ConfigCardtype {
+  img: string;
+  title: string;
+  desc: string;
+  label: string;
+  labelColor: string;
+  btnText: string;
+  onAction: () => void;
+}
 
 export const MasterPage = () => {
   const navigate = useNavigate();
