@@ -5,7 +5,6 @@ export const appRoutes = {
     masterPage: "/master",
     children: {
       branches: "/master/branches",
-      branchDetails: "/master/branches/:branchId",
       departments: "/master/departments",
       designations: "/master/designations",
       resignations: "/master/resignations",
@@ -19,7 +18,7 @@ export const appRoutes = {
       allowances: "/master/allowances",
     },
   },
-  authenticationPage: "/authenticate",
+  signInPage: "/signin",
   dashboardPage: "/dashboard",
   attendancePage: "/attendance",
   employeesPage: "/employees",

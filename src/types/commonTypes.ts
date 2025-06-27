@@ -5,3 +5,9 @@ export interface BranchDetails {
   address2: string;
   remarks: string;
 }
+
+export interface DepartmentDetails {
+  departmentId: number;
+  name: string;
+  remarks: string;
+}

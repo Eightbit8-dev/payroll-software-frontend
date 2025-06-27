@@ -1,13 +1,12 @@
-import { useState } from "react";
-import { AnimatePresence } from "motion/react";
 import ButtonSm from "../../../components/common/Buttons";
-import DialogBox from "../../../components/common/DialogBox";
-import CreateNewItemBar from "../../../components/masterPage.components/CreateNewItemBar";
-import PageTitleAndDescription from "../../../components/masterPage.components/PageTitleAndDescription";
 import { useNavigate } from "react-router-dom";
-import { appRoutes } from "../../../routes/appRoutes";
-import { CreateBranchDialogBoxChildren } from "./createBranchDialogBox";
 import type { BranchDetails } from "../../../types/commonTypes";
+import BranchPage from "./BranchPage";
+import PageHeader from "../../../components/masterPage.components/PageHeader";
+import { AnimatePresence } from "motion/react";
+import { useState } from "react";
+import DialogBox from "../../../components/common/DialogBox";
+import { DeleteBranchDialogBox } from "./DeleteBranchDialogBox";
 
 const branches: BranchDetails[] = [
   {
@@ -40,35 +39,24 @@ const branches: BranchDetails[] = [
   },
 ];
 
-const BranchPage = () => {
+const BranchesPage = () => {
   const navigate = useNavigate();
-  const [isCreateBranchDialogOpen, setIsCreateBranchDialogOpen] =
+  const [isDeleteBranchDialogOpen, setIsDeleteBranchDialogOpen] =
     useState(false);
+
   return (
-    <main className="mx-auto flex w-full max-w-[1390px] flex-col gap-4">
-      {/* Dialog box to add new branch */}
+    <main className="flex w-full max-w-full flex-col gap-4 md:flex-row">
       <AnimatePresence>
-        {isCreateBranchDialogOpen && (
-          <DialogBox setToggleDialogueBox={setIsCreateBranchDialogOpen}>
-            <CreateBranchDialogBoxChildren
-              setIsCreateBranchDialogOpen={setIsCreateBranchDialogOpen}
+        {isDeleteBranchDialogOpen && (
+          <DialogBox setToggleDialogueBox={setIsDeleteBranchDialogOpen}>
+            <DeleteBranchDialogBox
+              setIsDeleteBranchDialogOpen={setIsDeleteBranchDialogOpen}
             />
           </DialogBox>
         )}
       </AnimatePresence>
-
-      <PageTitleAndDescription
-        title="Branch Configuration"
-        subtitle="Manage different office branches to streamline your organizational structure."
-      />
-
-      <CreateNewItemBar
-        iconSrc="/icons/Configpage/Branch.svg"
-        title="Create New Branch"
-        onClick={() => setIsCreateBranchDialogOpen(true)}
-      />
-
-      <section className="table-container flex w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm">
+      <section className="table-container flex w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm md:w-[50%]">
+        <PageHeader title="Branch configuration" />
         <div className="tables flex w-full flex-col gap-2 overflow-clip rounded-[9px]">
           {/* table header */}
           <header className="header flex w-full flex-row items-center gap-2 bg-slate-100 px-3">
@@ -81,10 +69,8 @@ const BranchPage = () => {
             <p className="w-full text-start text-sm font-semibold text-zinc-900">
               Address
             </p>
-            <p className="w-full text-start text-sm font-semibold text-zinc-900">
-              Remarks
-            </p>
-            <p className="min-w-[160px] text-start text-sm font-semibold text-zinc-900">
+
+            <p className="min-w-[120px] text-start text-sm font-semibold text-zinc-900">
               Action
             </p>
           </header>
@@ -104,17 +90,18 @@ const BranchPage = () => {
                 <p className="w-full text-start text-sm font-medium text-zinc-700">
                   {item.address1}
                 </p>
-                <p className="w-full text-start text-sm font-medium text-zinc-700">
-                  {item.remarks}
-                </p>
 
-                <div className="min-w-[160px] text-start text-sm font-medium text-zinc-700">
+                <div className="flex min-w-[120px] flex-row gap-2 text-start text-sm font-medium">
                   <ButtonSm
                     state="outline"
-                    text="Manage settings"
-                    onClick={() =>
-                      navigate(appRoutes.masterRoutes.children.branchDetails)
-                    }
+                    text="Edit"
+                    onClick={() => alert("inum panla ")}
+                  />
+                  <ButtonSm
+                    className="bg-red-100 text-red-500 outline-1 outline-red-500 hover:bg-red-100 hover:text-red-500 active:bg-red-100 active:text-red-500"
+                    state="default"
+                    text="Delete"
+                    onClick={() => setIsDeleteBranchDialogOpen(true)}
                   />
                 </div>
               </div>
@@ -122,8 +109,11 @@ const BranchPage = () => {
           })}
         </div>
       </section>
+      <section className="table-container max-h-full w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm md:w-[50%]">
+        <BranchPage />
+      </section>
     </main>
   );
 };
 
-export default BranchPage;
+export default BranchesPage;

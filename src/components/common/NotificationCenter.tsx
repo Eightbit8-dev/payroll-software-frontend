@@ -34,6 +34,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({
           transition={{ duration: 0.2 }}
         >
           <img
+            className="h-5 w-5"
             src={
               isNotificationPanelOpen
                 ? "/icons/bell-icon-enabled.svg"

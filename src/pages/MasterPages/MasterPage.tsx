@@ -24,7 +24,7 @@ export const MasterPage = () => {
       label: "Organisation",
       labelColor: "bg-red-500",
       btnText: "Configure",
-      onAction: () => console.log("Users clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.departments),
     },
     {
       img: "/icons/Configpage/Desigination.svg",

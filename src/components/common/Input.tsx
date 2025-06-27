@@ -97,7 +97,7 @@ const Input = <T extends string | number>({
       </h3>
       <div className="input-container flex cursor-text flex-row items-center justify-center gap-0 overflow-clip rounded-xl border-2 border-slate-300 bg-white transition-all focus-within:border-slate-500">
         {prefixText && (
-          <div className="flex h-full items-center justify-start bg-slate-100 px-3 py-2 text-base leading-loose font-medium text-gray-800">
+          <div className="flex h-full items-center justify-start bg-slate-100 px-3 py-2 text-sm leading-loose font-medium text-slate-700">
             {prefixText}
           </div>
         )}
@@ -107,7 +107,7 @@ const Input = <T extends string | number>({
           placeholder={placeholder}
           onChange={handleChange}
           value={inputValue}
-          className="min-h-max w-full px-4 py-[14px] text-start text-sm font-medium text-slate-600 autofill:text-black focus:outline-none"
+          className="min-h-max w-full px-3 py-3 text-start text-sm font-medium text-slate-600 autofill:text-black focus:outline-none"
           maxLength={type === "str" ? maxLength : undefined}
           min={type === "num" ? min : undefined}
           max={type === "num" ? max : undefined}

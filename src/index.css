@@ -38,6 +38,41 @@ body {
 }
 
 @layer utilities {
+  /* Autofill hack for input + parent */
+  input:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px #e0f2fe inset !important; /* light blue bg */
+    -webkit-text-fill-color: #0c4a6e !important; /* Tailwind's slate-700ish */
+  }
+
+  /* Optional: make parent look active if child is autofilled using :has() */
+  .parent-input-wrapper:has(input:-webkit-autofill) {
+    background-color: #e0f2fe;
+  }
+
+  .scrollbar-visible::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .scrollbar-visible::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 4px;
+  }
+
+  .scrollbar-visible::-webkit-scrollbar-thumb {
+    background-color: #3b82f6; /* Tailwind's blue-500 */
+    border-radius: 4px;
+  }
+
+  .scrollbar-visible::-webkit-scrollbar-thumb:hover {
+    background-color: #2563eb; /* Tailwind's blue-600 */
+  }
+
+  /* Firefox */
+  .scrollbar-visible {
+    scrollbar-width: thin;
+    scrollbar-color: #3b82f6 transparent;
+  }
+
   .shadow-sm {
     box-shadow: 0 0px 40px rgba(0, 0, 0, 0.1);
   }
