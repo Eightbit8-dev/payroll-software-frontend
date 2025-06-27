@@ -10,7 +10,7 @@ const BranchEdit = ({
   formState,
   setFormState,
 }: {
-  branchDetails: BranchDetails | null;
+  branchDetails: BranchDetails | null; //null so that user can create new branch if the state is create
   formState: FormState;
   setFormState: React.Dispatch<React.SetStateAction<FormState>>;
 }) => {
@@ -59,48 +59,6 @@ const BranchEdit = ({
     },
     {
       id: 8,
-      name: "Panther parama",
-      role: "Human resource manager",
-      isChecked: true,
-    },
-    {
-      id: 9,
-      name: "Panther parama",
-      role: "Human resource manager",
-      isChecked: true,
-    },
-    {
-      id: 10,
-      name: "Panther parama",
-      role: "Human resource manager",
-      isChecked: true,
-    },
-    {
-      id: 11,
-      name: "Panther parama",
-      role: "Human resource manager",
-      isChecked: true,
-    },
-    {
-      id: 12,
-      name: "Panther parama",
-      role: "Human resource manager",
-      isChecked: true,
-    },
-    {
-      id: 13,
-      name: "Panther parama",
-      role: "Human resource manager",
-      isChecked: true,
-    },
-    {
-      id: 14,
-      name: "Panther parama",
-      role: "Human resource manager",
-      isChecked: true,
-    },
-    {
-      id: 15,
       name: "Panther parama",
       role: "Human resource manager",
       isChecked: true,
@@ -175,6 +133,7 @@ const BranchEdit = ({
               }}
             />
           )}
+          {/* //To check if the data has changeg */}
           {JSON.stringify(newbranchData) !== JSON.stringify(branchData) &&
             formState !== "create" && (
               <section className="ml-auto flex flex-row items-center gap-3">

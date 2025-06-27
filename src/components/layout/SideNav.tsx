@@ -62,24 +62,24 @@ const SideNav: React.FC = () => {
   return (
     <div
       className={`floating-container relative flex h-screen ${
-        isSideNavExpanded ? "w-[260px]" : "w-[80px]"
+        isSideNavExpanded ? "w-[230px]" : "w-[80px]"
       } border-r-2 border-slate-300 transition-all duration-300`}
     >
       <motion.section
         className={`flex h-screen flex-col items-start justify-start gap-3 overflow-clip transition-all duration-300 select-none ${
-          isSideNavExpanded ? "w-[260px]" : "w-[80px]"
+          isSideNavExpanded ? "w-[230px]" : "w-[80px]"
         }`}
-        initial={{ x: -260, opacity: 0 }}
+        initial={{ x: -230, opacity: 0 }}
         animate={{
           x: 0,
           opacity: 1,
-          width: isSideNavExpanded ? 260 : 80,
+          width: isSideNavExpanded ? 230 : 80,
         }}
         transition={{ type: "tween", stiffness: 100, damping: 20 }}
       >
         {/* Header section */}
         <motion.div
-          className="flex max-w-full origin-left scale-110 items-center justify-center overflow-clip px-6 py-6"
+          className="flex max-w-full origin-left scale-110 items-center justify-center overflow-clip px-6 py-4"
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
@@ -93,7 +93,7 @@ const SideNav: React.FC = () => {
           >
             <motion.img
               className={`${
-                isSideNavExpanded ? "h-8 w-8" : "min-h-10 min-w-10"
+                isSideNavExpanded ? "h-7 w-7" : "min-h-10 min-w-10"
               }`}
               src="/icons/logo-icon-side-nav.svg"
               alt="Logo"
@@ -103,7 +103,7 @@ const SideNav: React.FC = () => {
             <AnimatePresence>
               {isSideNavExpanded && (
                 <motion.p
-                  className="text-2xl font-medium text-gray-800"
+                  className="text-xl font-medium text-gray-800"
                   initial={{ opacity: 0, width: 0 }}
                   animate={{ opacity: 1, width: "auto" }}
                   exit={{ opacity: 0, width: 0 }}
@@ -119,7 +119,7 @@ const SideNav: React.FC = () => {
           <AnimatePresence>
             {isSideNavExpanded && (
               <motion.p
-                className="orange-gradient mx-2 rounded px-1.5 py-1 text-xs font-normal text-white"
+                className="orange-gradient ml-2 rounded px-1.5 py-1 text-xs font-normal text-white"
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0, opacity: 0 }}
@@ -494,7 +494,7 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
               <AnimatePresence>
                 {isSideNavExpanded && (
                   <motion.h6
-                    className="w-full text-start text-lg font-medium"
+                    className="w-full text-start text-sm font-medium"
                     initial={{ opacity: 0, width: 0 }}
                     animate={{ opacity: 1, width: "100%" }}
                     exit={{ opacity: 0, width: 0 }}

@@ -1,6 +1,6 @@
 import ButtonSm from "../../../components/common/Buttons";
 import { useNavigate } from "react-router-dom";
-import BranchPage from "./BranchComponent";
+import BranchPage from "./EditBranch.component";
 import PageHeader from "../../../components/masterPage.components/PageHeader";
 import { AnimatePresence } from "motion/react";
 import { useEffect, useState } from "react";
@@ -22,12 +22,13 @@ const BranchesPage = () => {
   }, []);
 
   const navigate = useNavigate();
-  const [isDeleteBranchDialogOpen, setIsDeleteBranchDialogOpen] =
-    useState(false);
-  const [branch, setBranch] = useState<BranchDetails | null>(null);
-  const [formState, setFormState] = useState<FormState>("display");
 
-  const { data: branches, isLoading, isError } = useFetchBranches();
+  const [isDeleteBranchDialogOpen, setIsDeleteBranchDialogOpen] =
+    useState(false); //Mangae the state of the dialog box
+  const [branch, setBranch] = useState<BranchDetails | null>(null); //Store the selected branch details null if user wants to create one
+  const [formState, setFormState] = useState<FormState>("display"); //Manage the state  ["display", "create", "edit"]
+
+  const { data: branches, isLoading, isError } = useFetchBranches(); //Tanstack method
 
   if (isLoading) return <MasterPagesSkeleton />;
   if (isError) return <ErrorComponent />;
@@ -106,7 +107,7 @@ const BranchesPage = () => {
                     code: item.code,
                     addressLine1: item.addressLine1,
                     addressLine2: item.addressLine2,
-                    remarks: item.remarks ?? "",
+                    remarks: item.remarks || "",
                     companyId: item.companyId,
                   });
                 }}

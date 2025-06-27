@@ -18,7 +18,7 @@ export const DeleteBranchDialogBox = ({
   };
   return (
     <form
-      className="flex w-[300px] w-full flex-col gap-4"
+      className="flex w-full flex-col gap-4"
       onSubmit={(e) => {
         e.preventDefault();
         toast.success("Deleted branch " + JSON.stringify(":"));
