@@ -28,6 +28,7 @@ const BranchesPage = lazy(
   () => import("./pages/MasterPages/Branch/BranchesPage"),
 );
 
+const Bloodpage = lazy(()=> import ("../src/pages/MasterPages/Blood/BloodPage"))
 const App = () => {
   return (
     <Suspense
@@ -79,6 +80,9 @@ const App = () => {
           path={appRoutes.masterRoutes.children.resignations}
           element={<ResignationPage/>}
         />
+        <Route
+        path={appRoutes.masterRoutes.children.bloodGroups}
+        element={<Bloodpage/>}/>
 
             <Route path={appRoutes.usersPage} element={<UsersPage />} />
           </Route>

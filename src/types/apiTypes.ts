@@ -13,6 +13,12 @@ export interface BranchDetails {
   remarks: string;
 }
 
+export interface BloodDetails{
+  id: number;
+  name:string;
+  remarks: string;
+}
+
 export interface DesignationsDetails {
   id: number;
   code: string;

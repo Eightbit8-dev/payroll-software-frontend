@@ -136,6 +136,15 @@ const BranchEdit = ({
                   type="button"
                 />
               )}
+              {formState === "display" && branchData.id !== 0 && (
+                <ButtonSm
+                  className="font-medium"
+                  text="Back"
+                  state="outline"
+                  onClick={handleCancel}
+                  type="button"
+                />
+              )}
               {formState === "create" && (
                 <ButtonSm
                   className="font-medium text-white"

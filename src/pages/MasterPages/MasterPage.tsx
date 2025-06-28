@@ -60,7 +60,7 @@ export const MasterPage = () => {
       label: "HR Essentials",
       labelColor: "bg-yellow-500",
       btnText: "Configure",
-      onAction: () => console.log("Leaves clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.bloodGroups),
     },
     {
       img: "/icons/Configpage/Attendance.svg",
