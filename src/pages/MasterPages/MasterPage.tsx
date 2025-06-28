@@ -42,7 +42,7 @@ export const MasterPage = () => {
       label: "HR Essentials",
       labelColor: "bg-yellow-500",
       btnText: "Configure",
-      onAction: () => console.log("Payroll clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.designations),
     },
     {
       img: "/icons/Configpage/Resigination.svg",
@@ -51,7 +51,7 @@ export const MasterPage = () => {
       label: "HR Essentials",
       labelColor: "bg-yellow-500",
       btnText: "Configure",
-      onAction: () => console.log("Attendance clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.resignations),
     },
     {
       img: "/icons/Configpage/BloodGroup.svg",

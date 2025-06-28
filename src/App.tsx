@@ -18,11 +18,14 @@ const SignInPage = lazy(() => import("./pages/SignInPage"));
 
 // Master Pages
 const MasterPage = lazy(() => import("./pages/MasterPages/MasterPage"));
+const ResignationPage = lazy(
+  () => import("./pages/MasterPages/Resignation/ResignationPage"),
+);
+const DesignationsPage = lazy(
+  () => import("./pages/MasterPages/Desigination/DesiginationPage"),
+);
 const BranchesPage = lazy(
   () => import("./pages/MasterPages/Branch/BranchesPage"),
-);
-const DepartmentsPage = lazy(
-  () => import("./pages/MasterPages/Department/DepartmentsPage"),
 );
 
 const App = () => {
@@ -67,12 +70,15 @@ const App = () => {
               path={appRoutes.masterRoutes.children.branches}
               element={<BranchesPage />}
             />
-
-            {/* Department Pages */}
-            <Route
-              path={appRoutes.masterRoutes.children.departments}
-              element={<DepartmentsPage />}
-            />
+          {/* Designations pages */}
+          <Route
+          path={appRoutes.masterRoutes.children.designations}
+          element={<DesignationsPage/>}
+          />
+          <Route
+          path={appRoutes.masterRoutes.children.resignations}
+          element={<ResignationPage/>}
+        />
 
             <Route path={appRoutes.usersPage} element={<UsersPage />} />
           </Route>

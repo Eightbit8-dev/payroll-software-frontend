@@ -13,6 +13,19 @@ export interface BranchDetails {
   remarks: string;
 }
 
+export interface DesignationsDetails {
+  id: number;
+  code: string;
+  name: string;
+  remarks: string;
+}
+
+export interface ResignationDetails{
+  id: number;
+  name: string;
+  remarks: string;
+}
+
 export interface SignInResponseType {
   token: string;
 }
