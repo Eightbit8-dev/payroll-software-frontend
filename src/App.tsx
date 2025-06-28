@@ -11,16 +11,19 @@ const AttendancePage = lazy(() => import("./pages/AttendancePage"));
 const DashBoardPage = lazy(() => import("./pages/DashBoardPage"));
 const EmployeesPage = lazy(() => import("./pages/EmployeesPage"));
 const LoanPage = lazy(() => import("./pages/LoanPage"));
+const UsersPage = lazy(() => import("./pages/UsersPage"));
+const ErrorPage = lazy(() => import("./pages/ErrorPage"));
+const SignInPage = lazy(() => import("./pages/SignInPage"));
 
 // Master Pages
 const MasterPage = lazy(() => import("./pages/MasterPages/MasterPage"));
-const BranchPage = lazy(() => import("./pages/MasterPages/Branch/BranchPage"));
-const BrancheditPage = lazy(
-  () => import("./pages/MasterPages/Branch/Branchedit"),
+const BranchesPage = lazy(
+  () => import("./pages/MasterPages/Branch/BranchesPage"),
 );
 
-const UsersPage = lazy(() => import("./pages/UsersPage"));
-const ErrorPage = lazy(() => import("./pages/ErrorPage"));
+const DepartmentsPage = lazy(
+  () => import("./pages/MasterPages/Department/DepartmentsPage"),
+);
 
 // const AuthenticationPage = lazy(() => import("./pages/AuthPage"));
 
@@ -34,6 +37,8 @@ const App = () => {
       }
     >
       <Routes>
+        {/* Auth route */}
+        <Route path={appRoutes.signInPage} element={<SignInPage />} />
         {/* Main Layout Routes */}
         <Route element={<MainLayout />}>
           <Route
@@ -51,13 +56,16 @@ const App = () => {
             path={appRoutes.masterRoutes.masterPage}
             element={<MasterPage />}
           />
+          {/* Branches pages */}
           <Route
             path={appRoutes.masterRoutes.children.branches}
-            element={<BranchPage />}
+            element={<BranchesPage />}
           />
+
+          {/* Department Pages */}
           <Route
-            path={appRoutes.masterRoutes.children.branchesEdit}
-            element={<BrancheditPage />}
+            path={appRoutes.masterRoutes.children.departments}
+            element={<DepartmentsPage />}
           />
 
           <Route path={appRoutes.usersPage} element={<UsersPage />} />

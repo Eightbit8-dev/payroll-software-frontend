@@ -1,15 +1,24 @@
 import { useNavigate } from "react-router-dom";
 import ConfigCard from "../../components/common/ConfigCard";
 import SearchBar from "../../components/common/SearchBar";
-import type { ConfigCardtype } from "../../types/ConfigCard";
 import { appRoutes } from "../../routes/appRoutes";
+
+export interface ConfigCardtype {
+  img: string;
+  title: string;
+  desc: string;
+  label: string;
+  labelColor: string;
+  btnText: string;
+  onAction: () => void;
+}
 
 export const MasterPage = () => {
   const navigate = useNavigate();
 
   const configCards: ConfigCardtype[] = [
     {
-      img: "/icons/Configpage/Allowance.svg",
+      img: "/icons/Configpage/Branch.svg",
       title: "Branch",
       desc: "Manage different office branches to streamline your organizational structure.",
       label: "Organisation",
@@ -24,7 +33,7 @@ export const MasterPage = () => {
       label: "Organisation",
       labelColor: "bg-red-500",
       btnText: "Configure",
-      onAction: () => console.log("Users clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.departments),
     },
     {
       img: "/icons/Configpage/Desigination.svg",

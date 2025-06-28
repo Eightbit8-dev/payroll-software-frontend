@@ -1,3 +1,4 @@
-const Signin: string = '/api/signin';
-
-export { Signin };
+export const apiRoutes = {
+  signin: "/api/auth/login",
+  branches: "/api/admin/branch",
+};

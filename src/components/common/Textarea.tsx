@@ -19,21 +19,30 @@ const TextArea: React.FC<TextAreaProps> = ({
   prefixText = "",
   maxLength = 100,
 }) => {
+  const [count, setCount] = React.useState<string>(
+    (inputValue ?? "").length.toString(),
+  );
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     if (value.length <= maxLength) {
       onChange(value);
+      setCount(value.length.toString());
     }
   };
 
   return (
     <div className="relative w-full min-w-[180px] self-stretch">
-      <h3 className="mb-0.5 w-full justify-start text-xs leading-loose font-semibold text-slate-700">
-        {title}
-      </h3>
+      <div className="flex min-w-full flex-row items-center justify-between">
+        <h3 className="mb-0.5 w-full justify-start text-xs leading-loose font-semibold text-slate-700">
+          {title}
+        </h3>
+        <h3 className="mb-0.5 justify-start text-xs leading-loose font-semibold text-slate-700">
+          {count}/{maxLength}
+        </h3>
+      </div>
       <div className="input-container flex cursor-text flex-row items-center justify-center gap-0 overflow-clip rounded-xl border-2 border-slate-300 bg-white transition-all focus-within:border-slate-500">
         {prefixText && (
-          <div className="flex h-full items-center justify-start bg-slate-100 px-3 py-2 text-base leading-loose font-medium text-gray-800">
+          <div className="flex h-full items-center justify-start bg-slate-100 px-3 py-2 text-sm leading-loose font-medium text-slate-700">
             {prefixText}
           </div>
         )}

@@ -3,69 +3,92 @@ import { AnimatePresence } from "motion/react";
 import ButtonSm from "../../../components/common/Buttons";
 import DialogBox from "../../../components/common/DialogBox";
 import CreateNewItemBar from "../../../components/masterPage.components/CreateNewItemBar";
-import PageTitleAndDescription from "../../../components/masterPage.components/PageTitleAndDescription";
+import PageTitleAndDescription from "../../../components/masterPage.components/PageHeader";
 import { useNavigate } from "react-router-dom";
 import { appRoutes } from "../../../routes/appRoutes";
-import { CreateBranchDialogBoxChildren } from "./createBranchDialogBox";
-import type { BranchDetails } from "../../../types/commonTypes";
+import type { DepartmentDetails } from "../../../types/appTypes";
 
-const branches: BranchDetails[] = [
+import { CreateDepartmentDialogBoxChildren } from "./createDepartmentDialogBox";
+
+const departments: DepartmentDetails[] = [
   {
-    branchId: 1,
-    name: "Chennai HQ",
-    address1: "No. 12, Mount Road, Chennai, Tamil Nadu",
-    address2: "Near Anna Salai",
-    remarks: "Main office",
+    departmentId: 1,
+    name: "Headquarters",
+    remarks: "Corporate operations and executive management",
   },
   {
-    branchId: 2,
-    name: "Bangalore Tech Park",
-    address1: "Plot 45, Electronic City, Bangalore, Karnataka",
-    address2: " Phase 1, Sector 3",
-    remarks: "Development center",
+    departmentId: 2,
+    name: "Engineering",
+    remarks: "Product development and technical solutions",
   },
   {
-    branchId: 3,
-    name: "Hyderabad Support Hub",
-    address1: "Kukatpally, Hyderabad, Telangana",
-    address2: "Near Kukatpally Metro Station",
-    remarks: "Customer support",
+    departmentId: 3,
+    name: "Design Studio",
+    remarks: "UI/UX, product design, and brand experience",
   },
   {
-    branchId: 4,
-    name: "Mumbai Sales Office",
-    address1: "Andheri East, Mumbai, Maharashtra",
-    address2: "Near Western Express Highway",
-    remarks: "Handles West India sales",
+    departmentId: 4,
+    name: "QA & Testing",
+    remarks: "Ensures product quality through testing",
+  },
+  {
+    departmentId: 5,
+    name: "IT Support",
+    remarks: "Manages internal infrastructure and tools",
+  },
+  {
+    departmentId: 6,
+    name: "DevOps",
+    remarks: "Handles CI/CD, cloud, and deployment pipelines",
+  },
+  {
+    departmentId: 7,
+    name: "Sales & Marketing",
+    remarks: "Drives revenue, outreach, and brand visibility",
+  },
+  {
+    departmentId: 8,
+    name: "Customer Success",
+    remarks: "Manages client relationships and onboarding",
+  },
+  {
+    departmentId: 9,
+    name: "Human Resources",
+    remarks: "Recruitment, payroll, and employee welfare",
+  },
+  {
+    departmentId: 10,
+    name: "Finance & Legal",
+    remarks: "Oversees compliance, budgeting, and contracts",
   },
 ];
 
-const BranchPage = () => {
+const DepartmentsPage = () => {
   const navigate = useNavigate();
-  const [isCreateBranchDialogOpen, setIsCreateBranchDialogOpen] =
+  const [isCreatedepartmentDialogOpen, setIsCreatedepartmentDialogOpen] =
     useState(false);
   return (
     <main className="mx-auto flex w-full max-w-[1390px] flex-col gap-4">
-      {/* Dialog box to add new branch */}
+      {/* Dialog box to add new department */}
       <AnimatePresence>
-        {isCreateBranchDialogOpen && (
-          <DialogBox setToggleDialogueBox={setIsCreateBranchDialogOpen}>
-            <CreateBranchDialogBoxChildren
-              setIsCreateBranchDialogOpen={setIsCreateBranchDialogOpen}
+        {isCreatedepartmentDialogOpen && (
+          <DialogBox setToggleDialogueBox={setIsCreatedepartmentDialogOpen}>
+            <CreateDepartmentDialogBoxChildren
+              setIsCreateDepartmentDialogOpen={setIsCreatedepartmentDialogOpen}
             />
           </DialogBox>
         )}
       </AnimatePresence>
 
       <PageTitleAndDescription
-        title="Branch Configuration"
-        subtitle="Manage different office branches to streamline your organizational structure."
+        title="Department Configuration"
+        subtitle="Define departments to better organize teams and responsibilities."
       />
 
       <CreateNewItemBar
-        iconSrc="/icons/Configpage/Branch.svg"
-        title="Create New Branch"
-        onClick={() => setIsCreateBranchDialogOpen(true)}
+        iconSrc="/icons/Configpage/Department.svg"
+        title="Create New Department"
+        onClick={() => setIsCreatedepartmentDialogOpen(true)}
       />
 
       <section className="table-container flex w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm">
@@ -78,9 +101,7 @@ const BranchPage = () => {
             <p className="w-full text-start text-sm font-semibold text-zinc-900">
               Name
             </p>
-            <p className="w-full text-start text-sm font-semibold text-zinc-900">
-              Address
-            </p>
+
             <p className="w-full text-start text-sm font-semibold text-zinc-900">
               Remarks
             </p>
@@ -89,7 +110,7 @@ const BranchPage = () => {
             </p>
           </header>
           {/* table body */}
-          {branches.map((item, index) => {
+          {departments.map((item, index) => {
             return (
               <div
                 key={index + 1}
@@ -101,9 +122,7 @@ const BranchPage = () => {
                 <p className="w-full text-start text-sm font-medium text-zinc-700">
                   {item.name}
                 </p>
-                <p className="w-full text-start text-sm font-medium text-zinc-700">
-                  {item.address1}
-                </p>
+
                 <p className="w-full text-start text-sm font-medium text-zinc-700">
                   {item.remarks}
                 </p>
@@ -113,7 +132,9 @@ const BranchPage = () => {
                     state="outline"
                     text="Manage settings"
                     onClick={() =>
-                      navigate(appRoutes.masterRoutes.children.branchesEdit)
+                      navigate(
+                        appRoutes.masterRoutes.children.departmentDetails,
+                      )
                     }
                   />
                 </div>
@@ -126,4 +147,4 @@ const BranchPage = () => {
   );
 };
 
-export default BranchPage;
+export default DepartmentsPage;

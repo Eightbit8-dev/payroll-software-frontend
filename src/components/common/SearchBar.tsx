@@ -28,7 +28,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
             }}
             transition={{ duration: 0.2 }}
           >
-            <img src="/icons/search-icon.svg" alt="search" />
+            <img className="w-5" src="/icons/search-icon.svg" alt="search" />
           </motion.div>
         </div>
         <input
@@ -36,7 +36,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
           placeholder="Search..."
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          className="w-full rounded-lg border border-gray-200 py-3 pr-4 pl-12 text-base font-medium text-slate-700 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          className="w-full rounded-lg border border-gray-200 py-3 pr-4 pl-12 text-sm font-medium text-slate-700 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
         />
       </motion.div>
     </motion.div>

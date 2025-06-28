@@ -1,19 +1,19 @@
 import { useState } from "react";
 import Input from "../../../components/common/Input";
-import Textarea from "../../../components/common/Textarea";
-import PageTitleAndDescription from "../../../components/masterPage.components/PageTitleAndDescription";
+import Textarea from "../../../components/common/TextArea";
+import PageTitleAndDescription from "../../../components/masterPage.components/PageHeader";
 import { ButtonLg } from "../../../components/common/Buttons";
-import type { BranchDetails } from "../../../types/commonTypes";
+import type { DepartmentDetails } from "../../../types/appTypes";
+import { AnimatePresence } from "motion/react";
+import DialogBox from "../../../components/common/DialogBox";
+import { DeleteBranchDialogBox } from "./../Branch/DeleteBranchDialogBox";
 
-const Branchedit = () => {
+const DepartmentEdit = () => {
   // Dummy data for branch and users for api simulation
-  const BranchData: BranchDetails = {
-    branchId: 1,
-    name: "Chennai Branch",
-    address1: "26,4d murugan layout coimbatore",
-    address2: "Tamil nadu",
-    remarks:
-      "The designation clearly outlines the  and level within the organization, helping to others",
+  const department: DepartmentDetails = {
+    departmentId: 1,
+    name: "Headquarters",
+    remarks: "Corporate operations and executive management",
   };
   const usersData = [
     {
@@ -58,11 +58,61 @@ const Branchedit = () => {
       role: "Human resource manager",
       isChecked: true,
     },
+    {
+      id: 7,
+      name: "Panther parama",
+      role: "Human resource manager",
+      isChecked: true,
+    },
+    {
+      id: 7,
+      name: "Panther parama",
+      role: "Human resource manager",
+      isChecked: true,
+    },
+    {
+      id: 7,
+      name: "Panther parama",
+      role: "Human resource manager",
+      isChecked: true,
+    },
+    {
+      id: 7,
+      name: "Panther parama",
+      role: "Human resource manager",
+      isChecked: true,
+    },
+    {
+      id: 7,
+      name: "Panther parama",
+      role: "Human resource manager",
+      isChecked: true,
+    },
+    {
+      id: 7,
+      name: "Panther parama",
+      role: "Human resource manager",
+      isChecked: true,
+    },
+    {
+      id: 7,
+      name: "Panther parama",
+      role: "Human resource manager",
+      isChecked: true,
+    },
+
+    {
+      id: 7,
+      name: "Panther parama",
+      role: "Human resource manager",
+      isChecked: true,
+    },
   ];
 
   const [users, setUsers] = useState(usersData);
-  const [branchData, setBranchData] = useState<BranchDetails>(BranchData); //Original branch data
-  const [newbranchData, setNewBranchData] = useState<BranchDetails>(BranchData); //Duplicate state for editing and reverting changes
+  const [departmentData] = useState<DepartmentDetails>(department); //Original department data
+  const [newDepartmentData, setNewDepartmentData] =
+    useState<DepartmentDetails>(department); //Duplicate state for editing and reverting changes
 
   const handleCheck = (id: number) => {
     setUsers(
@@ -72,11 +122,23 @@ const Branchedit = () => {
     );
   };
 
+  const [isDeleteBranchDialogOpen, setIsDeleteBranchDialogOpen] =
+    useState(false);
+
   return (
     <main className="mx-auto flex w-full max-w-[870px] flex-col gap-6">
+      <AnimatePresence>
+        {isDeleteBranchDialogOpen && (
+          <DialogBox setToggleDialogueBox={setIsDeleteBranchDialogOpen}>
+            <DeleteBranchDialogBox
+              setIsDeleteBranchDialogOpen={setIsDeleteBranchDialogOpen}
+            />
+          </DialogBox>
+        )}
+      </AnimatePresence>
       <PageTitleAndDescription
-        title=" Chennai Branch configuration"
-        subtitle="Manage different office branches to streamline your organizational structure."
+        title="Package Department configuration"
+        subtitle="Create and manage job titles to clarify employee roles and hierarchy."
       />
 
       {/* Branch Configuration container */}
@@ -84,54 +146,30 @@ const Branchedit = () => {
         {/* Branch Details */}
         <section className="branch-details-section flex w-full flex-col gap-3">
           <header className="text-start text-xl font-medium text-zinc-800">
-            Branch Details
+            Department Details
           </header>
 
           <section className="flex w-full flex-col gap-4">
             <Input
               title="Branch Name *"
               type="str"
-              inputValue={newbranchData.name}
+              inputValue={department.name}
               name="branch"
               placeholder="Enter branch name"
               maxLength={50}
               onChange={(value) =>
-                setNewBranchData({ ...newbranchData, name: value })
+                setNewDepartmentData({ ...departmentData, name: value })
               }
             />
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3">
-              <Input
-                title="Address Line 1 *"
-                type="str"
-                inputValue={newbranchData.address1}
-                name="address1"
-                placeholder="Enter address line 1"
-                maxLength={100}
-                onChange={(value) =>
-                  setNewBranchData({ ...newbranchData, address1: value })
-                }
-              />
-              <Input
-                title="Address Line 2"
-                type="str"
-                inputValue={newbranchData.address2}
-                name="address2"
-                placeholder="Enter address line 2"
-                maxLength={100}
-                onChange={(value) =>
-                  setNewBranchData({ ...newbranchData, address2: value })
-                }
-              />
-            </div>
 
             <Textarea
               title="Remarks *"
-              inputValue={newbranchData.remarks}
+              inputValue={newDepartmentData.remarks}
               name="remarks"
               placeholder="Enter remarks"
               maxLength={300}
               onChange={(value) =>
-                setNewBranchData({ ...newbranchData, remarks: value })
+                setNewDepartmentData({ ...newDepartmentData, remarks: value })
               }
             />
           </section>
@@ -139,10 +177,10 @@ const Branchedit = () => {
 
         {/* User Access Details */}
         <section className="edit-access-section flex w-full flex-col gap-3">
-          <h2 className="text-xl font-medium text-zinc-800">
+          <h2 className="overflow-clip text-xl font-medium text-zinc-800">
             User access details
           </h2>
-          <main className="flex gap-6">
+          <main className="flex w-full gap-6 overflow-scroll">
             {Array.from(
               { length: Math.ceil(users.length / 5) },
               (_, colIndex) => {
@@ -150,7 +188,7 @@ const Branchedit = () => {
                 return (
                   <fieldset
                     key={colIndex}
-                    className="w-[400px] items-start space-y-4 overflow-y-auto rounded-[12px] bg-white p-4 px-6 shadow-sm"
+                    className="min-w-[350px] items-start space-y-4 overflow-y-auto rounded-[12px] bg-white p-4 px-6"
                   >
                     {columnUsers.map((user) => (
                       <article
@@ -162,11 +200,11 @@ const Branchedit = () => {
                             <p className="text-base font-semibold text-zinc-800">
                               {user.id}
                             </p>
-                            <p className="text-m font-semibold text-zinc-800">
+                            <p className="text-m cursor-pointer font-semibold text-zinc-800 transition-all duration-200 ease-in-out hover:text-blue-500 hover:underline active:text-blue-600">
                               {user.name}
                             </p>
                           </div>
-                          <p className="ml-4 text-sm font-normal text-slate-400">
+                          <p className="ml-4 cursor-pointer text-sm font-normal text-slate-400 transition-all duration-200 ease-in-out hover:text-blue-500 hover:underline active:text-blue-600">
                             {user.role}
                           </p>
                         </div>
@@ -214,12 +252,12 @@ const Branchedit = () => {
             )}
           </main>
         </section>
-        {newbranchData !== branchData && (
+        {newDepartmentData !== departmentData && (
           <section className="ml-auto flex flex-row items-center gap-3">
             <ButtonLg
               text="Cancel"
               state="outline"
-              onClick={() => setNewBranchData(branchData)}
+              onClick={() => setNewDepartmentData(departmentData)}
             />
             <ButtonLg
               text="Save Changes"
@@ -229,14 +267,21 @@ const Branchedit = () => {
           </section>
         )}
 
-        {/* delete branch section */}
-        <section className="delete-section flex w-full flex-col gap-3">
-          <h2 className="text-xl font-medium text-red-600">Delete Branch</h2>
-          <p className="text-base font-medium text-slate-500">
-            By deleting this branch the configured users statuses will be
-            affected, this action is irreversible
-          </p>
-          <button className="flex w-max cursor-pointer rounded-[9px] border border-red-500 bg-red-500 px-3 py-2 text-white">
+        {/* delete department section */}
+        <section className="delete-section flex w-full flex-col gap-4">
+          <div className="container flex-col gap-2">
+            <h2 className="text-xl font-medium text-zinc-800">
+              Delete Department
+            </h2>
+            <p className="text-base font-medium text-slate-500">
+              By deleting this department the configured users statuses will be
+              affected, this action is irreversible
+            </p>
+          </div>
+          <button
+            onClick={() => setIsDeleteBranchDialogOpen(true)}
+            className="flex w-max cursor-pointer rounded-[9px] border border-red-500 bg-red-500 px-3 py-2 text-white"
+          >
             Delete Branch
           </button>
         </section>
@@ -245,4 +290,4 @@ const Branchedit = () => {
   );
 };
 
-export default Branchedit;
+export default DepartmentEdit;
