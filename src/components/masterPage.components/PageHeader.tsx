@@ -15,7 +15,7 @@ const PageHeader: React.FC<PageTitleAndDescriptionProps> = ({ title }) => {
       >
         <img src="/icons/back-icon.svg" alt="back " />
       </button>
-      <h1 className="text-start text-lg font-semibold text-zinc-800">
+      <h1 className="my-1 text-start text-lg font-semibold text-zinc-800">
         {title}
       </h1>
     </div>

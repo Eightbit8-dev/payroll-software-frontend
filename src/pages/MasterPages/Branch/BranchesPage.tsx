@@ -1,28 +1,17 @@
 import ButtonSm from "../../../components/common/Buttons";
-import { useNavigate } from "react-router-dom";
 import BranchPage from "./EditBranch.component";
 import PageHeader from "../../../components/masterPage.components/PageHeader";
 import { AnimatePresence } from "motion/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DialogBox from "../../../components/common/DialogBox";
 import { DeleteBranchDialogBox } from "./DeleteBranchDialogBox";
 import { useFetchBranches } from "../../../queries/BranchQuery";
 import MasterPagesSkeleton from "../../../components/masterPage.components/LoadingSkeleton";
 import ErrorComponent from "../../../components/common/Error";
-import { appRoutes } from "../../../routes/appRoutes";
 import type { FormState } from "../../../types/appTypes";
 import type { BranchDetails } from "../../../types/apiTypes";
 
 const BranchesPage = () => {
-  // Role basedd access later and context later
-  useEffect(() => {
-    if (localStorage.getItem("token") === null) {
-      navigate(appRoutes.signInPage);
-    }
-  }, []);
-
-  const navigate = useNavigate();
-
   const [isDeleteBranchDialogOpen, setIsDeleteBranchDialogOpen] =
     useState(false); //Mangae the state of the dialog box
   const [branch, setBranch] = useState<BranchDetails | null>(null); //Store the selected branch details null if user wants to create one
@@ -46,13 +35,13 @@ const BranchesPage = () => {
         )}
       </AnimatePresence>
       <section className="table-container flex w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm md:w-[50%]">
-        <header className="flex flex-row items-center justify-between">
+        <header className="flex h-max flex-row items-center justify-between">
           <PageHeader title="Branch configuration" />
 
           {formState !== "create" && (
             <ButtonSm
-              className="font-semibold text-white"
-              state="default"
+              className="font-semibold"
+              state="outline"
               text="Create new branch"
               onClick={() => {
                 setFormState("create");
