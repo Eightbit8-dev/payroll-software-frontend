@@ -129,10 +129,10 @@ const DepartmentEdit = ({
               {formState === "create" && (
                 <ButtonSm
                   type="submit"
-                  className="font-semibold text-white disabled:opacity-60"
+                  className="font-semibold text-white "
                   state="default"
                   text={isPending ? "Creating..." : "Create new department"}
-                  disabled={isPending || !newDepartmentData!.name}
+                  
                 />
               )}
             </AnimatePresence>
@@ -162,8 +162,15 @@ const DepartmentEdit = ({
                   text="Cancel"
                   state="outline"
                   onClick={() => {
-                    setFormState("display");
-                    setNewDepartmentData(departmentData);
+                    setFormState("create");
+                    setNewDepartmentData({
+                      name: "",
+                      code: "",
+                      remarks: "",
+                      active: true,
+                      id: 0,
+                    })
+                    ;
                   }}
                 />
                 <ButtonSm

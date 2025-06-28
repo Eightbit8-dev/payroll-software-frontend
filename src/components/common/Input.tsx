@@ -65,7 +65,6 @@ const Input = <T extends string | number>({
   min,
   max,
   disabled = false,
-  required = false,
 }: InputProps<T>) => {
   const inputType = type === "num" ? "number" : "text";
 
@@ -120,7 +119,6 @@ const Input = <T extends string | number>({
           maxLength={type === "str" ? maxLength : undefined}
           min={type === "num" ? min : undefined}
           max={type === "num" ? max : undefined}
-          required={required} 
         />
       </div>
     </div>

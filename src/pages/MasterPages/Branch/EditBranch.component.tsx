@@ -11,7 +11,6 @@ const BranchEdit = ({
   setFormState,
 }: {
   branchDetails: BranchDetails | null;
-  branchDetails: BranchDetails | null;
   formState: FormState;
   setFormState: React.Dispatch<React.SetStateAction<FormState>>;
 }) => {

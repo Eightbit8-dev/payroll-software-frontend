@@ -38,6 +38,15 @@ export const DeleteDepartmentDialogBox = ({
 
   const handleDelete = (dept: DepartmentDetails) => {
     deleteDepartment(dept);
+    setIsDeleteDepartmentDialogOpen(false);
+    setDepartment({
+      name: "",
+      code: "",
+      remarks: "",
+      active: true,
+      id: 0,
+    });
+    setFormState("create");
   };
 
   return (

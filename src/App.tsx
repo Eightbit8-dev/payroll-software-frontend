@@ -87,6 +87,11 @@ const App = () => {
         path={appRoutes.masterRoutes.children.bloodGroups}
         element={<Bloodpage/>}/>
 
+        <Route
+          path={appRoutes.masterRoutes.children.departments}
+          element={<DepartmentsPage />}
+        />
+
             <Route path={appRoutes.usersPage} element={<UsersPage />} />
           </Route>
         </Route>
