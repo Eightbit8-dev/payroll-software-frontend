@@ -14,8 +14,10 @@ import type { BranchDetails } from "../../../types/apiTypes";
 const BranchesPage = () => {
   const [isDeleteBranchDialogOpen, setIsDeleteBranchDialogOpen] =
     useState(false); //Mangae the state of the dialog box
-  const [branch, setBranch] = useState<BranchDetails | null>(null); //Store the selected branch details null if user wants to create one
-  const [formState, setFormState] = useState<FormState>("display"); //Manage the state  ["display", "create", "edit"]
+  const [branch, setBranch] = useState<BranchDetails | null>(
+    {} as BranchDetails,
+  ); //Store the selected branch details null if user wants to create one
+  const [formState, setFormState] = useState<FormState>("create"); //Manage the state  ["display", "create", "edit"]
 
   const { data: branches, isLoading, isError } = useFetchBranches(); //Tanstack method
 

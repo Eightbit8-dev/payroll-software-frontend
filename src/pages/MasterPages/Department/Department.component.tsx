@@ -214,7 +214,7 @@ const DepartmentEdit = ({
         </section>
         {/* Shifts selection section */}
         <section className="flex w-full flex-col gap-3">
-          <header className="flex flex-col gap-0">
+          <header className="flex flex-col gap-0 py-2">
             <h1 className="text-start text-lg font-semibold text-zinc-800">
               Department shifts
             </h1>
@@ -222,7 +222,7 @@ const DepartmentEdit = ({
               Describes whether the department follows day shift, night shift or
               both
             </p>
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3 px-3 py-2">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3 px-3 py-3">
               <InputCheckbox
                 title="Active"
                 disabled={formState === "display"}
