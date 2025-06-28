@@ -10,12 +10,13 @@ import MasterPagesSkeleton from "../../../components/masterPage.components/Loadi
 import ErrorComponent from "../../../components/common/Error";
 import type { FormState } from "../../../types/appTypes";
 import type { ResignationDetails } from "../../../types/apiTypes";
+import ResignationEdit from "./EditResignation.component";
 
 const ResignationPage = () => {
   const [isDeleteResiginationDialogOpen, setIsDeleteResiginationDialogOpen] =
   useState(false); //Mangae the state of the dialog box
   const [resignation, setResignation] = useState<ResignationDetails | null>(null); //Store the selected Resignation details null if user wants to create one
-  const [formState, setFormState] = useState<FormState>("display"); //Manage the state  ["display", "create", "edit"]
+  const [formState, setFormState] = useState<FormState>("create"); //Manage the state  ["display", "create", "edit"]
   const { data: resignations, isLoading, isError } = useFetchResignations(); //Tanstack method
 
   if (isLoading) return <MasterPagesSkeleton />;
@@ -37,21 +38,6 @@ const ResignationPage = () => {
         <header className="flex h-max flex-row items-center justify-between">
           <PageHeader title="resignations configuration" />
 
-          {formState !== "create" && (
-            <ButtonSm
-              className="font-semibold"
-              state="outline"
-              text="Create new Designation"
-              onClick={() => {
-                setFormState("create");
-                setResignation({
-                  name: "",
-                  id: 0, //temp soundhar wll take care it
-                  remarks: "",
-                });
-              }}
-            />
-          )}
         </header>
         <div className="tables flex w-full flex-col overflow-clip rounded-[9px]">
           {/* table header */}
@@ -133,7 +119,7 @@ const ResignationPage = () => {
         </div>
       </section>
       <section className="table-container max-h-full w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm md:w-[50%]">
-        <DesignationEdit
+        <ResignationEdit
           Resignation={resignation}
           formState={formState}
           setFormState={setFormState}

@@ -1,32 +1,24 @@
 import { useEffect, useState } from "react";
 import Input from "../../../components/common/Input";
+import TextArea from "../../../components/common/Textarea";
 import ButtonSm from "../../../components/common/Buttons";
 import type { FormState } from "../../../types/appTypes";
-import { useCreateResignation, useEditResignation } from "../../../queries/ResiginationQuery"
-import type {  ResignationDetails } from "../../../types/apiTypes";
-import { AnimatePresence, motion } from "framer-motion";
-import TextArea from "../../../components/common/Textarea";
-
-const containerVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-};
+import type { ResignationDetails } from "../../../types/apiTypes";
+import {
+  useCreateResignation,
+  useEditResignation,
+} from "../../../queries/ResiginationQuery";
 
 const ResignationEdit = ({
   Resignation,
   formState,
   setFormState,
 }: {
-  Resignation: ResignationDetails | null; //null so that user can create new Resignation if the state is create
+  Resignation: ResignationDetails | null;
   formState: FormState;
   setFormState: React.Dispatch<React.SetStateAction<FormState>>;
 }) => {
-
-
-  const [ResignationData, setResignationData] = useState<ResignationDetails | null>(null); //Original Resignation data passed from above
-  const [newResignationData, setNewResignationData] = useState<ResignationDetails | null>(
-    null,
-  ); //Local copy to reset if cancel is clicked
+  const [resignationData, setResignationData] = useState<ResignationDetails | null>(null);
 
   const { mutate: createResignation, isPending, isSuccess } = useCreateResignation();
   const {
@@ -35,123 +27,142 @@ const ResignationEdit = ({
     isSuccess: isUpdatingSuccess,
   } = useEditResignation();
 
+  // Handle form state change
   useEffect(() => {
-    if (Resignation) {
+    if (formState === "create") {
+      setResignationData({
+        id: 0,
+        name: "",
+        remarks: "",
+      });
+    } else if (Resignation) {
       setResignationData(Resignation);
-      setNewResignationData(Resignation);
     }
-  }, [Resignation]);
+  }, [Resignation, formState]);
 
+  // Handle success
   useEffect(() => {
     if (isSuccess) {
-      setResignationData(newResignationData);
+      setFormState("create");
+      setResignationData({
+        id: 0,
+        name: "",
+        remarks: "",
+      });
+    } else if (isUpdatingSuccess) {
       setFormState("display");
     }
-  }, [isSuccess]); //cleaning after sumission
+  }, [isSuccess, isUpdatingSuccess]);
 
-  useEffect(() => {
-    if (isUpdatingSuccess) {
-      setResignationData(newResignationData);
-      setFormState("display");
-    }
-  }, [isUpdatingSuccess]); //.cleanign after user updates
+  const handleCancel = () => {
+    setFormState("create");
+    setResignationData({
+      id: 0,
+      name: "",
+      remarks: "",
+    });
+  };
 
-
-
-  if (!ResignationData || !newResignationData) {
+  if (!resignationData) {
     return (
-      <p className="text-md my-1 self-center-safe text-center text-gray-600">
-        Select a Resignation to view details.
+      <p className="text-center text-sm text-gray-500">
+        Select a resignation to view details.
       </p>
     );
   }
 
+  const hasData = resignationData.name || resignationData.remarks;
+
   return (
-    <motion.main
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-      className={`flex max-h-full w-full max-w-[870px] flex-col gap-2`}
-    >
-      {/* Designation Configuration container */}
-      <motion.div
-        variants={containerVariants}
-        className="Designation-config-container flex flex-col gap-3 rounded-[20px] bg-white/80"
-      >
-        <header className="header flex w-full flex-row items-center justify-between">
-          <h1 className="my-1 text-start text-lg font-semibold text-zinc-800">
-            {ResignationData.name} Configuration
-          </h1>
-          <AnimatePresence mode="wait">
-            {formState === "create" && (
-              <ButtonSm
-                className="font-semibold text-white disabled:opacity-60"
-                state="default"
-                text={isPending ? "Creating..." : "Create new Resignation"}
-                disabled={
-                  isPending ||
-                  newResignationData.name === "" 
-                }
-                onClick={() => {
-                  createResignation(newResignationData);
-                }}
-              />
-            )}
-          </AnimatePresence>
-          {/* //To check if the data has changeg */}
-          {JSON.stringify(newResignationData) !== JSON.stringify(ResignationData) &&
-            formState !== "create" && (
-              <section className="ml-auto flex flex-row items-center gap-3">
-                {formState === "edit" && (
-                  <>
-                    <ButtonSm
-                      className="font-medium"
-                      text="Cancel"
-                      state="outline"
-                      onClick={() => {
-                        setFormState("display");
-                        setNewResignationData(ResignationData);
-                      }}
-                    />
-                    <ButtonSm
-                      className="font-medium text-white"
-                      text={isUpdatePending ? "Updating..." : "Save Changes"}
-                      state="default"
-                      onClick={() => updateResignation(newResignationData)}
-                    />
-                  </>
-                )}
-              </section>
-            )}
-        </header>
-
-        {/* Designation Details */}
-        <section className="Designation-details-section flex max-h-full w-full flex-col gap-2 overflow-clip px-3">
-          <Input
-            disabled={formState === "display"}
-            title="Designation Name *"
-            type="str"
-            inputValue={newResignationData.name}
-            name="Designation"
-            placeholder="Enter Designation name"
-            maxLength={50}
-            onChange={(value) =>
-              setNewResignationData({ ...newResignationData, name: value })
+    <main className="flex max-h-full w-full max-w-[870px] flex-col gap-2">
+      <div className="designation-config-container flex flex-col gap-3 rounded-[20px] bg-white/80">
+        <form
+          className="flex flex-col gap-3"
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (formState === "create") {
+              createResignation(resignationData);
             }
-          />
-          <TextArea
-          disabled={formState === "display" || formState === "edit"}
-          title="Remarks"
-          inputValue={newResignationData.remarks}
-          name="Remark"
-          placeholder="remarks"
-          maxLength={300}
-          onChange={(value)=>setNewResignationData({...newResignationData,remarks:value})}
-          />
-        </section>
+          }}
+        >
+          <header className="flex w-full flex-row items-center justify-between">
+            <h1 className="text-start text-lg font-semibold text-zinc-800">
+              {formState === "create"
+                ? "Resignation Configuration"
+                : `${resignationData.name || "Resignation"} Configuration`}
+            </h1>
+            <section className="ml-auto flex flex-row items-center gap-3">
+              {(formState === "edit" || (formState === "create" && hasData)) && (
+                <ButtonSm
+                  className="font-medium"
+                  text="Cancel"
+                  state="outline"
+                  type="button"
+                  onClick={handleCancel}
+                />
+              )}
 
-      </motion.div>
-    </motion.main>
+              {formState === "display" && resignationData.id !== 0 && (
+                <ButtonSm
+                  className="font-medium"
+                  text="Back"
+                  state="outline"
+                  type="button"
+                  onClick={handleCancel}
+                />
+              )}
+
+              {formState === "create" && (
+                <ButtonSm
+                  className="font-medium text-white"
+                  text={isPending ? "Creating..." : "Create"}
+                  state="default"
+                  type="submit"
+                  disabled={isPending}
+                />
+              )}
+
+              {formState === "edit" && (
+                <ButtonSm
+                  className="font-medium text-white"
+                  text={isUpdatePending ? "Updating..." : "Save Changes"}
+                  state="default"
+                  onClick={() => updateResignation(resignationData)}
+                />
+              )}
+            </section>
+          </header>
+
+          {/* Resignation Details */}
+          <section className="flex w-full flex-col gap-2 overflow-clip px-3">
+            <Input
+              required
+              disabled={formState === "display"}
+              title="Resignation Name *"
+              type="str"
+              inputValue={resignationData.name}
+              name="resignation"
+              placeholder="Enter resignation name"
+              maxLength={50}
+              onChange={(value) =>
+                setResignationData({ ...resignationData, name: value })
+              }
+            />
+            <TextArea
+              disabled={formState === "display"}
+              title="Remarks"
+              inputValue={resignationData.remarks}
+              name="remarks"
+              placeholder="Enter remarks"
+              maxLength={300}
+              onChange={(value) =>
+                setResignationData({ ...resignationData, remarks: value })
+              }
+            />
+          </section>
+        </form>
+      </div>
+    </main>
   );
 };
 
