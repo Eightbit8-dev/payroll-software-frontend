@@ -55,7 +55,7 @@ const BranchEdit = ({
 
   useEffect(() => {
     if (isSuccess) {
-      // Reset form after successful creation
+   
       const emptyBranch: BranchDetails = {
         id: 0,
         name: "",
@@ -144,6 +144,25 @@ const BranchEdit = ({
                   type="submit"
                 />
               )}
+                {formState === "display" && (
+              <ButtonSm
+                className="font-medium outline-2"
+                text="Back"
+                state="outline"
+                onClick={() => {
+                  setFormState("create");
+                  setNewBranchData({
+                    name: "",
+                    addressLine1: "",
+                    addressLine2: "",
+                    code: "",
+                    companyId: "",
+                    id: 0,
+                    remarks: "",
+                  });
+                }}
+              />
+            )}
               {formState === "edit" && (
                 <ButtonSm
                   className="font-medium text-white"
