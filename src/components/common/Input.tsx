@@ -122,3 +122,58 @@ const Input = <T extends string | number>({
 };
 
 export default Input;
+
+interface InputCheckboxProps {
+  title: string;
+  checked: boolean;
+  disabled?: boolean;
+  onChange: (value: boolean) => void;
+}
+
+/**
+ * Checkbox component styled like the main Input component.
+ * Label on the left, checkbox on the right inside bordered container.
+ */
+export const InputCheckbox: React.FC<InputCheckboxProps> = ({
+  title,
+  checked,
+  disabled = false,
+  onChange,
+}) => {
+  return (
+    <div className="relative w-full min-w-[180px] self-stretch">
+      <div
+        className={`input-container flex flex-row items-center justify-between rounded-xl border-2 border-slate-300 bg-white px-4 py-2 transition-all duration-200 ease-in-out`}
+      >
+        <span className="text-sm font-medium text-slate-600">{title}</span>
+
+        <div className="relative flex items-center">
+          <input
+            type="checkbox"
+            id={`checkbox-${title}`}
+            className="sr-only"
+            checked={checked}
+            disabled={disabled}
+            onChange={(e) => onChange(e.target.checked)}
+          />
+          <label
+            htmlFor={`checkbox-${title}`}
+            className={`relative block h-5 w-5 ${disabled ? "cursor-default" : "cursor-pointer"} rounded-[8px] border-2 p-[12px] transition-all outline-none focus:outline-none ${
+              checked
+                ? "border-green-500 bg-green-500"
+                : "border-slate-300 bg-white"
+            }`}
+          >
+            {checked && (
+              <img
+                className="pointer-events-none absolute top-1/2 left-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 cursor-default select-none"
+                src="/icons/tick-icon.svg"
+                alt="tick"
+              />
+            )}
+          </label>
+        </div>
+      </div>
+    </div>
+  );
+};

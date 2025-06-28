@@ -22,7 +22,7 @@ const BranchesPage = lazy(
   () => import("./pages/MasterPages/Branch/BranchesPage"),
 );
 const DepartmentsPage = lazy(
-  () => import("./pages/MasterPages/Department/DepartmentsPage"),
+  () => import("./pages/MasterPages/Department/DepartmentPage"),
 );
 
 const App = () => {
