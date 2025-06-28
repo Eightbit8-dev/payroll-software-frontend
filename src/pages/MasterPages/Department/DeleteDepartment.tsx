@@ -23,12 +23,12 @@ export const DeleteDepartmentDialogBox = ({
       className="flex w-full flex-col gap-4"
       onSubmit={(e) => {
         e.preventDefault();
-        toast.success("Deleted branch " + JSON.stringify(":"));
+        toast.success("Deleted department " + JSON.stringify(":"));
         setIsDeleteDepartmentDialogOpen(false);
       }}
     >
       <header className="header flex w-full flex-row items-center justify-between text-lg font-medium text-red-600">
-        Delete Branch
+        Delete Department
         <img
           onClick={() => setIsDeleteDepartmentDialogOpen(false)}
           className="w-5 cursor-pointer"

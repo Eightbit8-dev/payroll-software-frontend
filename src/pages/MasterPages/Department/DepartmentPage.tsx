@@ -15,7 +15,7 @@ const DepartmentsPage = () => {
   const [isDeleteDepartmentDialogOpen, setIsDeleteDepartmentDialogOpen] =
     useState(false); //Mangae the state of the dialog box
   const [selectedDepartment, setSelectedDepartment] =
-    useState<DepartmentDetails | null>({} as DepartmentDetails); //Store the selected branch details null if user wants to create one
+    useState<DepartmentDetails | null>({} as DepartmentDetails); //Store the selected department details null if user wants to create one
   const [formState, setFormState] = useState<FormState>("create"); //Manage the state  ["display", "create", "edit"]
 
   const {
@@ -78,7 +78,7 @@ const DepartmentsPage = () => {
           {/* table body with data if no data show no data found*/}
           {departments?.length === 0 && (
             <h2 className="text-md my-3 text-center font-medium text-zinc-600">
-              No Branches Found
+              No Departments Found
             </h2>
           )}
           {departments?.map((item: DepartmentDetails, index) => {
