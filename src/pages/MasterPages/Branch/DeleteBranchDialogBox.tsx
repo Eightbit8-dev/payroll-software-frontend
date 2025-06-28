@@ -1,6 +1,8 @@
 import ButtonSm from "../../../components/common/Buttons";
 import { useDeleteBranch } from "../../../queries/BranchQuery";
 import type { BranchDetails } from "../../../types/apiTypes";
+import type { FormState } from "../../../types/appTypes";
+import { useEffect } from "react";
 
 export const DeleteBranchDialogBox = ({
   setIsDeleteBranchDialogOpen,
@@ -8,6 +10,8 @@ export const DeleteBranchDialogBox = ({
   onDeleted,
 }: {
   setIsDeleteBranchDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setFormState: React.Dispatch<React.SetStateAction<FormState>>;
+  setBranch: React.Dispatch<React.SetStateAction<BranchDetails | null>>;
   branch: BranchDetails;
   onDeleted?: () => void;
 }) => {

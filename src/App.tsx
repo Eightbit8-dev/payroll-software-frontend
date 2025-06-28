@@ -27,6 +27,9 @@ const DesignationsPage = lazy(
 const BranchesPage = lazy(
   () => import("./pages/MasterPages/Branch/BranchesPage"),
 );
+const DepartmentsPage = lazy(
+  () => import("./pages/MasterPages/Department/DepartmentPage"),
+);
 
 const Bloodpage = lazy(()=> import ("../src/pages/MasterPages/Blood/BloodPage"))
 const App = () => {

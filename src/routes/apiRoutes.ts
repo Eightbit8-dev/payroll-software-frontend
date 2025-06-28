@@ -4,4 +4,5 @@ export const apiRoutes = {
   designations: "/api/admin/designation",
   resigination:"/api/admin/resignation",
   Bloods: "/api/admin/bloodgroup",
+  departments: "/api/admin/department",
 };

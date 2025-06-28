@@ -49,6 +49,7 @@ const TextArea: React.FC<TextAreaProps> = ({
           </div>
         )}
         <textarea
+          readOnly={disabled}
           name={name}
           placeholder={placeholder}
           onChange={handleChange}
