@@ -6,4 +6,6 @@ export interface DepartmentDetails {
   remarks: string;
 }
 
+
+
 export type FormState = "display" | "edit" | "create";

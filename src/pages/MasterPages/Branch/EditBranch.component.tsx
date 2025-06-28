@@ -4,6 +4,12 @@ import ButtonSm from "../../../components/common/Buttons";
 import type { FormState } from "../../../types/appTypes";
 import { useCreateBranch, useEditBranch } from "../../../queries/BranchQuery";
 import type { BranchDetails } from "../../../types/apiTypes";
+import { AnimatePresence, motion } from "framer-motion";
+
+const containerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+};
 
 const BranchEdit = ({
   branchDetails,
@@ -17,7 +23,7 @@ const BranchEdit = ({
   const usersData = [
     {
       id: 1,
-      name: "Sabarish Vijayakumar",
+      name: "Sabarish Vijayakumar Shanthi",
       role: "Human resource manager",
       isChecked: false,
     },
@@ -109,30 +115,46 @@ const BranchEdit = ({
 
   if (!branchData || !newbranchData) {
     return (
-      <p className="text-center text-sm text-gray-500">
+      <p className="text-md my-1 self-center-safe text-center text-gray-600">
         Select a branch to view details.
       </p>
     );
   }
 
   return (
-    <main className={`} flex max-h-full w-full max-w-[870px] flex-col gap-2`}>
+    <motion.main
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className={`flex max-h-full w-full max-w-[870px] flex-col gap-2`}
+    >
       {/* Branch Configuration container */}
-      <div className="branch-config-container flex flex-col gap-3 rounded-[20px] bg-white/80">
+      <motion.div
+        variants={containerVariants}
+        className="branch-config-container flex flex-col gap-3 rounded-[20px] bg-white/80"
+      >
         <header className="header flex w-full flex-row items-center justify-between">
-          <h1 className="text-start text-lg font-semibold text-zinc-800">
+          <h1 className="my-1 text-start text-lg font-semibold text-zinc-800">
             {branchData.name} Configuration
           </h1>
-          {formState === "create" && (
-            <ButtonSm
-              className="font-semibold text-white"
-              state="default"
-              text={isPending ? "Creating..." : "Create new branch"}
-              onClick={() => {
-                createBranch(newbranchData);
-              }}
-            />
-          )}
+          <AnimatePresence mode="wait">
+            {formState === "create" && (
+              <ButtonSm
+                className="font-semibold text-white disabled:opacity-60"
+                state="default"
+                text={isPending ? "Creating..." : "Create new branch"}
+                disabled={
+                  isPending ||
+                  newbranchData.name === "" ||
+                  newbranchData.addressLine1 === "" ||
+                  newbranchData.addressLine2 === ""
+                }
+                onClick={() => {
+                  createBranch(newbranchData);
+                }}
+              />
+            )}
+          </AnimatePresence>
           {/* //To check if the data has changeg */}
           {JSON.stringify(newbranchData) !== JSON.stringify(branchData) &&
             formState !== "create" && (
@@ -207,8 +229,8 @@ const BranchEdit = ({
           <h1 className="text-start text-lg font-semibold text-zinc-800">
             User access details TODO
           </h1>
-          <main className="scrollbar-visible flex max-h-[300px] w-full scroll-m-0 flex-col gap-3 overflow-y-auto">
-            <fieldset className="inline-block w-full rounded-[14px] bg-white px-3">
+          <main className="scrollbar-visible flex max-h-[200px] w-full scroll-m-0 flex-col gap-3 overflow-clip overflow-y-auto rounded-[14px]">
+            <fieldset className="inline-block w-full bg-white px-4 py-2">
               {users.map((user) => (
                 <article
                   key={user.id}
@@ -252,8 +274,8 @@ const BranchEdit = ({
             </fieldset>
           </main>
         </section>
-      </div>
-    </main>
+      </motion.div>
+    </motion.main>
   );
 };
 

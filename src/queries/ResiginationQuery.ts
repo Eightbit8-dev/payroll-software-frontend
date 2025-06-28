@@ -1,33 +1,33 @@
 import axiosInstance from "../utils/axios";
 import axios from "axios";
-import type { BranchDetails } from "../types/apiTypes";
+import type { ResignationDetails } from "../types/apiTypes";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { apiRoutes } from "../routes/apiRoutes";
 
 /**
  * -------------------------------------------
- * Branch Service Hooks - CRUD Operations
+ * Designation Service Hooks - CRUD Operations
  * -------------------------------------------
  * This file contains React Query hooks to:
- *  - Fetch all branches
- *  - Create a new branch
- *  - Edit an existing branch
- *  - Delete a branch
+ *  - Fetch all Designationes
+ *  - Create a new Designation
+ *  - Edit an existing Designation
+ *  - Delete a Designation
  *
  * Handles authentication, API errors, and notifications
  */
 
 /**
- * 🔍 Fetch all branches
+ * 🔍 Fetch all Designationes
  */
-export const useFetchBranches = () => {
-  const fetchAllBranches = async (): Promise<BranchDetails[]> => {
+export const useFetchResignations = () => {
+  const fetchAllResignation = async (): Promise<ResignationDetails[]> => {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Unauthorized to perform this action.");
 
-      const res = await axiosInstance.get(apiRoutes.branches, {
+      const res = await axiosInstance.get(apiRoutes.resigination, {
         //All api routes are inside this file
         headers: {
           Authorization: `Bearer ${token}`,
@@ -35,85 +35,85 @@ export const useFetchBranches = () => {
       });
 
       if (res.status !== 200) {
-        throw new Error(res.data?.message || "Failed to fetch branches");
+        throw new Error(res.data?.message || "Failed to fetch Resignations");
       }
 
       return res.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         toast.error(
-          error.response?.data?.message || "Failed to fetch branches",
+          error.response?.data?.message || "Failed to fetch Resignations",
         );
       } else {
-        toast.error("Something went wrong while fetching branches");
+        toast.error("Something went wrong while fetching Resignations");
       }
-      throw new Error("Branch fetch failed"); //Force throw the error so the react query handles it
+      throw new Error("Resignation fetch failed"); //Force throw the error so the react query handles it
     }
   };
 
   return useQuery({
-    queryKey: ["branches"], //cache key
-    queryFn: fetchAllBranches,
+    queryKey: ["Resignations"], //cache key
+    queryFn: fetchAllResignation,
     staleTime: 1000 * 60 * 0, //expoiy time
     retry: 1,
   });
 };
 
 /**
- * ➕ Create a new branch
+ * ➕ Create a new Designation
  */
-export const useCreateBranch = () => {
+export const useCreateResignation = () => {
   const queryClient = useQueryClient();
 
-  const createBranch = async (newBranch: BranchDetails) => {
+  const createResignation = async (newResignation: ResignationDetails) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Unauthorized to perform this action.");
 
-      const res = await axiosInstance.post(apiRoutes.branches, newBranch, {
+      const res = await axiosInstance.post(apiRoutes.resigination, newResignation, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       if (res.status !== 201 && res.status !== 200) {
-        throw new Error(res.data?.message || "Failed to create branch");
+        throw new Error(res.data?.message || "Failed to create Resignation");
       }
 
       return res.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.message || "Failed to create branch");
+        toast.error(error.response?.data?.message || "Failed to create Resignation");
       } else {
-        toast.error("Something went wrong while creating branch");
+        toast.error("Something went wrong while creating Resignation");
       }
       throw error;
     }
   };
 
   return useMutation({
-    mutationFn: createBranch,
+    mutationFn: createResignation,
     onSuccess: () => {
-      toast.success("Branch created successfully");
-      queryClient.invalidateQueries({ queryKey: ["branches"] });
+      toast.success("Resignation created successfully");
+      queryClient.invalidateQueries({ queryKey: ["Resignations"] });
     },
   });
 };
 
 /**
- * ✏️ Edit an existing branch
+ * ✏️ Edit an existing Designation
  */
-export const useEditBranch = () => {
+export const useEditResignation = () => {
   const queryClient = useQueryClient();
 
-  const editBranch = async (updatedBranch: BranchDetails) => {
+  const editResignation = async (updatedResignation: ResignationDetails) => {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("Unauthorized to perform this action.");
 
-    const { id: branchId, ...payload } = updatedBranch;
+    const { id: ResignationId, ...payload } = updatedResignation;
 
     const res = await axiosInstance.put(
-      `${apiRoutes.branches}/${branchId}`,
+      `${apiRoutes.resigination}/${ResignationId}`,
       payload,
       {
         headers: {
@@ -123,17 +123,17 @@ export const useEditBranch = () => {
     );
 
     if (res.status !== 200) {
-      throw new Error(res.data?.message || "Failed to update branch");
+      throw new Error(res.data?.message || "Failed to update Resignation");
     }
 
     return res.data;
   };
 
   return useMutation({
-    mutationFn: editBranch,
+    mutationFn: editResignation,
     onSuccess: () => {
-      toast.success("Branch updated successfully");
-      queryClient.invalidateQueries({ queryKey: ["branches"] });
+      toast.success("Resignation updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["Resignations"] });
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
@@ -144,17 +144,17 @@ export const useEditBranch = () => {
 };
 
 /**
- * ❌ Delete a branch
+ * ❌ Delete a Designation
  */
-export const useDeleteBranch = () => {
+export const useDeleteResignation = () => {
   const queryClient = useQueryClient();
 
-  const deleteBranch = async (branch: BranchDetails) => {
+  const deleteResignation = async (Resignation: ResignationDetails) => {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("Unauthorized to perform this action.");
 
     const res = await axiosInstance.delete(
-      `${apiRoutes.branches}/${branch.id}`,
+      `${apiRoutes.resigination}/${Resignation.id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -163,17 +163,17 @@ export const useDeleteBranch = () => {
     );
 
     if (res.status !== 200) {
-      throw new Error(res.data?.message || "Failed to delete branch");
+      throw new Error(res.data?.message || "Failed to delete Resignation");
     }
 
     return res.data;
   };
 
   return useMutation({
-    mutationFn: deleteBranch,
+    mutationFn: deleteResignation,
     onSuccess: () => {
-      toast.success("Branch deleted successfully");
-      queryClient.invalidateQueries({ queryKey: ["branches"] });
+      toast.success("Resignation deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["Resignations"] });
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {

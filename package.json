@@ -18,6 +18,7 @@
     "clsx": "^2.1.1",
     "json-2-csv": "^5.5.9",
     "json3": "^3.3.3",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.513.0",
     "motion": "^12.19.1",
     "preline": "^3.1.0",
