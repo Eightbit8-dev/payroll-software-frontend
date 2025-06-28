@@ -42,6 +42,7 @@ const BranchesPage = () => {
 
           {formState !== "create" && (
             <ButtonSm
+              disabled={branch?.name === ""}
               className="font-semibold"
               state="outline"
               text="Create new branch"

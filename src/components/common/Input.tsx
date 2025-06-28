@@ -33,6 +33,7 @@ interface InputProps<T extends string | number> {
   /** Maximum numeric value allowed (for type="num") */
   max?: number;
   disabled?: boolean;
+  required?: boolean;
 }
 
 /**
@@ -52,6 +53,7 @@ interface InputProps<T extends string | number> {
  * ```
  */
 const Input = <T extends string | number>({
+  required = false,
   title,
   placeholder = "",
   inputValue,
@@ -104,6 +106,7 @@ const Input = <T extends string | number>({
           </div>
         )}
         <input
+          required
           readOnly={disabled}
           disabled={disabled}
           type={inputType}

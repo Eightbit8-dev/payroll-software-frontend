@@ -145,7 +145,7 @@ const BranchEdit = ({
                 text={isPending ? "Creating..." : "Create new branch"}
                 disabled={
                   isPending ||
-                  newbranchData.name === "" ||
+                  newbranchData.name === null ||
                   newbranchData.addressLine1 === "" ||
                   newbranchData.addressLine2 === ""
                 }

@@ -70,6 +70,10 @@ export const useCreateBranch = () => {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Unauthorized to perform this action.");
 
+      if (newBranch.name === "" || newBranch.addressLine1 === "") {
+        toast.error("All fields are required");
+        return;
+      }
       const res = await axiosInstance.post(apiRoutes.branches, newBranch, {
         headers: {
           Authorization: `Bearer ${token}`,
