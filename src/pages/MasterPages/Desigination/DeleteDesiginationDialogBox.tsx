@@ -6,23 +6,33 @@ import type { DesignationsDetails } from "../../../types/apiTypes";
 export const DeleteDesignationDialogBox = ({
   setIsDeleteDesignationDialogOpen,
   Designation,
+  onDeleted,
 }: {
   setIsDeleteDesignationDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   Designation: DesignationsDetails;
+  onDeleted: () => void;
 }) => {
-  const { mutate: deleteDesignation, isPending: isDeleteDesignationLoading } =
-    useDeleteDesignation();
+  const { mutate: deleteDesignation, isPending: isDeleting } = useDeleteDesignation();
 
-  const handleDelete = (Designation: DesignationsDetails) => {
-    deleteDesignation(Designation);
+  const handleDelete = () => {
+    deleteDesignation(Designation, {
+      onSuccess: () => {
+        toast.success(`Deleted designation "${Designation.name}" successfully`);
+        onDeleted(); // reset state in parent
+        setIsDeleteDesignationDialogOpen(false);
+      },
+      onError: () => {
+        toast.error(`Failed to delete designation "${Designation.name}"`);
+      },
+    });
   };
+
   return (
     <form
       className="flex w-full flex-col gap-4"
       onSubmit={(e) => {
         e.preventDefault();
-        toast.success("Deleted Designation " + JSON.stringify(":"));
-        setIsDeleteDesignationDialogOpen(false);
+        handleDelete();
       }}
     >
       <header className="header flex w-full flex-row items-center justify-between text-lg font-medium text-red-600">
@@ -36,8 +46,8 @@ export const DeleteDesignationDialogBox = ({
       </header>
 
       <p className="text-md font-medium text-zinc-700">
-        Are you sure want to delete the Designation {Designation.name} ? This action is
-        irreversable
+        Are you sure you want to delete the designation <strong>{Designation.name}</strong>? This action
+        is irreversible.
       </p>
 
       <section className="mt-1 grid w-full grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3">
@@ -45,16 +55,15 @@ export const DeleteDesignationDialogBox = ({
           className="justify-center font-semibold"
           state="outline"
           text="Cancel"
+          disabled={isDeleting}
           onClick={() => setIsDeleteDesignationDialogOpen(false)}
         />
         <ButtonSm
           className="items-center justify-center bg-red-500 text-center text-white hover:bg-red-700 active:bg-red-500"
           state="default"
-          onClick={() => {
-            handleDelete(Designation);
-            setIsDeleteDesignationDialogOpen(false);
-          }}
-          text={isDeleteDesignationLoading ? "Deleting..." : "Delete"}
+          text={isDeleting ? "Deleting..." : "Delete"}
+          type="submit"
+          disabled={isDeleting}
         />
       </section>
     </form>
