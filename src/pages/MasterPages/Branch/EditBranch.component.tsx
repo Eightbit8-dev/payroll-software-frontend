@@ -16,7 +16,7 @@ const BranchEdit = ({
   formState,
   setFormState,
 }: {
-  branchDetails: BranchDetails | null; //null so that user can create new branch if the state is create
+  branchDetails: BranchDetails | null;
   formState: FormState;
   setFormState: React.Dispatch<React.SetStateAction<FormState>>;
 }) => {
@@ -71,11 +71,11 @@ const BranchEdit = ({
     },
   ];
 
-  const [users, setUsers] = useState(usersData); //Dummy data
-  const [branchData, setBranchData] = useState<BranchDetails | null>(null); //Original branch data passed from above
+  const [users, setUsers] = useState(usersData);
+  const [branchData, setBranchData] = useState<BranchDetails | null>(null);
   const [newbranchData, setNewBranchData] = useState<BranchDetails | null>(
     null,
-  ); //Local copy to reset if cancel is clicked
+  );
 
   const { mutate: createBranch, isPending, isSuccess } = useCreateBranch();
   const {
@@ -93,17 +93,25 @@ const BranchEdit = ({
 
   useEffect(() => {
     if (isSuccess) {
-      setBranchData(newbranchData);
-      setFormState("display");
+      setNewBranchData({
+        name: "",
+        addressLine1: "",
+        addressLine2: "",
+        code: "",
+        companyId: "",
+        id: 0,
+        remarks: "",
+      });
+      setFormState("create");
     }
-  }, [isSuccess]); //cleaning after sumission
+  }, [isSuccess]);
 
   useEffect(() => {
     if (isUpdatingSuccess) {
       setBranchData(newbranchData);
       setFormState("display");
     }
-  }, [isUpdatingSuccess]); //.cleanign after user updates
+  }, [isUpdatingSuccess]);
 
   const handleCheck = (id: number) => {
     setUsers(
@@ -126,110 +134,142 @@ const BranchEdit = ({
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className={`flex max-h-full w-full max-w-[870px] flex-col gap-2`}
+      className="flex max-h-full w-full max-w-[870px] flex-col gap-2"
     >
-      {/* Branch Configuration container */}
       <motion.div
         variants={containerVariants}
         className="branch-config-container flex flex-col gap-3 rounded-[20px] bg-white/80"
       >
-        <header className="header flex w-full flex-row items-center justify-between">
-          <h1 className="my-1 text-start text-lg font-semibold text-zinc-800">
-            {branchData.name} Configuration
-          </h1>
-          <AnimatePresence mode="wait">
-            {formState === "create" && (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (formState === "create") {
+              createBranch(newbranchData!);
+            } else {
+              updateBranch(newbranchData!);
+            }
+          }}
+        >
+          <header className="flex w-full flex-row items-center justify-between">
+            <h1 className="my-1 text-start text-lg font-semibold text-zinc-800">
+              {branchData.name} Configuration
+            </h1>
+
+            <AnimatePresence mode="wait">
+              {formState === "create" && (
+                <ButtonSm
+                  type="submit"
+                  className="font-semibold text-white disabled:opacity-60"
+                  state="default"
+                  text={isPending ? "Creating..." : "Create new branch"}
+                  disabled={
+                    isPending ||
+                    !newbranchData!.name ||
+                    !newbranchData!.addressLine1
+                  }
+                />
+              )}
+            </AnimatePresence>
+
+            {formState === "display" && (
               <ButtonSm
-                className="font-semibold text-white disabled:opacity-60"
-                state="default"
-                text={isPending ? "Creating..." : "Create new branch"}
-                disabled={
-                  isPending ||
-                  newbranchData.name === null ||
-                  newbranchData.addressLine1 === "" ||
-                  newbranchData.addressLine2 === ""
-                }
+                className="font-medium"
+                text="Cancel"
+                state="outline"
                 onClick={() => {
-                  createBranch(newbranchData);
+                  setFormState("create");
+                  setNewBranchData({
+                    name: "",
+                    addressLine1: "",
+                    addressLine2: "",
+                    code: "",
+                    companyId: "",
+                    id: 0,
+                    remarks: "",
+                  });
                 }}
               />
             )}
-          </AnimatePresence>
-          {/* //To check if the data has changeg */}
-          {JSON.stringify(newbranchData) !== JSON.stringify(branchData) &&
-            formState !== "create" && (
+
+            {formState === "edit" && (
               <section className="ml-auto flex flex-row items-center gap-3">
-                {formState === "edit" && (
-                  <>
-                    <ButtonSm
-                      className="font-medium"
-                      text="Cancel"
-                      state="outline"
-                      onClick={() => {
-                        setFormState("display");
-                        setNewBranchData(branchData);
-                      }}
-                    />
-                    <ButtonSm
-                      className="font-medium text-white"
-                      text={isUpdatePending ? "Updating..." : "Save Changes"}
-                      state="default"
-                      onClick={() => updateBranch(newbranchData)}
-                    />
-                  </>
-                )}
+                <>
+                  <ButtonSm
+                    className="font-medium"
+                    text="Cancel"
+                    state="outline"
+                    onClick={() => {
+                      setFormState("display");
+                      setNewBranchData(branchData);
+                    }}
+                  />
+                  <ButtonSm
+                    className="font-medium text-white disabled:opacity-50"
+                    text={isUpdatePending ? "Updating..." : "Save Changes"}
+                    state="default"
+                    type="submit"
+                    disabled={
+                      JSON.stringify(newbranchData) ===
+                      JSON.stringify(branchData)
+                    }
+                    onClick={() => updateBranch(newbranchData!)}
+                  />
+                </>
               </section>
             )}
-        </header>
+          </header>
 
-        {/* Branch Details */}
-        <section className="branch-details-section flex max-h-full w-full flex-col gap-2 overflow-clip px-3">
-          <Input
-            disabled={formState === "display"}
-            title="Branch Name *"
-            type="str"
-            inputValue={newbranchData.name}
-            name="branch"
-            placeholder="Enter branch name"
-            maxLength={50}
-            onChange={(value) =>
-              setNewBranchData({ ...newbranchData, name: value })
-            }
-          />
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3">
+          {/* Branch Details */}
+          <section className="branch-details-section flex max-h-full w-full flex-col gap-2 overflow-clip px-3">
             <Input
+              required
               disabled={formState === "display"}
-              title="Address Line 1 *"
+              title="Branch Name *"
               type="str"
-              inputValue={newbranchData.addressLine1}
-              name="address1"
-              placeholder="Enter address line 1"
-              maxLength={100}
+              inputValue={newbranchData!.name}
+              name="branch"
+              placeholder="Enter branch name"
+              maxLength={50}
               onChange={(value) =>
-                setNewBranchData({ ...newbranchData, addressLine1: value })
+                setNewBranchData({ ...newbranchData!, name: value })
               }
             />
-            <Input
-              disabled={formState === "display"}
-              title="Address Line 2"
-              type="str"
-              inputValue={newbranchData.addressLine2}
-              name="address2"
-              placeholder="Enter address line 2"
-              maxLength={100}
-              onChange={(value) =>
-                setNewBranchData({ ...newbranchData, addressLine2: value })
-              }
-            />
-          </div>
-        </section>
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3">
+              <Input
+                required
+                disabled={formState === "display"}
+                title="Address Line 1 *"
+                type="str"
+                inputValue={newbranchData!.addressLine1}
+                name="address1"
+                placeholder="Enter address line 1"
+                maxLength={100}
+                onChange={(value) =>
+                  setNewBranchData({ ...newbranchData!, addressLine1: value })
+                }
+              />
+              <Input
+                disabled={formState === "display"}
+                title="Address Line 2"
+                type="str"
+                inputValue={newbranchData!.addressLine2}
+                name="address2"
+                placeholder="Enter address line 2"
+                maxLength={100}
+                onChange={(value) =>
+                  setNewBranchData({ ...newbranchData!, addressLine2: value })
+                }
+              />
+            </div>
+          </section>
+        </form>
 
         {/* User Access Details */}
         <section className="edit-access-section flex w-full flex-col gap-3">
           <h1 className="text-start text-lg font-semibold text-zinc-800">
             User access details TODO
           </h1>
-          <main className="scrollbar-visible flex max-h-[200px] w-full scroll-m-0 flex-col gap-3 overflow-clip overflow-y-auto rounded-[14px]">
+          <main className="scrollbar-visible flex max-h-[200px] w-full flex-col gap-3 overflow-y-auto rounded-[14px]">
             <fieldset className="inline-block w-full bg-white px-4 py-2">
               {users.map((user) => (
                 <article
@@ -240,7 +280,7 @@ const BranchEdit = ({
                     {user.id}
                   </p>
 
-                  <p className="w-full cursor-pointer text-start text-sm font-semibold text-zinc-800 transition-all duration-200 ease-in-out hover:text-blue-500 hover:underline active:text-blue-600">
+                  <p className="w-full cursor-pointer text-start text-sm font-semibold text-zinc-800 transition-all hover:text-blue-500 hover:underline active:text-blue-600">
                     {user.name}
                   </p>
 

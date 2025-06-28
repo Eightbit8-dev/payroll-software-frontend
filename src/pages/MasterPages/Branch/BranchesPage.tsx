@@ -32,6 +32,8 @@ const BranchesPage = () => {
             <DeleteBranchDialogBox
               setIsDeleteBranchDialogOpen={setIsDeleteBranchDialogOpen}
               branch={branch!}
+              setBranch={setBranch}
+              setFormState={setFormState}
             />
           </DialogBox>
         )}
@@ -39,27 +41,6 @@ const BranchesPage = () => {
       <section className="table-container flex w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm md:w-[50%]">
         <header className="flex h-max flex-row items-center justify-between">
           <PageHeader title="Branch configuration" />
-
-          {formState !== "create" && (
-            <ButtonSm
-              disabled={branch?.name === ""}
-              className="font-semibold"
-              state="outline"
-              text="Create new branch"
-              onClick={() => {
-                setFormState("create");
-                setBranch({
-                  name: "",
-                  addressLine1: "",
-                  addressLine2: "",
-                  id: 0, //temp soundhar wll take care it
-                  remarks: "",
-                  code: "",
-                  companyId: "",
-                });
-              }}
-            />
-          )}
         </header>
         <div className="tables flex w-full flex-col overflow-clip rounded-[9px]">
           {/* table header */}

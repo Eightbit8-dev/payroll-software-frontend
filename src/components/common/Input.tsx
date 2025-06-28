@@ -75,11 +75,12 @@ const Input = <T extends string | number>({
     const raw = e.target.value;
 
     if (type === "num") {
-      const num = Number(raw);
       if (raw === "") {
-        onChange("" as T);
+        onChange("" as T); // allow browser to validate required
         return;
       }
+
+      const num = Number(raw);
       if (!isNaN(num)) {
         if (
           (min !== undefined && num < min) ||
@@ -89,7 +90,7 @@ const Input = <T extends string | number>({
         onChange(num as T);
       }
     } else {
-      if (raw.length > maxLength) return;
+      // just pass the raw string directly
       onChange(raw as T);
     }
   };
@@ -106,7 +107,7 @@ const Input = <T extends string | number>({
           </div>
         )}
         <input
-          required
+          required={required}
           readOnly={disabled}
           disabled={disabled}
           type={inputType}

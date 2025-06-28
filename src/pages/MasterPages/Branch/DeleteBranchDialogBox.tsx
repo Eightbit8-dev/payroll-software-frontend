@@ -2,17 +2,40 @@ import { toast } from "react-toastify";
 import ButtonSm from "../../../components/common/Buttons";
 import { useDeleteBranch } from "../../../queries/BranchQuery";
 import type { BranchDetails } from "../../../types/apiTypes";
+import type { FormState } from "../../../types/appTypes";
+import { useEffect } from "react";
 
 export const DeleteBranchDialogBox = ({
   setIsDeleteBranchDialogOpen,
   branch,
+  setBranch,
+  setFormState,
 }: {
   setIsDeleteBranchDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setFormState: React.Dispatch<React.SetStateAction<FormState>>;
+  setBranch: React.Dispatch<React.SetStateAction<BranchDetails | null>>;
   branch: BranchDetails;
 }) => {
-  const { mutate: deleteBranch, isPending: isDeleteBranchLoading } =
-    useDeleteBranch();
+  const {
+    mutate: deleteBranch,
+    isPending: isDeleteBranchLoading,
+    isSuccess,
+  } = useDeleteBranch();
 
+  useEffect(() => {
+    if (isSuccess) {
+      setFormState("create");
+      setBranch({
+        name: "",
+        addressLine1: "",
+        addressLine2: "",
+        code: "",
+        companyId: "",
+        id: 0,
+        remarks: "",
+      });
+    }
+  }, [isSuccess]);
   const handleDelete = (branch: BranchDetails) => {
     deleteBranch(branch);
   };
