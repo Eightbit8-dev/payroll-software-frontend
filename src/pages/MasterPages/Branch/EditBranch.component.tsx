@@ -173,8 +173,8 @@ const BranchEdit = ({
 
             {formState === "display" && (
               <ButtonSm
-                className="font-medium"
-                text="Cancel"
+                className="font-medium outline-2"
+                text="Back"
                 state="outline"
                 onClick={() => {
                   setFormState("create");

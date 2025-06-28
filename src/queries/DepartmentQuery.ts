@@ -131,11 +131,6 @@ export const useEditDepartment = () => {
       toast.success("Department updated successfully");
       queryClient.invalidateQueries({ queryKey: ["departments"] });
     },
-    onError: (error) => {
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.message || "Update failed");
-      }
-    },
   });
 };
 

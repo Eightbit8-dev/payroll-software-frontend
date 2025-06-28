@@ -115,7 +115,7 @@ const BranchesPage = () => {
                     }}
                   />
                   <ButtonSm
-                    className="bg-red-100 text-red-500 outline-2 outline-red-500 hover:bg-red-100 hover:text-red-500 active:bg-red-100 active:text-red-500"
+                    className="bg-red-100 text-red-500 outline-1 outline-red-500 hover:bg-red-100 hover:text-red-500 active:bg-red-100 active:text-red-500"
                     state="default"
                     text="Delete"
                     onClick={() => {

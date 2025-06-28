@@ -1,29 +1,51 @@
-import { toast } from "react-toastify";
+import { useEffect } from "react";
 import ButtonSm from "../../../components/common/Buttons";
-import type { DepartmentDetails } from "../../../types/apiTypes";
 import { useDeleteDepartment } from "../../../queries/DepartmentQuery";
+import type { DepartmentDetails } from "../../../types/apiTypes";
+import type { FormState } from "../../../types/appTypes";
 
 export const DeleteDepartmentDialogBox = ({
   setIsDeleteDepartmentDialogOpen,
+  setFormState,
+  setDepartment,
   department,
 }: {
   setIsDeleteDepartmentDialogOpen: React.Dispatch<
     React.SetStateAction<boolean>
   >;
+  setFormState: React.Dispatch<React.SetStateAction<FormState>>;
+  setDepartment: React.Dispatch<React.SetStateAction<DepartmentDetails | null>>;
   department: DepartmentDetails;
 }) => {
-  const { mutate: DeleteDepartment, isPending: isDeleteDepartmentLoading } =
-    useDeleteDepartment();
+  const {
+    mutate: deleteDepartment,
+    isPending: isDeleteDepartmentLoading,
+    isSuccess,
+  } = useDeleteDepartment();
 
-  const handleDelete = (department: DepartmentDetails) => {
-    DeleteDepartment(department);
+  useEffect(() => {
+    if (isSuccess) {
+      setFormState("create");
+      setDepartment({
+        name: "",
+        code: "",
+        remarks: "",
+        active: true,
+        id: 0,
+      });
+    }
+  }, [isSuccess]);
+
+  const handleDelete = (dept: DepartmentDetails) => {
+    deleteDepartment(dept);
   };
+
   return (
     <form
       className="flex w-full flex-col gap-4"
       onSubmit={(e) => {
         e.preventDefault();
-        toast.success("Deleted department " + JSON.stringify(":"));
+        handleDelete(department);
         setIsDeleteDepartmentDialogOpen(false);
       }}
     >
@@ -38,8 +60,8 @@ export const DeleteDepartmentDialogBox = ({
       </header>
 
       <p className="text-md font-medium text-zinc-700">
-        Are you sure want to delete the department {department.name} ? This
-        action is irreversable
+        Are you sure you want to delete the department{" "}
+        <strong>{department.name}</strong>? This action is irreversible.
       </p>
 
       <section className="mt-1 grid w-full grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3">
@@ -50,13 +72,13 @@ export const DeleteDepartmentDialogBox = ({
           onClick={() => setIsDeleteDepartmentDialogOpen(false)}
         />
         <ButtonSm
-          className="items-center justify-center bg-red-500 text-center text-white hover:bg-red-700 active:bg-red-500"
+          className="items-center justify-center bg-red-500 text-white hover:bg-red-700 active:bg-red-500"
           state="default"
+          text={isDeleteDepartmentLoading ? "Deleting..." : "Delete"}
           onClick={() => {
             handleDelete(department);
             setIsDeleteDepartmentDialogOpen(false);
           }}
-          text={isDeleteDepartmentLoading ? "Deleting..." : "Delete"}
         />
       </section>
     </form>

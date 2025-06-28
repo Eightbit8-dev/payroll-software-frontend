@@ -35,6 +35,8 @@ const DepartmentsPage = () => {
             <DeleteDepartmentDialogBox
               setIsDeleteDepartmentDialogOpen={setIsDeleteDepartmentDialogOpen}
               department={selectedDepartment!}
+              setDepartment={setSelectedDepartment}
+              setFormState={setFormState}
             />
           </DialogBox>
         )}
@@ -42,24 +44,6 @@ const DepartmentsPage = () => {
       <section className="table-container flex w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm md:w-[40%]">
         <header className="flex h-max flex-row items-center justify-between">
           <PageHeader title="Department configuration" />
-
-          {formState !== "create" && (
-            <ButtonSm
-              className="font-semibold"
-              state="outline"
-              text="Create new department"
-              onClick={() => {
-                setFormState("create");
-                setSelectedDepartment({
-                  id: 0,
-                  remarks: "",
-                  active: true,
-                  name: "",
-                  code: "",
-                });
-              }}
-            />
-          )}
         </header>
         <div className="tables flex w-full flex-col overflow-clip rounded-[9px]">
           {/* table header */}
