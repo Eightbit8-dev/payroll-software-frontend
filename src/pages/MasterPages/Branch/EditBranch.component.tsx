@@ -5,7 +5,6 @@ import type { FormState } from "../../../types/appTypes";
 import { useCreateBranch, useEditBranch } from "../../../queries/BranchQuery";
 import type { BranchDetails } from "../../../types/apiTypes";
 import { AnimatePresence, motion } from "framer-motion";
-import { InputSkeleton } from "../../../components/masterPage.components/LoadingSkeleton";
 
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -116,12 +115,9 @@ const BranchEdit = ({
 
   if (!branchData || !newbranchData) {
     return (
-      <>
-        <h1 className="my-1 mb-4 text-start text-lg font-semibold text-zinc-800">
-          Select branch to view data *
-        </h1>
-        <InputSkeleton />
-      </>
+      <p className="text-md my-1 self-center-safe text-center text-gray-600">
+        Select a branch to view details.
+      </p>
     );
   }
 

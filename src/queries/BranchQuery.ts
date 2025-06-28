@@ -54,7 +54,7 @@ export const useFetchBranches = () => {
   return useQuery({
     queryKey: ["branches"], //cache key
     queryFn: fetchAllBranches,
-    staleTime: 1000 * 60 * 10, //expoiy time
+    staleTime: 1000 * 60 * 0, //expoiy time
     retry: 1,
   });
 };
