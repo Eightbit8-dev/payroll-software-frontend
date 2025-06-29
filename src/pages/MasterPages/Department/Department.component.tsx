@@ -24,12 +24,7 @@ const DepartmentEdit = ({
   setFormState: React.Dispatch<React.SetStateAction<FormState>>;
 }) => {
   const usersData = [
-    {
-      id: 1,
-      name: "Sabarish Vijayakumar Shanthi",
-      role: "HR",
-      isChecked: false,
-    },
+    { id: 1, name: "Sabarish Vijayakumar Shanthi", role: "HR", isChecked: false },
     { id: 2, name: "Shanthi Saba", role: "HR", isChecked: false },
     { id: 3, name: "Sachin S", role: "HR", isChecked: false },
     { id: 4, name: "Santosh V VP", role: "HR", isChecked: false },
@@ -40,10 +35,8 @@ const DepartmentEdit = ({
   ];
 
   const [users, setUsers] = useState(usersData);
-  const [departmentData, setDepartmentData] =
-    useState<DepartmentDetails | null>(null);
-  const [newDepartmentData, setNewDepartmentData] =
-    useState<DepartmentDetails | null>(null);
+  const [departmentData, setDepartmentData] = useState<DepartmentDetails | null>(null);
+  const [newDepartmentData, setNewDepartmentData] = useState<DepartmentDetails | null>(null);
 
   const {
     mutate: createDepartment,
@@ -64,7 +57,7 @@ const DepartmentEdit = ({
   }, [departmentDetails]);
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && formState === "create") {
       setNewDepartmentData({
         name: "",
         code: "",
@@ -72,26 +65,34 @@ const DepartmentEdit = ({
         active: true,
         id: 0,
       });
+      setDepartmentData(null);
       setFormState("create");
     }
   }, [isSuccess]);
 
   useEffect(() => {
-    if (isUpdatingSuccess) {
-      setDepartmentData(newDepartmentData);
-      setFormState("display");
+    if (isUpdatingSuccess && formState === "edit") {
+      setNewDepartmentData({
+        name: "",
+        code: "",
+        remarks: "",
+        active: true,
+        id: 0,
+      });
+      setDepartmentData(null);
+      setFormState("create");
     }
   }, [isUpdatingSuccess]);
 
   const handleCheck = (id: number) => {
     setUsers(
       users.map((user) =>
-        user.id === id ? { ...user, isChecked: !user.isChecked } : user,
-      ),
+        user.id === id ? { ...user, isChecked: !user.isChecked } : user
+      )
     );
   };
 
-  if (!departmentData || !newDepartmentData) {
+  if (!departmentData && formState !== "create") {
     return (
       <p className="text-md my-1 self-center-safe text-center text-gray-600">
         Select a department to view its details.
@@ -122,17 +123,18 @@ const DepartmentEdit = ({
         >
           <header className="flex w-full flex-row items-center justify-between">
             <h1 className="my-1 text-start text-lg font-semibold text-zinc-800">
-              {departmentData.name} Configuration
+              {formState === "create"
+                ? "Create Department"
+                : `${departmentData?.name ?? "Department"} Configuration`}
             </h1>
 
             <AnimatePresence mode="wait">
               {formState === "create" && (
                 <ButtonSm
                   type="submit"
-                  className="font-semibold text-white "
+                  className="font-semibold text-white"
                   state="default"
                   text={isPending ? "Creating..." : "Create new department"}
-                  
                 />
               )}
             </AnimatePresence>
@@ -151,6 +153,7 @@ const DepartmentEdit = ({
                     active: true,
                     id: 0,
                   });
+                  setDepartmentData(null);
                 }}
               />
             )}
@@ -169,8 +172,8 @@ const DepartmentEdit = ({
                       remarks: "",
                       active: true,
                       id: 0,
-                    })
-                    ;
+                    });
+                    setDepartmentData(null);
                   }}
                 />
                 <ButtonSm
@@ -182,7 +185,6 @@ const DepartmentEdit = ({
                     JSON.stringify(newDepartmentData) ===
                     JSON.stringify(departmentData)
                   }
-                  onClick={() => updateDepartment(newDepartmentData!)}
                 />
               </section>
             )}
@@ -194,7 +196,7 @@ const DepartmentEdit = ({
               disabled={formState === "display"}
               title="Department Name *"
               type="str"
-              inputValue={newDepartmentData!.name}
+              inputValue={newDepartmentData?.name ?? ""}
               name="Department"
               placeholder="Enter department name"
               maxLength={50}

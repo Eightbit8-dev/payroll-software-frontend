@@ -4,92 +4,84 @@ import TextArea from "../../../components/common/Textarea";
 import ButtonSm from "../../../components/common/Buttons";
 import type { FormState } from "../../../types/appTypes";
 import type { BloodDetails } from "../../../types/apiTypes";
-import { useCreateBlood ,useEditBlood } from "../../../queries/BloodQuery";
+import { useCreateBlood, useEditBlood } from "../../../queries/BloodQuery";
 
 const BloodEdit = ({
   Blood,
   formState,
   setFormState,
+  setBloodData,
 }: {
   Blood: BloodDetails | null;
   formState: FormState;
   setFormState: React.Dispatch<React.SetStateAction<FormState>>;
+  setBloodData: React.Dispatch<React.SetStateAction<BloodDetails | null>>;
 }) => {
-  const [bloodData, setBloodData] = useState<BloodDetails | null>(null);
+  const [formData, setFormData] = useState<BloodDetails>({
+    id: 0,
+    name: "",
+    remarks: "",
+  });
 
-  const { mutate: createResignation, isPending, isSuccess } = useCreateBlood();
+  const { mutate: createBlood, isPending: isCreating, isSuccess: isCreated } = useCreateBlood();
   const {
-    mutate: updateResignation,
-    isPending: isUpdatePending,
-    isSuccess: isUpdatingSuccess,
+    mutate: updateBlood,
+    isPending: isUpdating,
+    isSuccess: isUpdated,
   } = useEditBlood();
 
-  // Handle form state change
+  // Set data on formState or prop change
   useEffect(() => {
     if (formState === "create") {
-      setBloodData({
-        id: 0,
-        name: "",
-        remarks: "",
-      });
+      setFormData({ id: 0, name: "", remarks: "" });
     } else if (Blood) {
-      setBloodData(Blood);
+      setFormData(Blood);
     }
-  }, [Blood, formState]);
+  }, [formState, Blood]);
 
-  // Handle success
+  // Reset form on success
   useEffect(() => {
-    if (isSuccess) {
+    if (isCreated || isUpdated) {
       setFormState("create");
-      setBloodData({
-        id: 0,
-        name: "",
-        remarks: "",
-      });
-    } else if (isUpdatingSuccess) {
-      setFormState("display");
+      setFormData({ id: 0, name: "", remarks: "" });
+      setBloodData(null);
     }
-  }, [isSuccess, isUpdatingSuccess]);
+  }, [isCreated, isUpdated]);
 
   const handleCancel = () => {
     setFormState("create");
-    setBloodData({
-      id: 0,
-      name: "",
-      remarks: "",
-    });
+    setFormData({ id: 0, name: "", remarks: "" });
+    setBloodData(null);
   };
 
-  if (!bloodData) {
-    return (
-      <p className="text-center text-sm text-gray-500">
-        Select a Blood Group to view details.
-      </p>
-    );
-  }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formState === "create") {
+      createBlood(formData);
+    }
+  };
 
-  const hasData = bloodData.name || bloodData.remarks;
+  const handleUpdate = () => {
+    if (formState === "edit") {
+      updateBlood(formData);
+    }
+  };
+
+  const isDisplay = formState === "display";
 
   return (
     <main className="flex max-h-full w-full max-w-[870px] flex-col gap-2">
       <div className="designation-config-container flex flex-col gap-3 rounded-[20px] bg-white/80">
-        <form
-          className="flex flex-col gap-3"
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (formState === "create") {
-              createResignation(bloodData);
-            }
-          }}
-        >
+        <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
           <header className="flex w-full flex-row items-center justify-between">
             <h1 className="text-start text-lg font-semibold text-zinc-800">
               {formState === "create"
                 ? "Blood Group Configuration"
-                : `${bloodData.name || "Blood Group"} Configuration`}
+                : `${formData.name || "Blood Group"} Configuration`}
             </h1>
+
             <section className="ml-auto flex flex-row items-center gap-3">
-              {(formState === "edit" || (formState === "create" && hasData)) && (
+              {(formState === "edit" || (formState === "create" && (formData.name || formData.remarks))) && (
                 <ButtonSm
                   className="font-medium"
                   text="Cancel"
@@ -99,7 +91,7 @@ const BloodEdit = ({
                 />
               )}
 
-              {formState === "display" && bloodData.id !== 0 && (
+              {formState === "display" && formData.id !== 0 && (
                 <ButtonSm
                   className="font-medium"
                   text="Back"
@@ -112,48 +104,49 @@ const BloodEdit = ({
               {formState === "create" && (
                 <ButtonSm
                   className="font-medium text-white"
-                  text={isPending ? "Creating..." : "Create"}
+                  text={isCreating ? "Creating..." : "Create"}
                   state="default"
                   type="submit"
-                  disabled={isPending}
+                  disabled={isCreating}
                 />
               )}
 
               {formState === "edit" && (
                 <ButtonSm
                   className="font-medium text-white"
-                  text={isUpdatePending ? "Updating..." : "Save Changes"}
+                  text={isUpdating ? "Updating..." : "Save Changes"}
                   state="default"
-                  onClick={() => updateResignation(bloodData)}
+                  type="button"
+                  onClick={handleUpdate}
+                  disabled={isUpdating}
                 />
               )}
             </section>
           </header>
 
-          {/* Resignation Details */}
           <section className="flex w-full flex-col gap-2 overflow-clip px-3">
             <Input
               required
-              disabled={formState === "display"}
+              disabled={isDisplay}
               title="Blood Group Name *"
               type="str"
-              inputValue={bloodData.name}
+              inputValue={formData.name}
               name="Blood"
               placeholder="Enter Blood Group name"
               maxLength={50}
               onChange={(value) =>
-                setBloodData({ ...bloodData, name: value })
+                setFormData({ ...formData, name: value })
               }
             />
             <TextArea
-              disabled={formState === "display"}
+              disabled={isDisplay}
               title="Remarks"
-              inputValue={bloodData.remarks}
+              inputValue={formData.remarks}
               name="remarks"
               placeholder="Enter remarks"
               maxLength={300}
               onChange={(value) =>
-                setBloodData({ ...bloodData, remarks: value })
+                setFormData({ ...formData, remarks: value })
               }
             />
           </section>

@@ -76,7 +76,7 @@ const BranchEdit = ({
     } else if (isUpdatingSuccess && newbranchData) {
       setBranchDataLocal(newbranchData);
       setBranchData(newbranchData); // ✅ Update parent
-      setFormState("display");
+      setFormState("create");
       setTitle(newbranchData.name); // ✅ Update title after save
     }
   }, [isSuccess, isUpdatingSuccess]);

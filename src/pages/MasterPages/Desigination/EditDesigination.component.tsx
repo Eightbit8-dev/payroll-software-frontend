@@ -49,7 +49,7 @@ const DesignationEdit = ({
       setDesignationData(resetData);
       setTitle("");
     } else if (isUpdatingSuccess && designationData) {
-      setFormState("display");
+      setFormState("create");
       setDesignation(designationData);
       setTitle(designationData.name);
     }

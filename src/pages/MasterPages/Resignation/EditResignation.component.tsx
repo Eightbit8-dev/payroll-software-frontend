@@ -50,7 +50,7 @@ const ResignationEdit = ({
       setFormState("create");
       setTitle("");
     } else if (isUpdatingSuccess && resignationData) {
-      setFormState("display");
+      setFormState("create");
       setResignation(resignationData); // ✅ UPDATE PARENT
       setTitle(resignationData.name); // Update title after save
     }
