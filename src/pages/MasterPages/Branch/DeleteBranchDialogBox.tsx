@@ -2,7 +2,7 @@ import ButtonSm from "../../../components/common/Buttons";
 import { useDeleteBranch } from "../../../queries/BranchQuery";
 import type { BranchDetails } from "../../../types/apiTypes";
 import type { FormState } from "../../../types/appTypes";
-import { useEffect } from "react";
+
 
 export const DeleteBranchDialogBox = ({
   setIsDeleteBranchDialogOpen,

@@ -13,12 +13,15 @@ const DesignationEdit = ({
   DesignationDetails,
   formState,
   setFormState,
+  setDesignation,
 }: {
   DesignationDetails: DesignationsDetails | null;
   formState: FormState;
   setFormState: React.Dispatch<React.SetStateAction<FormState>>;
+  setDesignation: React.Dispatch<React.SetStateAction<DesignationsDetails>>;
 }) => {
   const [designationData, setDesignationData] = useState<DesignationsDetails | null>(null);
+  const [title, setTitle] = useState("");
 
   const { mutate: createDesignation, isPending, isSuccess } = useCreateDesignation();
   const {
@@ -29,39 +32,35 @@ const DesignationEdit = ({
 
   useEffect(() => {
     if (formState === "create") {
-      setDesignationData({
-        id: 0,
-        name: "",
-        remarks: "",
-        code: "",
-      });
+      const newData = { id: 0, name: "", remarks: "", code: "" };
+      setDesignationData(newData);
+      setTitle("");
     } else if (DesignationDetails) {
       setDesignationData(DesignationDetails);
+      setTitle(DesignationDetails.name || "");
     }
   }, [DesignationDetails, formState]);
 
   useEffect(() => {
     if (isSuccess) {
+      const resetData = { id: 0, name: "", remarks: "", code: "" };
       setFormState("create");
-      setDesignationData({
-        id: 0,
-        name: "",
-        remarks: "",
-        code: "",
-      });
-    } else if (isUpdatingSuccess) {
+      setDesignation(resetData);
+      setDesignationData(resetData);
+      setTitle("");
+    } else if (isUpdatingSuccess && designationData) {
       setFormState("display");
+      setDesignation(designationData);
+      setTitle(designationData.name);
     }
   }, [isSuccess, isUpdatingSuccess]);
 
   const handleCancel = () => {
     setFormState("create");
-    setDesignationData({
-      id: 0,
-      name: "",
-      remarks: "",
-      code: "",
-    });
+    const resetData = { id: 0, name: "", remarks: "", code: "" };
+    setDesignation(resetData);
+    setDesignationData(resetData);
+    setTitle("");
   };
 
   if (!designationData) {
@@ -81,8 +80,10 @@ const DesignationEdit = ({
           className="flex flex-col gap-3"
           onSubmit={(e) => {
             e.preventDefault();
+            const updated = { ...designationData, name: title };
+            setDesignationData(updated);
             if (formState === "create") {
-              createDesignation(designationData);
+              createDesignation(updated);
             }
           }}
         >
@@ -90,7 +91,7 @@ const DesignationEdit = ({
             <h1 className="text-start text-lg font-semibold text-zinc-800">
               {formState === "create"
                 ? "Designation Configuration"
-                : `${designationData.name || "Designation"} Configuration`}
+                : `${designationData.name} Configuration`}
             </h1>
             <section className="ml-auto flex flex-row items-center gap-3">
               {(formState === "edit" || (formState === "create" && hasData)) && (
@@ -128,7 +129,12 @@ const DesignationEdit = ({
                   className="font-medium text-white"
                   text={isUpdatePending ? "Updating..." : "Save Changes"}
                   state="default"
-                  onClick={() => updateDesignation(designationData)}
+                  type="button"
+                  onClick={() => {
+                    const updated = { ...designationData, name: title };
+                    setDesignationData(updated);
+                    updateDesignation(updated);
+                  }}
                 />
               )}
             </section>
@@ -141,13 +147,11 @@ const DesignationEdit = ({
               disabled={formState === "display"}
               title="Designation Name *"
               type="str"
-              inputValue={designationData.name}
+              inputValue={title}
               name="designation"
               placeholder="Enter designation name"
               maxLength={50}
-              onChange={(value) =>
-                setDesignationData({ ...designationData, name: value })
-              }
+              onChange={(value) => setTitle(value)}
             />
             <TextArea
               disabled={formState === "display"}

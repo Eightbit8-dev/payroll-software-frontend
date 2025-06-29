@@ -1,7 +1,7 @@
 import ButtonSm from "../../../components/common/Buttons";
 import DesignationEdit from "./EditDesigination.component";
 import PageHeader from "../../../components/masterPage.components/PageHeader";
-import { AnimatePresence } from "framer-motion"; // ✅ Corrected
+import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import DialogBox from "../../../components/common/DialogBox";
 import { DeleteDesignationDialogBox } from "./DeleteDesiginationDialogBox";
@@ -26,7 +26,6 @@ const DesignationsPage = () => {
   const { data: designations, isLoading, isError } = useFetchDesignations();
 
   const handleDesignationDeleted = () => {
-    // Reset form after deletion
     setDesignation({
       id: 0,
       name: "",
@@ -57,11 +56,9 @@ const DesignationsPage = () => {
       <section className="table-container flex w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm md:w-[50%]">
         <header className="flex h-max flex-row items-center justify-between">
           <PageHeader title="Designation Configuration" />
-          
         </header>
 
         <div className="tables flex w-full flex-col overflow-clip rounded-[9px]">
-          {/* Table Header */}
           <header className="header flex w-full flex-row items-center gap-2 bg-gray-200 px-3">
             <p className="w-max min-w-[100px] px-2 py-4 text-start text-sm font-semibold text-zinc-900">
               S.No
@@ -71,7 +68,6 @@ const DesignationsPage = () => {
             <p className="min-w-[120px] text-start text-sm font-semibold text-zinc-900">Action</p>
           </header>
 
-          {/* Table Body */}
           {designations?.length === 0 && (
             <h2 className="text-md my-3 text-center font-medium text-zinc-600">
               No Designations Found
@@ -137,6 +133,7 @@ const DesignationsPage = () => {
           DesignationDetails={designation}
           formState={formState}
           setFormState={setFormState}
+          setDesignation={setDesignation}
         />
       </section>
     </main>
