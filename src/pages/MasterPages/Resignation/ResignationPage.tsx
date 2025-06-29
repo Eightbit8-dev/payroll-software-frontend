@@ -1,5 +1,4 @@
 import ButtonSm from "../../../components/common/Buttons";
-import DesignationEdit from "./EditResignation.component";
 import PageHeader from "../../../components/masterPage.components/PageHeader";
 import { AnimatePresence } from "motion/react";
 import { useState } from "react";
@@ -123,6 +122,7 @@ const ResignationPage = () => {
           Resignation={resignation}
           formState={formState}
           setFormState={setFormState}
+          setResignation={setResignation}
         />
       </section>
     </main>
