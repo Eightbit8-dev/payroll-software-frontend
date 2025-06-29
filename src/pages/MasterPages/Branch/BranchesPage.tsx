@@ -1,7 +1,6 @@
-
 import ButtonSm from "../../../components/common/Buttons";
 import { useNavigate } from "react-router-dom";
-import BranchPage from "./EditBranch.component";
+import BranchEdit from "./EditBranch.component"; // Ensure correct import name
 import PageHeader from "../../../components/masterPage.components/PageHeader";
 import { AnimatePresence } from "motion/react";
 import { useEffect, useState } from "react";
@@ -25,31 +24,14 @@ const BranchesPage = () => {
 
   const [isDeleteBranchDialogOpen, setIsDeleteBranchDialogOpen] = useState(false);
 
-  const [branch, setBranch] = useState<BranchDetails>({
-    id: 0,
-    name: "",
-    addressLine1: "",
-    addressLine2: "",
-    remarks: "",
-    code: "",
-    companyId: "",
-  });
+  const [branch, setBranch] = useState<BranchDetails | null>(null); // ✅ FIXED here
 
   const [formState, setFormState] = useState<FormState>("create");
 
   const { data: branches, isLoading, isError } = useFetchBranches();
 
   const handleBranchDeleted = () => {
-    // Reset selected branch and form state after deletion
-    setBranch({
-      id: 0,
-      name: "",
-      addressLine1: "",
-      addressLine2: "",
-      remarks: "",
-      code: "",
-      companyId: "",
-    });
+    setBranch(null); // ✅ reset
     setFormState("create");
   };
 
@@ -63,8 +45,8 @@ const BranchesPage = () => {
           <DialogBox setToggleDialogueBox={setIsDeleteBranchDialogOpen}>
             <DeleteBranchDialogBox
               setIsDeleteBranchDialogOpen={setIsDeleteBranchDialogOpen}
-              branch={branch}
-              onDeleted={handleBranchDeleted} // Pass callback
+              branch={branch!}
+              onDeleted={handleBranchDeleted}
             />
           </DialogBox>
         )}
@@ -76,7 +58,6 @@ const BranchesPage = () => {
         </header>
 
         <div className="tables flex w-full flex-col overflow-clip rounded-[9px]">
-          {/* Table header */}
           <header className="header flex w-full flex-row items-center gap-2 bg-gray-200 px-3">
             <p className="w-max min-w-[100px] px-2 py-4 text-start text-sm font-semibold text-zinc-900">
               S.No
@@ -92,15 +73,15 @@ const BranchesPage = () => {
             </p>
           </header>
 
-          {/* Table body */}
           {branches?.length === 0 && (
             <h2 className="text-md my-3 text-center font-medium text-zinc-600">
               No Branches Found
             </h2>
           )}
+
           {branches?.map((item: BranchDetails, index) => (
             <div
-              key={index + 1}
+              key={item.id}
               className={`cell-1 flex w-full cursor-pointer flex-row items-center gap-2 px-3 py-2 text-zinc-700 ${
                 branch?.id === item.id
                   ? "bg-gray-100 text-white"
@@ -112,15 +93,7 @@ const BranchesPage = () => {
                 e.stopPropagation();
                 if (branch?.id === item.id) return;
                 setFormState("display");
-                setBranch({
-                  id: item.id,
-                  name: item.name,
-                  code: item.code,
-                  addressLine1: item.addressLine1,
-                  addressLine2: item.addressLine2,
-                  remarks: item.remarks || "",
-                  companyId: item.companyId,
-                });
+                setBranch(item);
               }}
             >
               <p className="w-max min-w-[100px] px-2 py-4 text-start text-sm font-medium">
@@ -143,15 +116,7 @@ const BranchesPage = () => {
                   onClick={(e) => {
                     e.stopPropagation();
                     setFormState("edit");
-                    setBranch({
-                      id: item.id,
-                      name: item.name,
-                      code: item.code,
-                      addressLine1: item.addressLine1,
-                      addressLine2: item.addressLine2,
-                      remarks: item.remarks ?? "",
-                      companyId: item.companyId,
-                    });
+                    setBranch(item);
                   }}
                 />
                 <ButtonSm
@@ -171,10 +136,11 @@ const BranchesPage = () => {
       </section>
 
       <section className="table-container max-h-full w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm md:w-[50%]">
-        <BranchPage
+        <BranchEdit
           branchDetails={branch}
           formState={formState}
           setFormState={setFormState}
+          setBranchData={setBranch} // ✅ No error now
         />
       </section>
     </main>

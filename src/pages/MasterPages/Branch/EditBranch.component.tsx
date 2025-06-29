@@ -9,10 +9,12 @@ const BranchEdit = ({
   branchDetails,
   formState,
   setFormState,
+  setBranchData,
 }: {
   branchDetails: BranchDetails | null;
   formState: FormState;
   setFormState: React.Dispatch<React.SetStateAction<FormState>>;
+  setBranchData: React.Dispatch<React.SetStateAction<BranchDetails | null>>;
 }) => {
   const usersData = [
     { id: 1, name: "Sabarish Vijayakumar", role: "HR", isChecked: false },
@@ -24,8 +26,9 @@ const BranchEdit = ({
   ];
 
   const [users, setUsers] = useState(usersData);
-  const [branchData, setBranchData] = useState<BranchDetails | null>(null);
+  const [branchData, setBranchDataLocal] = useState<BranchDetails | null>(null);
   const [newbranchData, setNewBranchData] = useState<BranchDetails | null>(null);
+  const [title, setTitle] = useState("");
 
   const { mutate: createBranch, isPending, isSuccess } = useCreateBranch();
   const {
@@ -45,17 +48,18 @@ const BranchEdit = ({
         remarks: "",
         companyId: "",
       };
-      setBranchData(emptyBranch);
+      setBranchDataLocal(emptyBranch);
       setNewBranchData(emptyBranch);
+      setTitle("");
     } else if (branchDetails) {
-      setBranchData(branchDetails);
+      setBranchDataLocal(branchDetails);
       setNewBranchData(branchDetails);
+      setTitle(branchDetails.name); // Lock title
     }
   }, [branchDetails, formState]);
 
   useEffect(() => {
     if (isSuccess) {
-      // Reset form after successful creation
       const emptyBranch: BranchDetails = {
         id: 0,
         name: "",
@@ -65,12 +69,15 @@ const BranchEdit = ({
         remarks: "",
         companyId: "",
       };
-      setBranchData(emptyBranch);
+      setBranchDataLocal(emptyBranch);
       setNewBranchData(emptyBranch);
       setFormState("create");
-    } else if (isUpdatingSuccess) {
-      setBranchData(newbranchData);
+      setTitle("");
+    } else if (isUpdatingSuccess && newbranchData) {
+      setBranchDataLocal(newbranchData);
+      setBranchData(newbranchData); // ✅ Update parent
       setFormState("display");
+      setTitle(newbranchData.name); // ✅ Update title after save
     }
   }, [isSuccess, isUpdatingSuccess]);
 
@@ -92,9 +99,10 @@ const BranchEdit = ({
       remarks: "",
       companyId: "",
     };
-    setBranchData(emptyBranch);
+    setBranchDataLocal(emptyBranch);
     setNewBranchData(emptyBranch);
     setFormState("create");
+    setTitle("");
   };
 
   const hasData =
@@ -117,14 +125,16 @@ const BranchEdit = ({
           className="flex flex-col gap-3"
           onSubmit={(e) => {
             e.preventDefault();
-            createBranch(newbranchData);
+            if (formState === "create") {
+              createBranch(newbranchData);
+            }
           }}
         >
           <header className="header flex w-full flex-row items-center justify-between">
             <h1 className="text-start text-lg font-semibold text-zinc-800">
               {formState === "create"
                 ? "Branch Configuration"
-                : `${branchData.name || "Branch"} Configuration`}
+                : `${title || "Branch"} Configuration`}
             </h1>
             <section className="ml-auto flex flex-row items-center gap-3">
               {(formState === "edit" || (formState === "create" && hasData)) && (
@@ -148,7 +158,7 @@ const BranchEdit = ({
               {formState === "create" && (
                 <ButtonSm
                   className="font-medium text-white"
-                  text={isPending ? "Creating..." : "Create new "}
+                  text={isPending ? "Creating..." : "Create"}
                   state="default"
                   type="submit"
                 />
@@ -158,6 +168,7 @@ const BranchEdit = ({
                   className="font-medium text-white"
                   text={isUpdatePending ? "Updating..." : "Save Changes"}
                   state="default"
+                  type="button"
                   onClick={() => updateBranch(newbranchData)}
                 />
               )}
@@ -223,7 +234,7 @@ const BranchEdit = ({
                     <p className="w-min text-sm font-semibold text-zinc-800">
                       {user.id}
                     </p>
-                    <p className="w-full cursor-pointer text-start text-sm font-semibold text-zinc-800 transition-all duration-200 ease-in-out hover:text-blue-500 hover:underline active:text-blue-600">
+                    <p className="w-full cursor-pointer text-start text-sm font-semibold text-zinc-800 hover:text-blue-500 hover:underline">
                       {user.name}
                     </p>
                     <div className="relative flex items-center">
@@ -236,7 +247,7 @@ const BranchEdit = ({
                       />
                       <label
                         htmlFor={`user-${user.id}`}
-                        className={`relative block h-5 w-5 cursor-pointer rounded-[8px] border-2 p-[12px] outline-none focus:outline-none ${
+                        className={`relative block h-5 w-5 cursor-pointer rounded-[8px] border-2 p-[12px] ${
                           user.isChecked
                             ? "border-green-500 bg-green-500"
                             : "border-slate-300 bg-white"
@@ -244,7 +255,7 @@ const BranchEdit = ({
                       >
                         {user.isChecked && (
                           <img
-                            className="absolute top-1/2 left-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 select-none"
+                            className="absolute top-1/2 left-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2"
                             src="/icons/tick-icon.svg"
                             alt="tick"
                           />
