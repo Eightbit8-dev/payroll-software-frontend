@@ -74,7 +74,6 @@ export interface LoanDetails {
   remarks: string;
 }
 
-
 export interface AllowanceDetails {
   id: number;
   name: string;
@@ -82,4 +81,19 @@ export interface AllowanceDetails {
   percent: number;
   on: string;
   remarks: string;
+}
+
+export interface ShiftDetails {
+  id: number;
+  name: string;
+  type: string;
+  present: string;
+  lop: string;
+  earlyGoing: string;
+  lateComing: string;
+  isNight: string;
+  shiftIn: string;
+  shiftOut: string;
+  lunchOut: string;
+  lunchIn: string;
 }

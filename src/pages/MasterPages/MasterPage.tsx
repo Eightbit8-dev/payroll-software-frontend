@@ -96,7 +96,7 @@ export const MasterPage = () => {
       label: "Attendance",
       labelColor: "bg-green-500",
       btnText: "Configure",
-      onAction: () => console.log("Compliance clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.shifts),
     },
     {
       img: "/icons/Configpage/Holiday.svg",

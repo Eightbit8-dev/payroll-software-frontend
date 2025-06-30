@@ -42,6 +42,7 @@ const AttendanceTypePage = lazy(
 const PermissionPage = lazy(
   () => import("./pages/MasterPages/Permission/PermissionPage"),
 );
+const ShiftPage = lazy(() => import("./pages/MasterPages/Shift/ShiftPage"));
 const App = () => {
   return (
     <Suspense
@@ -115,8 +116,12 @@ const App = () => {
               element={<PermissionPage />}
             />
             <Route
-            path={appRoutes.masterRoutes.children.allowances}
-            element={<AllowancePage/>}
+              path={appRoutes.masterRoutes.children.allowances}
+              element={<AllowancePage />}
+            />
+            <Route
+              path={appRoutes.masterRoutes.children.shifts}
+              element={<ShiftPage />}
             />
             <Route path={appRoutes.usersPage} element={<UsersPage />} />
           </Route>

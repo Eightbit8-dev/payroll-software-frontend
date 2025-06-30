@@ -13,7 +13,7 @@ export const useFetchAllowanceTypes = () => {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Unauthorized to perform this action.");
 
-      const res = await axiosInstance.get(apiRoutes.allowance, {
+      const res = await axiosInstance.get(apiRoutes.allowanceTypes, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -63,7 +63,7 @@ export const useFetchAllowanceTypes = () => {
  */
 
 /**
- * 🔍 Fetch all Allowances  
+ * 🔍 Fetch all Allowances
  */
 export const useFetchAllowances = () => {
   const fetchAllAllowances = async (): Promise<AllowanceDetails[]> => {
@@ -114,15 +114,11 @@ export const useCreateAllowance = () => {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Unauthorized to perform this action.");
 
-      const res = await axiosInstance.post(
-        apiRoutes.allowance,
-        newAllowance,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const res = await axiosInstance.post(apiRoutes.allowance, newAllowance, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
 
       if (res.status !== 201 && res.status !== 200) {
         throw new Error(res.data?.message || "Failed to create Allowance");

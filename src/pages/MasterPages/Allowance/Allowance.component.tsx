@@ -20,7 +20,9 @@ const AllowanceEdit = ({
   allowanceDetails: AllowanceDetails | null;
   formState: FormState;
   setFormState: React.Dispatch<React.SetStateAction<FormState>>;
-  setAllowanceData: React.Dispatch<React.SetStateAction<AllowanceDetails | null>>;
+  setAllowanceData: React.Dispatch<
+    React.SetStateAction<AllowanceDetails | null>
+  >;
 }) => {
   const { data: allowanceTypes } = useFetchAllowanceTypes();
 
@@ -34,11 +36,14 @@ const AllowanceEdit = ({
   };
 
   const [formData, setFormData] = useState<AllowanceDetails>(emptyAllowance);
-  const [selectedOption, setSelectedOption] = useState({
+  const [selectedMasterType, setSelectedMasterType] = useState({
     id: 0,
     label: "Select type",
   });
-
+  const [selectedOn, setSelectedOn] = useState({
+    id: 0,
+    label: "Select type",
+  });
   const {
     mutate: createAllowance,
     isPending: isCreating,
@@ -66,9 +71,14 @@ const AllowanceEdit = ({
       allowanceTypes
     ) {
       const matched = allowanceTypes.find(
-        (type) => type.id === allowanceDetails.mastertypeId
+        (type) => type.id === allowanceDetails.mastertypeId,
       );
-      setSelectedOption(matched || { id: 0, label: "Select type" });
+      const matchedOn =
+        allowanceDetails.on === "Basic"
+          ? { id: 1, label: "Basic" }
+          : { id: 2, label: "CTA" };
+      setSelectedMasterType(matched || { id: 0, label: "Select type" });
+      setSelectedOn(matchedOn || { id: 0, label: "Select type" });
     }
   }, [formState, allowanceDetails, allowanceTypes]);
 
@@ -76,20 +86,27 @@ const AllowanceEdit = ({
     if (isCreated || isUpdated) {
       setFormState("create");
       setFormData(emptyAllowance);
-      setAllowanceData(null);
+      setAllowanceData(emptyAllowance);
+      setSelectedMasterType({ id: 0, label: "Select type" });
+      setSelectedOn({ id: 0, label: "Select type" });
     }
   }, [isCreated, isUpdated]);
 
   const handleCancel = () => {
     setFormState("create");
     setFormData(emptyAllowance);
-    setAllowanceData(null);
+    setAllowanceData(emptyAllowance);
+    setSelectedMasterType({ id: 0, label: "Select type" });
+    setSelectedOn({ id: 0, label: "Select type" });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (formState === "create") {
       createAllowance(formData);
+      setSelectedMasterType({ id: 0, label: "Select type" });
+      setSelectedMasterType({ id: 0, label: "Select type" });
+      setSelectedOn({ id: 0, label: "Select type" });
     }
   };
 
@@ -147,7 +164,8 @@ const AllowanceEdit = ({
                     !formData.percent ||
                     !formData.on ||
                     !formData.remarks ||
-                    selectedOption.id === 0
+                    selectedMasterType.id === 0 ||
+                    selectedOn.id === 0
                   }
                 />
               )}
@@ -165,7 +183,8 @@ const AllowanceEdit = ({
                     !formData.percent ||
                     !formData.on ||
                     !formData.remarks ||
-                    selectedOption.id === 0
+                    selectedMasterType.id === 0 ||
+                    selectedOn.id === 0
                   }
                 />
               )}
@@ -189,25 +208,30 @@ const AllowanceEdit = ({
               <Input
                 required
                 disabled={isDisplay}
-                title="Percentage (%) *"
+                title="Percentage *"
                 type="num"
+                prefixText="%"
                 inputValue={formData.percent}
                 name="percent"
                 placeholder="Enter allowance percentage"
                 max={100}
-                onChange={(value) => setFormData({ ...formData, percent: value })}
+                onChange={(value) =>
+                  setFormData({ ...formData, percent: value })
+                }
               />
 
-              <Input
-                required
+              <DropdownSelect
+                title="On *"
                 disabled={isDisplay}
-                title="Applied On *"
-                type="str"
-                inputValue={formData.on}
-                name="on"
-                placeholder="e.g., Basic Pay, Gross"
-                maxLength={50}
-                onChange={(value) => setFormData({ ...formData, on: value })}
+                options={[
+                  { id: 1, label: "Basic" },
+                  { id: 2, label: "CTA" },
+                ]}
+                selected={selectedOn}
+                onChange={(opt) => {
+                  setSelectedOn(opt);
+                  setFormData({ ...formData, on: opt.label });
+                }}
               />
             </div>
 
@@ -215,9 +239,9 @@ const AllowanceEdit = ({
               title="Select Type *"
               disabled={isDisplay}
               options={allowanceTypes || []}
-              selected={selectedOption}
+              selected={selectedMasterType}
               onChange={(opt) => {
-                setSelectedOption(opt);
+                setSelectedMasterType(opt);
                 setFormData({ ...formData, mastertypeId: opt.id });
               }}
             />
