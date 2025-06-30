@@ -96,7 +96,7 @@ export const MasterPage = () => {
       label: "Attendance",
       labelColor: "bg-green-500",
       btnText: "Configure",
-      onAction: () => console.log("Compliance clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.shifts),
     },
     {
       img: "/icons/Configpage/Holiday.svg",
@@ -123,7 +123,7 @@ export const MasterPage = () => {
       label: " Holiday & Benefits",
       labelColor: "bg-purple-500",
       btnText: "Configure",
-      onAction: () => console.log("Reports clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.allowances),
     },
   ];
   return (

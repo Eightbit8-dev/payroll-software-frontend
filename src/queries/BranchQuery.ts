@@ -26,6 +26,7 @@ export const useFetchBranches = () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Unauthorized to perform this action.");
+      
 
       const res = await axiosInstance.get(apiRoutes.branches, {
         //All api routes are inside this file
@@ -70,6 +71,8 @@ export const useCreateBranch = () => {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Unauthorized to perform this action.");
 
+   newBranch.companyId = 1;
+
       const res = await axiosInstance.post(apiRoutes.branches, newBranch, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -111,6 +114,7 @@ export const useEditBranch = () => {
     if (!token) throw new Error("Unauthorized to perform this action.");
 
     const { id: branchId, ...payload } = updatedBranch;
+    id.companyId = 1;
 
     const res = await axiosInstance.put(
       `${apiRoutes.branches}/${branchId}`,
@@ -152,6 +156,7 @@ export const useDeleteBranch = () => {
   const deleteBranch = async (branch: BranchDetails) => {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("Unauthorized to perform this action.");
+   branch.companyId = 1;
 
     const res = await axiosInstance.delete(
       `${apiRoutes.branches}/${branch.id}`,

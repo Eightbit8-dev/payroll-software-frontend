@@ -8,8 +8,9 @@ export interface SignInResponseType {
 }
 export interface BranchDetails {
   id: number;
+
   code: string;
-  companyId: string;
+  companyId: number;
   name: string;
   addressLine1: string;
   addressLine2: string;
@@ -71,4 +72,28 @@ export interface LoanDetails {
   loanRepaymentPeriod: number;
   employeeWorkedMonths: number;
   remarks: string;
+}
+
+export interface AllowanceDetails {
+  id: number;
+  name: string;
+  mastertypeId: number;
+  percent: number;
+  on: string;
+  remarks: string;
+}
+
+export interface ShiftDetails {
+  id: number;
+  name: string;
+  type: string;
+  present: string;
+  lop: string;
+  earlyGoing: string;
+  lateComing: string;
+  isNight: string;
+  shiftIn: string;
+  shiftOut: string;
+  lunchOut: string;
+  lunchIn: string;
 }
