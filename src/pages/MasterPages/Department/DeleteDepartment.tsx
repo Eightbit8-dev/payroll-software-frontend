@@ -23,29 +23,26 @@ export const DeleteDepartmentDialogBox = ({
     isSuccess,
   } = useDeleteDepartment();
 
+  //Dummy data for cleanuo
+  const emptyDepartment: DepartmentDetails = {
+    name: "",
+    code: "",
+    remarks: "",
+    active: true,
+    id: 0,
+  };
+
   useEffect(() => {
     if (isSuccess) {
       setFormState("create");
-      setDepartment({
-        name: "",
-        code: "",
-        remarks: "",
-        active: true,
-        id: 0,
-      });
+      setDepartment(emptyDepartment);
     }
   }, [isSuccess]);
 
   const handleDelete = (dept: DepartmentDetails) => {
-    deleteDepartment(dept);
+    deleteDepartment(dept.id);
     setIsDeleteDepartmentDialogOpen(false);
-    setDepartment({
-      name: "",
-      code: "",
-      remarks: "",
-      active: true,
-      id: 0,
-    });
+    setDepartment(emptyDepartment);
     setFormState("create");
   };
 

@@ -181,3 +181,57 @@ export const InputCheckbox: React.FC<InputCheckboxProps> = ({
     </div>
   );
 };
+
+interface TimeInputProps {
+  title: string;
+  value: string;
+  onChange: (val: string) => void;
+  name?: string;
+  placeholder?: string;
+  required?: boolean;
+  disabled?: boolean;
+}
+
+export const TimeInput: React.FC<TimeInputProps> = ({
+  title,
+  value,
+  onChange,
+  name = "",
+  placeholder = "Select time",
+  required = false,
+  disabled = false,
+}) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value);
+  };
+
+  return (
+    <div className="relative w-full min-w-[180px] self-stretch">
+      <h3 className="mb-0.5 w-full justify-start text-xs leading-loose font-semibold text-slate-700">
+        {title}
+      </h3>
+
+      <div
+        className={`input-container group flex cursor-pointer flex-row items-center justify-between gap-2 overflow-clip rounded-xl border-2 border-slate-300 bg-white transition-all ${
+          !disabled && "focus-within:border-slate-500"
+        }`}
+      >
+        <input
+          required={required}
+          disabled={disabled}
+          readOnly={disabled}
+          type="time"
+          name={name}
+          placeholder={placeholder}
+          onChange={handleChange}
+          value={value}
+          style={{
+            zoom: 1, // ⬅️ makes entire input including clock icon bigger
+            WebkitAppearance: "textfield",
+          }}
+          className="min-h-max w-full px-3 py-3 text-start text-sm font-medium text-slate-600 autofill:text-black focus:outline-none"
+        />
+      </div>
+    </div>
+  );
+};

@@ -1,58 +1,67 @@
 import ButtonSm from "../../../components/common/Buttons";
-import BloodEdit from "./EditBlood.component";
+
 import PageHeader from "../../../components/masterPage.components/PageHeader";
 import { AnimatePresence } from "motion/react";
 import { useState } from "react";
-import DialogBox from "../../../components/common/DialogBox";
-import { DeleteBloodDialogBox } from "./DeleteBloodDialogBox";
+
 import MasterPagesSkeleton from "../../../components/masterPage.components/LoadingSkeleton";
 import ErrorComponent from "../../../components/common/Error";
 import type { FormState } from "../../../types/appTypes";
-import type { BloodDetails } from "../../../types/apiTypes";
-import { useFetchBloods } from "../../../queries/BloodQuery";
+import type { PermissionDetails } from "../../../types/apiTypes";
+import { useFetchPermissions } from "../../../queries/PermissionQuery";
+import DialogBox from "../../../components/common/DialogBox";
+import { DeletePermissionDialogBox } from "./PerissionDeleteDialog";
+import PermissionEdit from "./Permisson.component";
 
-const BloodPage = () => {
-  const [isDeleteBloodDialogOpen, setIsDeleteBloodDialogOpen] = useState(false);
-  const [blood, setBlood] = useState<BloodDetails | null>(null);
+const PermissionPage = () => {
+  const [isDeletePermissionDialogOpen, setIsDeletePermissionDialogOpen] =
+    useState(false);
+  const [permission, setPermission] = useState<PermissionDetails | null>(null);
   const [formState, setFormState] = useState<FormState>("create");
 
-  const { data: bloods, isLoading, isError } = useFetchBloods();
+  const { data: permissions, isLoading, isError } = useFetchPermissions();
 
   if (isLoading) return <MasterPagesSkeleton />;
   if (isError) return <ErrorComponent />;
 
-  const handleRowClick = (item: BloodDetails) => {
-    setBlood({
+  const handleRowClick = (item: PermissionDetails) => {
+    setPermission({
       id: item.id,
       name: item.name,
+      mastertypeId: item.mastertypeId,
+      startTime: item.startTime,
+      endTime: item.endTime,
       remarks: item.remarks || "",
     });
     setFormState("display");
   };
 
-  const handleEdit = (item: BloodDetails) => {
-    setBlood({
+  const handleEdit = (item: PermissionDetails) => {
+    setPermission({
       id: item.id,
       name: item.name,
+      mastertypeId: item.mastertypeId,
+      startTime: item.startTime,
+      endTime: item.endTime,
       remarks: item.remarks || "",
     });
     setFormState("edit");
   };
 
-  const handleDelete = (item: BloodDetails) => {
-    setBlood(item);
-    setIsDeleteBloodDialogOpen(true);
+  const handleDelete = (item: PermissionDetails) => {
+    setPermission(item);
+    setIsDeletePermissionDialogOpen(true);
   };
 
   return (
     <main className="flex w-full max-w-full flex-col gap-4 md:flex-row">
       <AnimatePresence>
-        {isDeleteBloodDialogOpen && blood && (
-          <DialogBox setToggleDialogueBox={setIsDeleteBloodDialogOpen}>
-            <DeleteBloodDialogBox
-              setIsDeleteBloodDialogOpen={setIsDeleteBloodDialogOpen}
-              Blood={blood}
-              setBloodData={setBlood}
+        {isDeletePermissionDialogOpen && permission && (
+          <DialogBox setToggleDialogueBox={setIsDeletePermissionDialogOpen}>
+            <DeletePermissionDialogBox
+              setIsDeletePermissionDialogOpen={setIsDeletePermissionDialogOpen}
+              Permission={permission}
+              setPermissionData={setPermission}
             />
           </DialogBox>
         )}
@@ -61,36 +70,37 @@ const BloodPage = () => {
       {/* Left Table Section */}
       <section className="table-container flex w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm md:w-[50%]">
         <header className="flex h-max flex-row items-center justify-between">
-          <PageHeader title="Blood Group Configuration" />
+          <PageHeader title="Permission Type Configuration" />
         </header>
 
         <div className="tables flex w-full flex-col overflow-clip rounded-[9px]">
           {/* Table Header */}
           <header className="header flex w-full flex-row items-center gap-2 bg-gray-200 px-3">
-            <p className="w-max min-w-[100px] px-2 py-4 text-start text-sm font-semibold text-zinc-900">
+            <p className="w-max min-w-[60px] px-2 py-4 text-start text-sm font-semibold text-zinc-900">
               S.No
             </p>
             <p className="w-full text-start text-sm font-semibold text-zinc-900">
               Name
             </p>
             <p className="w-full text-start text-sm font-semibold text-zinc-900">
-              Remarks
+              Type
             </p>
+
             <p className="min-w-[120px] text-start text-sm font-semibold text-zinc-900">
               Action
             </p>
           </header>
 
           {/* No Data */}
-          {bloods?.length === 0 && (
+          {permissions?.length === 0 && (
             <h2 className="text-md my-3 text-center font-medium text-zinc-600">
-              No Blood Group Found
+              No Permission Type Found
             </h2>
           )}
 
           {/* Table Rows */}
-          {bloods?.map((item: BloodDetails, index) => {
-            const isSelected = blood?.id === item.id;
+          {permissions?.map((item: PermissionDetails, index) => {
+            const isSelected = permission?.id === item.id;
             return (
               <div
                 key={item.id}
@@ -103,12 +113,13 @@ const BloodPage = () => {
                 } hover:bg-slate-100 active:bg-slate-200`}
                 onClick={() => handleRowClick(item)}
               >
-                <p className="w-max min-w-[100px] px-2 py-4 text-start text-sm font-medium">
+                <p className="w-max min-w-[60px] px-2 py-4 text-start text-sm font-medium">
                   {index + 1}
                 </p>
                 <p className="w-full text-start text-sm font-medium">
                   {item.name}
                 </p>
+
                 <p className="w-full text-start text-sm font-medium">
                   {item.remarks}
                 </p>
@@ -145,15 +156,15 @@ const BloodPage = () => {
 
       {/* Right Edit/Create Form Section */}
       <section className="table-container max-h-full w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm md:w-[50%]">
-        <BloodEdit
-          Blood={blood}
+        <PermissionEdit
+          permission={permission}
           formState={formState}
           setFormState={setFormState}
-          setBloodData={setBlood}
+          setPermissionData={setPermission}
         />
       </section>
     </main>
   );
 };
 
-export default BloodPage;
+export default PermissionPage;

@@ -140,16 +140,13 @@ export const useEditDepartment = () => {
 export const useDeleteDepartment = () => {
   const queryClient = useQueryClient();
 
-  const deleteDepartment = async (department: DepartmentDetails) => {
+  const deleteDepartment = async (id: number) => {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("Unauthorized to perform this action.");
 
-    const res = await axiosInstance.delete(
-      `${apiRoutes.departments}/${department.id}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      },
-    );
+    const res = await axiosInstance.delete(`${apiRoutes.departments}/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     if (res.status !== 200) {
       throw new Error(res.data?.message || "Failed to delete department");

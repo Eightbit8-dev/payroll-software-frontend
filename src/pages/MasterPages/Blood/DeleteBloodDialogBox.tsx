@@ -2,17 +2,32 @@ import { toast } from "react-toastify";
 import ButtonSm from "../../../components/common/Buttons";
 import type { BloodDetails } from "../../../types/apiTypes";
 import { useDeleteBlood } from "../../../queries/BloodQuery";
+import { useEffect } from "react";
 
 export const DeleteBloodDialogBox = ({
   setIsDeleteBloodDialogOpen,
   Blood,
+  setBloodData,
 }: {
   setIsDeleteBloodDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   Blood: BloodDetails;
+  setBloodData: React.Dispatch<React.SetStateAction<BloodDetails | null>>;
 }) => {
-  const { mutate: deleteBlood, isPending: isDeleteBloodLoading } =
-    useDeleteBlood();
+  const {
+    mutate: deleteBlood,
+    isPending: isDeleteBloodLoading,
+    isSuccess,
+  } = useDeleteBlood();
 
+  useEffect(() => {
+    if (isSuccess) {
+      setBloodData({
+        id: 0,
+        name: "",
+        remarks: "",
+      } as BloodDetails);
+    }
+  }, [isSuccess]);
   const handleDelete = (Blood: BloodDetails) => {
     deleteBlood(Blood);
   };
@@ -36,8 +51,8 @@ export const DeleteBloodDialogBox = ({
       </header>
 
       <p className="text-md font-medium text-zinc-700">
-        Are you sure want to delete the Designation {Blood.name} ? This action is
-        irreversable
+        Are you sure want to delete the Designation {Blood.name} ? This action
+        is irreversable
       </p>
 
       <section className="mt-1 grid w-full grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3">

@@ -111,8 +111,7 @@ const DepartmentsPage = () => {
                     className="bg-red-100 text-red-500 outline-1 outline-red-500 hover:bg-red-100 hover:text-red-500 active:bg-red-100 active:text-red-500"
                     state="default"
                     text="Delete"
-                    onClick={(e) => {
-                      e.stopPropagation();
+                    onClick={() => {
                       setFormState("create");
                       setIsDeleteDepartmentDialogOpen(true);
                     }}

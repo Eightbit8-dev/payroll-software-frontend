@@ -22,7 +22,8 @@ const BranchesPage = () => {
     }
   }, [navigate]);
 
-  const [isDeleteBranchDialogOpen, setIsDeleteBranchDialogOpen] = useState(false);
+  const [isDeleteBranchDialogOpen, setIsDeleteBranchDialogOpen] =
+    useState(false);
 
   const [branch, setBranch] = useState<BranchDetails | null>(null); // ✅ FIXED here
 
@@ -44,6 +45,8 @@ const BranchesPage = () => {
         {isDeleteBranchDialogOpen && (
           <DialogBox setToggleDialogueBox={setIsDeleteBranchDialogOpen}>
             <DeleteBranchDialogBox
+              setBranch={setBranch}
+              setFormState={setFormState}
               setIsDeleteBranchDialogOpen={setIsDeleteBranchDialogOpen}
               branch={branch!}
               onDeleted={handleBranchDeleted}
@@ -52,7 +55,7 @@ const BranchesPage = () => {
         )}
       </AnimatePresence>
 
-      <section className="table-container flex w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm md:w-[50%]">
+      <section className="table-container flex w-full flex-col gap-3 rounded-[12px] p-4 shadow-sm md:w-[50%]">
         <header className="flex flex-row items-center justify-between">
           <PageHeader title="Branch configuration" />
         </header>
@@ -86,8 +89,8 @@ const BranchesPage = () => {
                 branch?.id === item.id
                   ? "bg-gray-100 text-white"
                   : index % 2 === 0
-                  ? "bg-white"
-                  : "bg-slate-50"
+                    ? "bg-white"
+                    : "bg-slate-50"
               } hover:bg-slate-100 active:bg-slate-200`}
               onClick={(e) => {
                 e.stopPropagation();
@@ -99,16 +102,18 @@ const BranchesPage = () => {
               <p className="w-max min-w-[100px] px-2 py-4 text-start text-sm font-medium">
                 {index + 1}
               </p>
-              <p className="w-full text-start text-sm font-medium">{item.name}</p>
               <p className="w-full text-start text-sm font-medium">
-                {item.addressLine1}
+                {item.name || ""}
+              </p>
+              <p className="w-full text-start text-sm font-medium">
+                {item.addressLine1 || ""}
               </p>
 
               <div className="flex min-w-[120px] flex-row gap-2 text-start text-sm font-medium">
                 <ButtonSm
                   className={`${
                     formState === "edit" && branch?.id === item.id
-                      ? "bg-blue-500 text-white hover:bg-blue-500 hover:text-black active:bg-blue-600"
+                      ? "!hover:bg-blue-100 !hover:!text-black !active:bg-blue-600 !bg-blue-500 !text-white"
                       : "bg-white"
                   }`}
                   state="outline"

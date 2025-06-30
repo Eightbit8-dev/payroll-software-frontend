@@ -23,7 +23,11 @@ const BloodEdit = ({
     remarks: "",
   });
 
-  const { mutate: createBlood, isPending: isCreating, isSuccess: isCreated } = useCreateBlood();
+  const {
+    mutate: createBlood,
+    isPending: isCreating,
+    isSuccess: isCreated,
+  } = useCreateBlood();
   const {
     mutate: updateBlood,
     isPending: isUpdating,
@@ -71,7 +75,7 @@ const BloodEdit = ({
 
   return (
     <main className="flex max-h-full w-full max-w-[870px] flex-col gap-2">
-      <div className="designation-config-container flex flex-col gap-3 rounded-[20px] bg-white/80">
+      <div className="designation-config-container flex flex-col gap-3 rounded-[20px]">
         <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
           <header className="flex w-full flex-row items-center justify-between">
             <h1 className="text-start text-lg font-semibold text-zinc-800">
@@ -81,7 +85,9 @@ const BloodEdit = ({
             </h1>
 
             <section className="ml-auto flex flex-row items-center gap-3">
-              {(formState === "edit" || (formState === "create" && (formData.name || formData.remarks))) && (
+              {(formState === "edit" ||
+                (formState === "create" &&
+                  (formData.name || formData.remarks))) && (
                 <ButtonSm
                   className="font-medium"
                   text="Cancel"
@@ -113,12 +119,12 @@ const BloodEdit = ({
 
               {formState === "edit" && (
                 <ButtonSm
-                  className="font-medium text-white"
+                  className="font-medium text-white disabled:opacity-50"
                   text={isUpdating ? "Updating..." : "Save Changes"}
                   state="default"
                   type="button"
                   onClick={handleUpdate}
-                  disabled={isUpdating}
+                  disabled={isUpdating || !formData.name || !formData.remarks}
                 />
               )}
             </section>
@@ -133,21 +139,18 @@ const BloodEdit = ({
               inputValue={formData.name}
               name="Blood"
               placeholder="Enter Blood Group name"
-              maxLength={50}
-              onChange={(value) =>
-                setFormData({ ...formData, name: value })
-              }
+              maxLength={5}
+              onChange={(value) => setFormData({ ...formData, name: value })}
             />
             <TextArea
+              required
               disabled={isDisplay}
               title="Remarks"
               inputValue={formData.remarks}
               name="remarks"
               placeholder="Enter remarks"
               maxLength={300}
-              onChange={(value) =>
-                setFormData({ ...formData, remarks: value })
-              }
+              onChange={(value) => setFormData({ ...formData, remarks: value })}
             />
           </section>
         </form>

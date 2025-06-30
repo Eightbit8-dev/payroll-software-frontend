@@ -1,36 +1,49 @@
 import { toast } from "react-toastify";
 import ButtonSm from "../../../components/common/Buttons";
-import type { DepartmentDetails } from "../../../types/apiTypes";
-import { useDeleteDepartment } from "../../../queries/DepartmentQuery";
+import type { AttendanceDetails } from "../../../types/apiTypes";
 
-export const DeleteDepartmentDialogBox = ({
-  setIsDeleteDepartmentDialogOpen,
-  department,
+import { useDeleteAttendance } from "../../../queries/AttendanceQuery";
+
+export const DeleteAttendanceDialogBox = ({
+  setIsDeleteAttendanceDialogOpen,
+  attendance,
+  setAttendanceDetails,
 }: {
-  setIsDeleteDepartmentDialogOpen: React.Dispatch<
+  setIsDeleteAttendanceDialogOpen: React.Dispatch<
     React.SetStateAction<boolean>
   >;
-  department: DepartmentDetails;
+  setAttendanceDetails: React.Dispatch<
+    React.SetStateAction<AttendanceDetails | null>
+  >;
+  attendance: AttendanceDetails;
 }) => {
-  const { mutate: DeleteDepartment, isPending: isDeleteDepartmentLoading } =
-    useDeleteDepartment();
+  const { mutate, isPending } = useDeleteAttendance();
 
-  const handleDelete = (department: DepartmentDetails) => {
-    DeleteDepartment(department);
+  const handleDelete = (attendanceType: AttendanceDetails) => {
+    mutate(attendanceType);
+    setAttendanceDetails({
+      id: 0,
+      name: "",
+      code: "",
+      factor: 0,
+      mastertypeId: 0,
+      carryForward: false,
+      remarks: "",
+    } as AttendanceDetails);
   };
   return (
     <form
       className="flex w-full flex-col gap-4"
       onSubmit={(e) => {
         e.preventDefault();
-        toast.success("Deleted department " + JSON.stringify(":"));
-        setIsDeleteDepartmentDialogOpen(false);
+        toast.success("Deleted Attendance type " + JSON.stringify(":"));
+        setIsDeleteAttendanceDialogOpen(false);
       }}
     >
       <header className="header flex w-full flex-row items-center justify-between text-lg font-medium text-red-600">
-        Delete Department
+        Delete Attendance type
         <img
-          onClick={() => setIsDeleteDepartmentDialogOpen(false)}
+          onClick={() => setIsDeleteAttendanceDialogOpen(false)}
           className="w-5 cursor-pointer"
           src="/icons/close-icon.svg"
           alt="close"
@@ -38,7 +51,7 @@ export const DeleteDepartmentDialogBox = ({
       </header>
 
       <p className="text-md font-medium text-zinc-700">
-        Are you sure want to delete the department {department.name} ? This
+        Are you sure want to delete the attendance type {attendance.name} ? This
         action is irreversable
       </p>
 
@@ -47,16 +60,16 @@ export const DeleteDepartmentDialogBox = ({
           className="justify-center font-semibold"
           state="outline"
           text="Cancel"
-          onClick={() => setIsDeleteDepartmentDialogOpen(false)}
+          onClick={() => setIsDeleteAttendanceDialogOpen(false)}
         />
         <ButtonSm
           className="items-center justify-center bg-red-500 text-center text-white hover:bg-red-700 active:bg-red-500"
           state="default"
           onClick={() => {
-            handleDelete(department);
-            setIsDeleteDepartmentDialogOpen(false);
+            handleDelete(attendance);
+            setIsDeleteAttendanceDialogOpen(false);
           }}
-          text={isDeleteDepartmentLoading ? "Deleting..." : "Delete"}
+          text={isPending ? "Deleting..." : "Delete"}
         />
       </section>
     </form>

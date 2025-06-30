@@ -8,16 +8,18 @@ export const DeleteDesignationDialogBox = ({
   Designation,
   onDeleted,
 }: {
-  setIsDeleteDesignationDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsDeleteDesignationDialogOpen: React.Dispatch<
+    React.SetStateAction<boolean>
+  >;
   Designation: DesignationsDetails;
   onDeleted: () => void;
 }) => {
-  const { mutate: deleteDesignation, isPending: isDeleting } = useDeleteDesignation();
+  const { mutate: deleteDesignation, isPending: isDeleting } =
+    useDeleteDesignation();
 
   const handleDelete = () => {
     deleteDesignation(Designation, {
       onSuccess: () => {
-        toast.success(`Deleted designation "${Designation.name}" successfully`);
         onDeleted(); // reset state in parent
         setIsDeleteDesignationDialogOpen(false);
       },
@@ -46,8 +48,8 @@ export const DeleteDesignationDialogBox = ({
       </header>
 
       <p className="text-md font-medium text-zinc-700">
-        Are you sure you want to delete the designation <strong>{Designation.name}</strong>? This action
-        is irreversible.
+        Are you sure you want to delete the designation{" "}
+        <strong>{Designation.name}</strong>? This action is irreversible.
       </p>
 
       <section className="mt-1 grid w-full grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3">

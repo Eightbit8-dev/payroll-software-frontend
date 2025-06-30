@@ -4,6 +4,8 @@ import ButtonSm from "../../../components/common/Buttons";
 import type { FormState } from "../../../types/appTypes";
 import { useCreateBranch, useEditBranch } from "../../../queries/BranchQuery";
 import type { BranchDetails } from "../../../types/apiTypes";
+import { usersData } from "../../../utils/userData";
+import UserAccessDetails from "../Users.component";
 
 const BranchEdit = ({
   branchDetails,
@@ -16,18 +18,11 @@ const BranchEdit = ({
   setFormState: React.Dispatch<React.SetStateAction<FormState>>;
   setBranchData: React.Dispatch<React.SetStateAction<BranchDetails | null>>;
 }) => {
-  const usersData = [
-    { id: 1, name: "Sabarish Vijayakumar", role: "HR", isChecked: false },
-    { id: 2, name: "Shanthi Saba", role: "HR", isChecked: false },
-    { id: 3, name: "Sachin S", role: "HR", isChecked: false },
-    { id: 4, name: "Santosh V VP", role: "HR", isChecked: false },
-    { id: 5, name: "Panther Parama", role: "HR", isChecked: true },
-    { id: 6, name: "Santosh V VP", role: "HR", isChecked: false },
-  ];
-
   const [users, setUsers] = useState(usersData);
   const [branchData, setBranchDataLocal] = useState<BranchDetails | null>(null);
-  const [newbranchData, setNewBranchData] = useState<BranchDetails | null>(null);
+  const [newbranchData, setNewBranchData] = useState<BranchDetails | null>(
+    null,
+  );
   const [title, setTitle] = useState("");
 
   const { mutate: createBranch, isPending, isSuccess } = useCreateBranch();
@@ -37,17 +32,18 @@ const BranchEdit = ({
     isSuccess: isUpdatingSuccess,
   } = useEditBranch();
 
+  const emptyBranch: BranchDetails = {
+    id: 0,
+    name: "",
+    code: "",
+    addressLine1: "",
+    addressLine2: "",
+    remarks: "",
+    companyId: "",
+  };
+
   useEffect(() => {
     if (formState === "create") {
-      const emptyBranch: BranchDetails = {
-        id: 0,
-        name: "",
-        code: "",
-        addressLine1: "",
-        addressLine2: "",
-        remarks: "",
-        companyId: "",
-      };
       setBranchDataLocal(emptyBranch);
       setNewBranchData(emptyBranch);
       setTitle("");
@@ -60,45 +56,19 @@ const BranchEdit = ({
 
   useEffect(() => {
     if (isSuccess) {
-      const emptyBranch: BranchDetails = {
-        id: 0,
-        name: "",
-        code: "",
-        addressLine1: "",
-        addressLine2: "",
-        remarks: "",
-        companyId: "",
-      };
       setBranchDataLocal(emptyBranch);
       setNewBranchData(emptyBranch);
       setFormState("create");
       setTitle("");
     } else if (isUpdatingSuccess && newbranchData) {
       setBranchDataLocal(newbranchData);
-      setBranchData(newbranchData); // ✅ Update parent
+      setBranchData(newbranchData);
       setFormState("create");
-      setTitle(newbranchData.name); // ✅ Update title after save
+      setTitle(newbranchData.name);
     }
   }, [isSuccess, isUpdatingSuccess]);
 
-  const handleCheck = (id: number) => {
-    setUsers(
-      users.map((user) =>
-        user.id === id ? { ...user, isChecked: !user.isChecked } : user
-      )
-    );
-  };
-
   const handleCancel = () => {
-    const emptyBranch: BranchDetails = {
-      id: 0,
-      name: "",
-      code: "",
-      addressLine1: "",
-      addressLine2: "",
-      remarks: "",
-      companyId: "",
-    };
     setBranchDataLocal(emptyBranch);
     setNewBranchData(emptyBranch);
     setFormState("create");
@@ -120,7 +90,7 @@ const BranchEdit = ({
 
   return (
     <main className="flex max-h-full w-full max-w-[870px] flex-col gap-2">
-      <div className="branch-config-container flex flex-col gap-3 rounded-[20px] bg-white/80">
+      <div className="branch-config-container flex flex-col gap-3 rounded-[20px]">
         <form
           className="flex flex-col gap-3"
           onSubmit={(e) => {
@@ -137,7 +107,8 @@ const BranchEdit = ({
                 : `${title || "Branch"} Configuration`}
             </h1>
             <section className="ml-auto flex flex-row items-center gap-3">
-              {(formState === "edit" || (formState === "create" && hasData)) && (
+              {(formState === "edit" ||
+                (formState === "create" && hasData)) && (
                 <ButtonSm
                   className="font-medium"
                   text="Cancel"
@@ -158,18 +129,21 @@ const BranchEdit = ({
               {formState === "create" && (
                 <ButtonSm
                   className="font-medium text-white"
-                  text={isPending ? "Creating..." : "Create"}
+                  text={isPending ? "Creating..." : "Create branch"}
                   state="default"
                   type="submit"
                 />
               )}
               {formState === "edit" && (
                 <ButtonSm
-                  className="font-medium text-white"
+                  className="font-medium text-white disabled:opacity-60"
                   text={isUpdatePending ? "Updating..." : "Save Changes"}
                   state="default"
                   type="button"
                   onClick={() => updateBranch(newbranchData)}
+                  disabled={
+                    JSON.stringify(newbranchData) === JSON.stringify(branchData)
+                  }
                 />
               )}
             </section>
@@ -205,6 +179,7 @@ const BranchEdit = ({
                 }
               />
               <Input
+                required
                 disabled={formState === "display"}
                 title="Address Line 2"
                 type="str"
@@ -220,53 +195,7 @@ const BranchEdit = ({
           </section>
 
           {/* User Access Details */}
-          <section className="edit-access-section flex w-full flex-col gap-3">
-            <h1 className="text-start text-lg font-semibold text-zinc-800">
-              User access details
-            </h1>
-            <main className="scrollbar-visible flex w-full flex-col gap-3 overflow-y-auto max-h-[180px]">
-              <fieldset className="inline-block w-full rounded-[14px] bg-white px-3">
-                {users.map((user) => (
-                  <article
-                    key={user.id}
-                    className="flex items-center justify-between gap-3 py-2"
-                  >
-                    <p className="w-min text-sm font-semibold text-zinc-800">
-                      {user.id}
-                    </p>
-                    <p className="w-full cursor-pointer text-start text-sm font-semibold text-zinc-800 hover:text-blue-500 hover:underline">
-                      {user.name}
-                    </p>
-                    <div className="relative flex items-center">
-                      <input
-                        type="checkbox"
-                        id={`user-${user.id}`}
-                        checked={user.isChecked}
-                        onChange={() => handleCheck(user.id)}
-                        className="sr-only"
-                      />
-                      <label
-                        htmlFor={`user-${user.id}`}
-                        className={`relative block h-5 w-5 cursor-pointer rounded-[8px] border-2 p-[12px] ${
-                          user.isChecked
-                            ? "border-green-500 bg-green-500"
-                            : "border-slate-300 bg-white"
-                        }`}
-                      >
-                        {user.isChecked && (
-                          <img
-                            className="absolute top-1/2 left-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2"
-                            src="/icons/tick-icon.svg"
-                            alt="tick"
-                          />
-                        )}
-                      </label>
-                    </div>
-                  </article>
-                ))}
-              </fieldset>
-            </main>
-          </section>
+          <UserAccessDetails userData={users} setUserData={setUsers} />
         </form>
       </div>
     </main>

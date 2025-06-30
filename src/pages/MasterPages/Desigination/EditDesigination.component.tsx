@@ -20,10 +20,15 @@ const DesignationEdit = ({
   setFormState: React.Dispatch<React.SetStateAction<FormState>>;
   setDesignation: React.Dispatch<React.SetStateAction<DesignationsDetails>>;
 }) => {
-  const [designationData, setDesignationData] = useState<DesignationsDetails | null>(null);
+  const [designationData, setDesignationData] =
+    useState<DesignationsDetails | null>(null);
   const [title, setTitle] = useState("");
 
-  const { mutate: createDesignation, isPending, isSuccess } = useCreateDesignation();
+  const {
+    mutate: createDesignation,
+    isPending,
+    isSuccess,
+  } = useCreateDesignation();
   const {
     mutate: updateDesignation,
     isPending: isUpdatePending,
@@ -75,7 +80,7 @@ const DesignationEdit = ({
 
   return (
     <main className="flex max-h-full w-full max-w-[870px] flex-col gap-2">
-      <div className="designation-config-container flex flex-col gap-3 rounded-[20px] bg-white/80">
+      <div className="designation-config-container flex flex-col gap-3 rounded-[20px]">
         <form
           className="flex flex-col gap-3"
           onSubmit={(e) => {
@@ -94,7 +99,8 @@ const DesignationEdit = ({
                 : `${designationData.name} Configuration`}
             </h1>
             <section className="ml-auto flex flex-row items-center gap-3">
-              {(formState === "edit" || (formState === "create" && hasData)) && (
+              {(formState === "edit" ||
+                (formState === "create" && hasData)) && (
                 <ButtonSm
                   className="font-medium"
                   text="Cancel"
@@ -126,10 +132,15 @@ const DesignationEdit = ({
 
               {formState === "edit" && (
                 <ButtonSm
-                  className="font-medium text-white"
+                  className="font-medium text-white disabled:opacity-50"
                   text={isUpdatePending ? "Updating..." : "Save Changes"}
                   state="default"
                   type="button"
+                  disabled={
+                    isUpdatePending ||
+                    JSON.stringify(designationData) ===
+                      JSON.stringify(DesignationDetails)
+                  }
                   onClick={() => {
                     const updated = { ...designationData, name: title };
                     setDesignationData(updated);

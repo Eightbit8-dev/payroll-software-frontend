@@ -30,8 +30,16 @@ const BranchesPage = lazy(
 const DepartmentsPage = lazy(
   () => import("./pages/MasterPages/Department/DepartmentPage"),
 );
+const Bloodpage = lazy(
+  () => import("../src/pages/MasterPages/Blood/BloodPage"),
+);
+const AttendanceTypePage = lazy(
+  () => import("../src/pages/MasterPages/Attendance/AttendancePage"),
+);
 
-const Bloodpage = lazy(()=> import ("../src/pages/MasterPages/Blood/BloodPage"))
+const PermissionPage = lazy(
+  () => import("./pages/MasterPages/Permission/PermissionPage"),
+);
 const App = () => {
   return (
     <Suspense
@@ -74,23 +82,32 @@ const App = () => {
               path={appRoutes.masterRoutes.children.branches}
               element={<BranchesPage />}
             />
-          {/* Designations pages */}
-          <Route
-          path={appRoutes.masterRoutes.children.designations}
-          element={<DesignationsPage/>}
-          />
-          <Route
-          path={appRoutes.masterRoutes.children.resignations}
-          element={<ResignationPage/>}
-        />
-        <Route
-        path={appRoutes.masterRoutes.children.bloodGroups}
-        element={<Bloodpage/>}/>
+            {/* Designations pages */}
+            <Route
+              path={appRoutes.masterRoutes.children.designations}
+              element={<DesignationsPage />}
+            />
+            <Route
+              path={appRoutes.masterRoutes.children.resignations}
+              element={<ResignationPage />}
+            />
+            <Route
+              path={appRoutes.masterRoutes.children.bloodGroups}
+              element={<Bloodpage />}
+            />
 
-        <Route
-          path={appRoutes.masterRoutes.children.departments}
-          element={<DepartmentsPage />}
-        />
+            <Route
+              path={appRoutes.masterRoutes.children.departments}
+              element={<DepartmentsPage />}
+            />
+            <Route
+              path={appRoutes.masterRoutes.children.attendance}
+              element={<AttendanceTypePage />}
+            />
+            <Route
+              path={appRoutes.masterRoutes.children.permissions}
+              element={<PermissionPage />}
+            />
 
             <Route path={appRoutes.usersPage} element={<UsersPage />} />
           </Route>

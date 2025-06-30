@@ -18,12 +18,19 @@ const ResignationEdit = ({
   Resignation: ResignationDetails | null;
   formState: FormState;
   setFormState: React.Dispatch<React.SetStateAction<FormState>>;
-  setResignation: React.Dispatch<React.SetStateAction<ResignationDetails | null>>; // ✅ Declare type
+  setResignation: React.Dispatch<
+    React.SetStateAction<ResignationDetails | null>
+  >; // ✅ Declare type
 }) => {
-  const [resignationData, setResignationData] = useState<ResignationDetails | null>(null);
+  const [resignationData, setResignationData] =
+    useState<ResignationDetails | null>(null);
   const [title, setTitle] = useState("");
 
-  const { mutate: createResignation, isPending, isSuccess } = useCreateResignation();
+  const {
+    mutate: createResignation,
+    isPending,
+    isSuccess,
+  } = useCreateResignation();
   const {
     mutate: updateResignation,
     isPending: isUpdatePending,
@@ -75,7 +82,7 @@ const ResignationEdit = ({
 
   return (
     <main className="flex max-h-full w-full max-w-[870px] flex-col gap-2">
-      <div className="designation-config-container flex flex-col gap-3 rounded-[20px] bg-white/80">
+      <div className="designation-config-container flex flex-col gap-3 rounded-[20px]">
         <form
           className="flex flex-col gap-3"
           onSubmit={(e) => {
@@ -92,7 +99,8 @@ const ResignationEdit = ({
                 : `${title || "Resignation"} Configuration`}
             </h1>
             <section className="ml-auto flex flex-row items-center gap-3">
-              {(formState === "edit" || (formState === "create" && hasData)) && (
+              {(formState === "edit" ||
+                (formState === "create" && hasData)) && (
                 <ButtonSm
                   className="font-medium"
                   text="Cancel"
