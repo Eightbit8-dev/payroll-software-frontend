@@ -5,4 +5,5 @@ export const apiRoutes = {
   resigination:"/api/admin/resignation",
   Bloods: "/api/admin/bloodgroup",
   departments: "/api/admin/department",
+  loans: "/api/admin/loantype",
 };

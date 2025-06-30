@@ -44,3 +44,13 @@ export interface DepartmentDetails {
   code: string;
   active?: boolean;
 }
+
+
+export interface LoanDetails {
+  id: number;
+  name: string;
+  maxEligibilityAmount: number;
+  loanRepaymentPeriod: number;
+  employeeWorkedMonths: number;
+  remarks: string;
+}

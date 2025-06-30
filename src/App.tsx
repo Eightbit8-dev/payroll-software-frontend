@@ -11,7 +11,6 @@ import ProtectedRoute from "./components/layout/ProtectedRoute";
 const AttendancePage = lazy(() => import("./pages/AttendancePage"));
 const DashBoardPage = lazy(() => import("./pages/DashBoardPage"));
 const EmployeesPage = lazy(() => import("./pages/EmployeesPage"));
-const LoanPage = lazy(() => import("./pages/LoanPage"));
 const UsersPage = lazy(() => import("./pages/UsersPage"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 const SignInPage = lazy(() => import("./pages/SignInPage"));
@@ -30,7 +29,7 @@ const BranchesPage = lazy(
 const DepartmentsPage = lazy(
   () => import("./pages/MasterPages/Department/DepartmentPage"),
 );
-
+const LoanPage = lazy(() => import("./pages/MasterPages/Loan/LoanPage"));
 const Bloodpage = lazy(()=> import ("../src/pages/MasterPages/Blood/BloodPage"))
 const App = () => {
   return (
@@ -90,6 +89,11 @@ const App = () => {
         <Route
           path={appRoutes.masterRoutes.children.departments}
           element={<DepartmentsPage />}
+        />
+
+        <Route
+          path={appRoutes.masterRoutes.children.loans}
+          element={<LoanPage />}
         />
 
             <Route path={appRoutes.usersPage} element={<UsersPage />} />

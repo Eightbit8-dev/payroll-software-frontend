@@ -114,7 +114,7 @@ export const MasterPage = () => {
       label: " Holiday & Benefits",
       labelColor: "bg-purple-500",
       btnText: "Configure",
-      onAction: () => console.log("Training clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.loans),
     },
     {
       img: "/icons/Configpage/Allowance.svg",
