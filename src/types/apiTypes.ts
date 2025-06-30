@@ -8,6 +8,7 @@ export interface SignInResponseType {
 }
 
 export interface BranchDetails {
+  companyId?: number;
   id: number;
   code: string;
   name: string;
