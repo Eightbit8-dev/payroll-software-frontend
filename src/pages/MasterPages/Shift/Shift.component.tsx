@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import Input, { TimeInput } from "../../../components/common/Input";
-import ToggleField from "../../../components/common/ToggleField";
-
 import ButtonSm from "../../../components/common/Buttons";
 import type { FormState } from "../../../types/appTypes";
 import type { ShiftDetails } from "../../../types/apiTypes";
 import { useCreateShift, useEditShift } from "../../../queries/ShiftQuery";
 import DropdownSelect from "../../../components/common/DropDown";
 import isEqual from "lodash.isequal";
+import { useFetchAttendances } from "../../../queries/AttendanceQuery";
+import { useFetchPermissions } from "../../../queries/PermissionQuery";
 
 const ShiftEdit = ({
   Shift,
@@ -28,7 +28,7 @@ const ShiftEdit = ({
     lop: "No",
     earlyGoing: "",
     lateComing: "",
-    isNight: "No",
+    isNight: "Regular shift",
     shiftIn: "",
     shiftOut: "",
     lunchOut: "",
@@ -51,6 +51,44 @@ const ShiftEdit = ({
     { id: 1, label: "Per Day" },
     { id: 2, label: "Per Hour" },
   ];
+
+  const nightTypeOptions = [
+    { id: 1, label: "Regular shift" },
+    { id: 2, label: "Night shift" },
+    { id: 3, label: "Regular continous night" },
+  ];
+
+  const [attendanceTypeOption, setAttendanceTypeOption] = useState<
+    { id: number; label: string }[]
+  >([]);
+  const [permissionTypeOption, setPermissionTypeOption] = useState<
+    { id: number; label: string }[]
+  >([]);
+
+  const { data: attendanceTypes, isSuccess: isAttendanceTypesSuccess } =
+    useFetchAttendances();
+  const { data: permissionTypes, isSuccess: isPermissionTypesSuccess } =
+    useFetchPermissions();
+
+  useEffect(() => {
+    if (isAttendanceTypesSuccess) {
+      const options = attendanceTypes?.map((type) => ({
+        id: type.id,
+        label: type.name,
+      }));
+      setAttendanceTypeOption(options);
+    }
+  }, [isAttendanceTypesSuccess]);
+
+  useEffect(() => {
+    if (isPermissionTypesSuccess) {
+      const options = permissionTypes?.map((type) => ({
+        id: type.id || 0,
+        label: type.name,
+      }));
+      setPermissionTypeOption(options);
+    }
+  }, [isPermissionTypesSuccess]);
 
   // Set data on formState or prop change
   useEffect(() => {
@@ -135,21 +173,18 @@ const ShiftEdit = ({
 
               {formState === "edit" && (
                 <ButtonSm
-                  className="font-medium text-white disabled:opacity-50"
+                  className="w-max font-medium text-white disabled:opacity-50"
                   text={isUpdating ? "Updating..." : "Save Changes"}
                   state="default"
                   type="button"
                   onClick={handleUpdate}
-    
-                  disabled={
-                    isUpdating ||
-                    isEqual(formData, Shift)}
+                  disabled={isUpdating || isEqual(formData, Shift)}
                 />
               )}
             </section>
           </header>
 
-          <section className="flex w-full flex-col gap-2 overflow-clip px-3">
+          <section className="flex w-full flex-col gap-2 px-3">
             <div className="grid grid-cols-2 gap-3">
               <Input
                 required
@@ -178,66 +213,89 @@ const ShiftEdit = ({
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <ToggleField
+              <DropdownSelect
                 title="Present *"
                 disabled={isDisplay}
-                subtitle="Mark Present"
-                value={formData.present === "Yes"}
-                onToggle={(val) =>
-                  setFormData({ ...formData, present: val ? "Yes" : "No" })
+                options={attendanceTypeOption}
+                selected={
+                  attendanceTypeOption.find(
+                    (opt) => opt.label === formData.present,
+                  ) ?? {
+                    id: 0,
+                    label: "Select type",
+                  }
+                }
+                onChange={(opt) =>
+                  setFormData({ ...formData, present: opt.label })
                 }
               />
 
-              <ToggleField
-                title="LOP *"
+              <DropdownSelect
+                title="Loss of pay*"
                 disabled={isDisplay}
-                subtitle="Loss of Pay"
-                value={formData.lop === "Yes"}
-                onToggle={(val) =>
-                  setFormData({ ...formData, lop: val ? "Yes" : "No" })
+                options={attendanceTypeOption}
+                selected={
+                  attendanceTypeOption.find(
+                    (opt) => opt.label === formData.lop,
+                  ) ?? {
+                    id: 0,
+                    label: "Select type",
+                  }
                 }
+                onChange={(opt) => setFormData({ ...formData, lop: opt.label })}
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <Input
+              <DropdownSelect
+                title="Early going*"
                 disabled={isDisplay}
-                required
-                title="Early Going *"
-                type="str"
-                prefixText="Minutes"
-                inputValue={formData.earlyGoing}
-                name="EarlyGoing"
-                placeholder="e.g., 15"
-                maxLength={10}
-                onChange={(value) =>
-                  setFormData({ ...formData, earlyGoing: value })
+                options={permissionTypeOption}
+                selected={
+                  permissionTypeOption.find(
+                    (opt) => opt.label === formData.earlyGoing,
+                  ) ?? {
+                    id: 0,
+                    label: "Select type",
+                  }
+                }
+                onChange={(opt) =>
+                  setFormData({ ...formData, earlyGoing: opt.label })
                 }
               />
 
-              <Input
+              <DropdownSelect
+                title="Late coming*"
                 disabled={isDisplay}
-                required
-                title="Late Coming *"
-                prefixText="Minutes"
-                type="str"
-                inputValue={formData.lateComing}
-                name="LateComing"
-                placeholder="e.g., 10"
-                maxLength={10}
-                onChange={(value) =>
-                  setFormData({ ...formData, lateComing: value })
+                options={permissionTypeOption}
+                selected={
+                  permissionTypeOption.find(
+                    (opt) => opt.label === formData.lateComing,
+                  ) ?? {
+                    id: 0,
+                    label: "Select type",
+                  }
+                }
+                onChange={(opt) =>
+                  setFormData({ ...formData, lateComing: opt.label })
                 }
               />
             </div>
 
-            <ToggleField
-              title="Night Shift *"
+            <DropdownSelect
+              title="Shift type*"
               disabled={isDisplay}
-              subtitle="Is Night Shift"
-              value={formData.isNight === "Yes"}
-              onToggle={(val) =>
-                setFormData({ ...formData, isNight: val ? "Yes" : "No" })
+              options={nightTypeOptions}
+              selected={
+                nightTypeOptions.find(
+                  (opt) => opt.label === formData.isNight,
+                ) ?? {
+                  id: 0,
+                  label: "Select type",
+                }
+              }
+              onChange={(opt) =>
+                setFormData({ ...formData, isNight: opt.label })
               }
             />
 

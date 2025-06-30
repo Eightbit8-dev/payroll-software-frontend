@@ -1,16 +1,29 @@
 import { useEffect, useState } from "react";
 import Input from "../../../components/common/Input";
 import ButtonSm from "../../../components/common/Buttons";
-import TextArea from "../../../components/common/Textarea";
 import DropdownSelect from "../../../components/common/DropDown";
 import type { FormState } from "../../../types/appTypes";
-import type { HolidayDetails } from "../../../types/apiTypes";
 import {
   useCreateHoliday,
   useEditHoliday,
-  useFetchHolidayMonths,
-  useFetchHolidayYears,
 } from "../../../queries/HolidayQuery";
+import type { HolidayDetailsResponse } from "../../../types/apiTypes";
+import { monthOptions, yearOptions } from "../../../constants";
+import Chip from "../../../components/common/Chips";
+
+const departmentOptions = [
+  { id: 1, label: "HR" },
+  { id: 2, label: "Engineering" },
+  { id: 3, label: "Sales" },
+  { id: 4, label: "Marketing" },
+];
+
+const branchOptions = [
+  { id: 101, label: "Chennai" },
+  { id: 102, label: "Mumbai" },
+  { id: 103, label: "Delhi" },
+  { id: 104, label: "Bangalore" },
+];
 
 const HolidayEdit = ({
   holidayDetails,
@@ -18,26 +31,27 @@ const HolidayEdit = ({
   setFormState,
   setHolidayData,
 }: {
-  holidayDetails: HolidayDetails | null;
+  holidayDetails: HolidayDetailsResponse | null;
   formState: FormState;
   setFormState: React.Dispatch<React.SetStateAction<FormState>>;
-  setHolidayData: React.Dispatch<React.SetStateAction<HolidayDetails | null>>;
+  setHolidayData: React.Dispatch<
+    React.SetStateAction<HolidayDetailsResponse | null>
+  >;
 }) => {
-  const emptyHoliday: HolidayDetails = {
+  const emptyHoliday: HolidayDetailsResponse = {
     id: 0,
     name: "",
-    branchIds: [],
-    departmentIds: [],
+    date: "",
+    branches: [],
+    departments: [],
     month: "",
     year: "",
     leaveType: "",
     remarks: "",
   };
 
-  const [formData, setFormData] = useState<HolidayDetails>(emptyHoliday);
-
-  const { data: months = [] } = useFetchHolidayMonths();
-  const { data: years = [] } = useFetchHolidayYears();
+  const [formData, setFormData] =
+    useState<HolidayDetailsResponse>(emptyHoliday);
 
   const {
     mutate: createHoliday,
@@ -88,6 +102,40 @@ const HolidayEdit = ({
 
   const isDisplay = formState === "display";
 
+  const handleAddDepartment = (opt: { id: number; label: string }) => {
+    const exists = formData.departments.some((d) => d[0] === opt.id);
+    if (!exists) {
+      setFormData({
+        ...formData,
+        departments: [...formData.departments, [opt.id, opt.label]],
+      });
+    }
+  };
+
+  const handleRemoveDepartment = (id: number) => {
+    setFormData({
+      ...formData,
+      departments: formData.departments.filter((d) => d[0] !== id),
+    });
+  };
+
+  const handleAddBranch = (opt: { id: number; label: string }) => {
+    const exists = formData.branches.some((b) => b[0] === opt.id);
+    if (!exists) {
+      setFormData({
+        ...formData,
+        branches: [...formData.branches, [opt.id, opt.label]],
+      });
+    }
+  };
+
+  const handleRemoveBranch = (id: number) => {
+    setFormData({
+      ...formData,
+      branches: formData.branches.filter((b) => b[0] !== id),
+    });
+  };
+
   return (
     <main className="flex max-h-full w-full max-w-[870px] flex-col gap-2">
       <div className="holiday-config-container flex flex-col gap-3 rounded-[20px]">
@@ -98,7 +146,6 @@ const HolidayEdit = ({
                 ? "Holiday Configuration"
                 : `${formData.name || "Holiday"} Configuration`}
             </h1>
-
             <section className="ml-auto flex flex-row items-center gap-3">
               {(formState === "edit" ||
                 (formState === "create" && formData.name)) && (
@@ -110,7 +157,6 @@ const HolidayEdit = ({
                   onClick={handleCancel}
                 />
               )}
-
               {formState === "display" && formData.id !== 0 && (
                 <ButtonSm
                   className="font-medium"
@@ -120,7 +166,6 @@ const HolidayEdit = ({
                   onClick={handleCancel}
                 />
               )}
-
               {formState === "create" && (
                 <ButtonSm
                   className="font-medium text-white disabled:opacity-50"
@@ -133,11 +178,12 @@ const HolidayEdit = ({
                     !formData.month ||
                     !formData.year ||
                     !formData.leaveType ||
-                    !formData.remarks
+                    !formData.remarks ||
+                    !formData.departments.length ||
+                    !formData.branches.length
                   }
                 />
               )}
-
               {formState === "edit" && (
                 <ButtonSm
                   className="font-medium text-white disabled:opacity-50"
@@ -151,7 +197,9 @@ const HolidayEdit = ({
                     !formData.month ||
                     !formData.year ||
                     !formData.leaveType ||
-                    !formData.remarks
+                    !formData.remarks ||
+                    !formData.departments.length ||
+                    !formData.branches.length
                   }
                 />
               )}
@@ -174,10 +222,9 @@ const HolidayEdit = ({
             <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3">
               <DropdownSelect
                 title="Month *"
-                disabled={isDisplay}
-                options={months}
+                options={monthOptions}
                 selected={
-                  months.find((m) => m.label === formData.month) || {
+                  monthOptions.find((opt) => opt.label === formData.month) ?? {
                     id: 0,
                     label: "Select Month",
                   }
@@ -186,13 +233,11 @@ const HolidayEdit = ({
                   setFormData({ ...formData, month: opt.label })
                 }
               />
-
               <DropdownSelect
                 title="Year *"
-                disabled={isDisplay}
-                options={years}
+                options={yearOptions}
                 selected={
-                  years.find((y) => y.label === formData.year) || {
+                  yearOptions.find((opt) => opt.label === formData.year) ?? {
                     id: 0,
                     label: "Select Year",
                   }
@@ -216,18 +261,53 @@ const HolidayEdit = ({
               }
             />
 
-            <TextArea
-              required
-              disabled={isDisplay}
-              title="Remarks *"
-              inputValue={formData.remarks}
-              name="Remarks"
-              placeholder="Enter description"
-              maxLength={300}
-              onChange={(value) =>
-                setFormData({ ...formData, remarks: value })
-              }
-            />
+            {/* Departments Section */}
+            <div className="flex flex-col gap-2">
+              <h3 className="text-sm font-medium text-slate-700">
+                Departments *
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {formData.departments.map(([id, label]) => (
+                  <Chip
+                    key={id}
+                    label={label}
+                    isEditable={!isDisplay}
+                    onRemove={() => handleRemoveDepartment(id)}
+                  />
+                ))}
+              </div>
+              {!isDisplay && (
+                <DropdownSelect
+                  title="Select departments to add"
+                  options={departmentOptions}
+                  selected={{ id: 0, label: "Select department" }}
+                  onChange={handleAddDepartment}
+                />
+              )}
+            </div>
+
+            {/* Branches Section */}
+            <div className="flex flex-col gap-2">
+              <h3 className="text-sm font-medium text-slate-700">Branches *</h3>
+              <div className="flex flex-wrap gap-2">
+                {formData.branches.map(([id, label]) => (
+                  <Chip
+                    key={id}
+                    label={label}
+                    isEditable={!isDisplay}
+                    onRemove={() => handleRemoveBranch(id)}
+                  />
+                ))}
+              </div>
+              {!isDisplay && (
+                <DropdownSelect
+                  title="Select branches to add"
+                  options={branchOptions}
+                  selected={{ id: 0, label: "Select branch" }}
+                  onChange={handleAddBranch}
+                />
+              )}
+            </div>
           </section>
         </form>
       </div>

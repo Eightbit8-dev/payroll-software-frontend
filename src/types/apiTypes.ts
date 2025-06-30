@@ -98,13 +98,25 @@ export interface ShiftDetails {
   lunchIn: string;
 }
 
-
-export interface HolidayDetails {
+export interface HolidayDetailsRequest {
   id: number;
   name: string;
+  createdDate: string;
   branchIds: number[];
   departmentIds: number[];
-  month:string;
+  month: string;
+  year: string;
+  leaveType: string;
+  remarks: string;
+}
+
+export interface HolidayDetailsResponse {
+  id: number;
+  name: string;
+  date: string;
+  branches: [number, string][]; // this easy to hanlde [[1:"branch1"]]
+  departments: [number, string][]; //[[2:"AML"],[3:"CSE"]]
+  month: string;
   year: string;
   leaveType: string;
   remarks: string;

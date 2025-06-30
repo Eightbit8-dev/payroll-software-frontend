@@ -170,7 +170,7 @@ export const InputCheckbox: React.FC<InputCheckboxProps> = ({
           >
             {checked && (
               <img
-                className="pointer-events-none  absolute top-1/2 left-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 cursor-default select-none"
+                className="pointer-events-none absolute top-1/2 left-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 cursor-default select-none"
                 src="/icons/tick-icon.svg"
                 alt="tick"
               />
@@ -228,8 +228,9 @@ export const TimeInput: React.FC<TimeInputProps> = ({
           style={{
             zoom: 1, // ⬅️ makes entire input including clock icon bigger
             WebkitAppearance: "textfield",
+            cursor: "pointer",
           }}
-          className="min-h-max w-full px-3 py-3 text-start text-sm font-medium text-slate-600 autofill:text-black focus:outline-none"
+          className="min-h-max w-full cursor-pointer px-3 py-3 text-start text-sm font-medium text-slate-600 autofill:text-black focus:outline-none"
         />
       </div>
     </div>
