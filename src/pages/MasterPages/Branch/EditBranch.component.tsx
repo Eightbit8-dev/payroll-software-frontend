@@ -66,7 +66,7 @@ const BranchEdit = ({
         remarks: "",
         companyId: "",
       };
-      setBranchData(emptyBranch);
+      setBranchDataLocal(emptyBranch);
       setNewBranchData(emptyBranch);
       setFormState("create");
       setTitle("");
