@@ -56,17 +56,6 @@ const BranchEdit = ({
   useEffect(() => {
     if (isSuccess) {
       setBranchDataLocal(emptyBranch);
-   
-      const emptyBranch: BranchDetails = {
-        id: 0,
-        name: "",
-        code: "",
-        addressLine1: "",
-        addressLine2: "",
-        remarks: "",
-        companyId: "",
-      };
-      setBranchDataLocal(emptyBranch);
       setNewBranchData(emptyBranch);
       setFormState("create");
       setTitle("");
