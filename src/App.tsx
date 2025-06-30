@@ -6,6 +6,7 @@ import MainLayout from "./components/layout/MainLayout";
 import { appRoutes } from "./routes/appRoutes";
 import { Spinner } from "./components/layout/Spinner";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
+import LoanPage from "./pages/LoanPage";
 
 // Pages
 const AttendancePage = lazy(() => import("./pages/AttendancePage"));
@@ -29,7 +30,8 @@ const BranchesPage = lazy(
 const DepartmentsPage = lazy(
   () => import("./pages/MasterPages/Department/DepartmentPage"),
 );
-const LoanPage = lazy(() => import("./pages/MasterPages/Loan/LoanPage"));const Bloodpage = lazy(
+const LoanMPage = lazy(() => import("./pages/MasterPages/Loan/LoanPage"));
+const Bloodpage = lazy(
   () => import("../src/pages/MasterPages/Blood/BloodPage"),
 );
 const AttendanceTypePage = lazy(
@@ -95,10 +97,22 @@ const App = () => {
               element={<Bloodpage />}
             />
 
-        <Route
-          path={appRoutes.masterRoutes.children.departments}
-          element={<DepartmentsPage />}
-        />
+            <Route
+              path={appRoutes.masterRoutes.children.departments}
+              element={<DepartmentsPage />}
+            />
+            <Route
+              path={appRoutes.masterRoutes.children.loans}
+              element={<LoanMPage />}
+            />
+            <Route
+              path={appRoutes.masterRoutes.children.attendance}
+              element={<AttendanceTypePage />}
+            />
+            <Route
+              path={appRoutes.masterRoutes.children.permissions}
+              element={<PermissionPage />}
+            />
 
             <Route path={appRoutes.usersPage} element={<UsersPage />} />
           </Route>
