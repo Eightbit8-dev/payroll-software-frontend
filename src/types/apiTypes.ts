@@ -3,6 +3,9 @@ export interface signInRequestType {
   password: string;
 }
 
+export interface SignInResponseType {
+  token: string;
+}
 export interface BranchDetails {
   id: number;
   code: string;
@@ -14,9 +17,9 @@ export interface BranchDetails {
   active?: boolean;
 }
 
-export interface BloodDetails{
+export interface BloodDetails {
   id: number;
-  name:string;
+  name: string;
   remarks: string;
 }
 
@@ -27,14 +30,10 @@ export interface DesignationsDetails {
   remarks: string;
 }
 
-export interface ResignationDetails{
+export interface ResignationDetails {
   id: number;
   name: string;
   remarks: string;
-}
-
-export interface SignInResponseType {
-  token: string;
 }
 
 export interface DepartmentDetails {
@@ -43,4 +42,33 @@ export interface DepartmentDetails {
   remarks: string;
   code: string;
   active?: boolean;
+}
+
+export interface AttendanceDetails {
+  id: number;
+  name: string;
+  code: string;
+  factor: number;
+  mastertypeId: number;
+  carryForward: boolean;
+  remarks: string;
+}
+
+export interface PermissionDetails {
+  id?: number;
+  name: string;
+  mastertypeId: number;
+  mastertypeName?: string;
+  startTime: string;
+  endTime: string;
+  remarks: string;
+}
+
+export interface LoanDetails {
+  id: number;
+  name: string;
+  maxEligibilityAmount: number;
+  loanRepaymentPeriod: number;
+  employeeWorkedMonths: number;
+  remarks: string;
 }

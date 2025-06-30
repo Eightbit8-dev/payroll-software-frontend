@@ -13,54 +13,61 @@ const ResignationEdit = ({
   Resignation,
   formState,
   setFormState,
+  setResignation, // ✅ NEW PROP
 }: {
   Resignation: ResignationDetails | null;
   formState: FormState;
   setFormState: React.Dispatch<React.SetStateAction<FormState>>;
+  setResignation: React.Dispatch<
+    React.SetStateAction<ResignationDetails | null>
+  >; // ✅ Declare type
 }) => {
-  const [resignationData, setResignationData] = useState<ResignationDetails | null>(null);
+  const [resignationData, setResignationData] =
+    useState<ResignationDetails | null>(null);
+  const [title, setTitle] = useState("");
 
-  const { mutate: createResignation, isPending, isSuccess } = useCreateResignation();
+  const {
+    mutate: createResignation,
+    isPending,
+    isSuccess,
+  } = useCreateResignation();
   const {
     mutate: updateResignation,
     isPending: isUpdatePending,
     isSuccess: isUpdatingSuccess,
   } = useEditResignation();
 
-  // Handle form state change
+  // On form mode or data change
   useEffect(() => {
     if (formState === "create") {
-      setResignationData({
-        id: 0,
-        name: "",
-        remarks: "",
-      });
+      const reset = { id: 0, name: "", remarks: "" };
+      setResignationData(reset);
+      setTitle("");
     } else if (Resignation) {
       setResignationData(Resignation);
+      setTitle(Resignation.name); // Lock title on first load
     }
   }, [Resignation, formState]);
 
-  // Handle success
+  // On success update title if updated
   useEffect(() => {
     if (isSuccess) {
+      const reset = { id: 0, name: "", remarks: "" };
+      setResignationData(reset);
       setFormState("create");
-      setResignationData({
-        id: 0,
-        name: "",
-        remarks: "",
-      });
-    } else if (isUpdatingSuccess) {
-      setFormState("display");
+      setTitle("");
+    } else if (isUpdatingSuccess && resignationData) {
+      setFormState("create");
+      setResignation(resignationData); // ✅ UPDATE PARENT
+      setTitle(resignationData.name); // Update title after save
     }
   }, [isSuccess, isUpdatingSuccess]);
 
   const handleCancel = () => {
+    const reset = { id: 0, name: "", remarks: "" };
+    setResignationData(reset);
     setFormState("create");
-    setResignationData({
-      id: 0,
-      name: "",
-      remarks: "",
-    });
+    setTitle("");
   };
 
   if (!resignationData) {
@@ -75,7 +82,7 @@ const ResignationEdit = ({
 
   return (
     <main className="flex max-h-full w-full max-w-[870px] flex-col gap-2">
-      <div className="designation-config-container flex flex-col gap-3 rounded-[20px] bg-white/80">
+      <div className="designation-config-container flex flex-col gap-3 rounded-[20px]">
         <form
           className="flex flex-col gap-3"
           onSubmit={(e) => {
@@ -89,10 +96,11 @@ const ResignationEdit = ({
             <h1 className="text-start text-lg font-semibold text-zinc-800">
               {formState === "create"
                 ? "Resignation Configuration"
-                : `${resignationData.name || "Resignation"} Configuration`}
+                : `${title || "Resignation"} Configuration`}
             </h1>
             <section className="ml-auto flex flex-row items-center gap-3">
-              {(formState === "edit" || (formState === "create" && hasData)) && (
+              {(formState === "edit" ||
+                (formState === "create" && hasData)) && (
                 <ButtonSm
                   className="font-medium"
                   text="Cancel"
@@ -127,6 +135,7 @@ const ResignationEdit = ({
                   className="font-medium text-white"
                   text={isUpdatePending ? "Updating..." : "Save Changes"}
                   state="default"
+                  type="button"
                   onClick={() => updateResignation(resignationData)}
                 />
               )}

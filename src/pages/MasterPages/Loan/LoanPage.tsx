@@ -1,71 +1,62 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ButtonSm from "../../../components/common/Buttons";
-import BloodEdit from "./EditBlood.component";
+import LoanEdit from "./EditLoan.component"; // ✅ Correct component import
 import PageHeader from "../../../components/masterPage.components/PageHeader";
-import { AnimatePresence } from "motion/react";
-import { useState } from "react";
 import DialogBox from "../../../components/common/DialogBox";
-import { DeleteBloodDialogBox } from "./DeleteBloodDialogBox";
 import MasterPagesSkeleton from "../../../components/masterPage.components/LoadingSkeleton";
 import ErrorComponent from "../../../components/common/Error";
+import { AnimatePresence } from "motion/react";
+import { appRoutes } from "../../../routes/appRoutes";
 import type { FormState } from "../../../types/appTypes";
-import type { BloodDetails } from "../../../types/apiTypes";
-import { useFetchBloods } from "../../../queries/BloodQuery";
+import type { LoanDetails } from "../../../types/apiTypes";
+import { useFetchLoans } from "../../../queries/LoanQuery";
+import { DeleteLoanDialogBox } from "../Loan/DeletLoanDialogBox";
 
-const BloodPage = () => {
-  const [isDeleteBloodDialogOpen, setIsDeleteBloodDialogOpen] = useState(false);
-  const [blood, setBlood] = useState<BloodDetails | null>(null);
+const LoanPage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("token") === null) {
+      navigate(appRoutes.signInPage);
+    }
+  }, [navigate]);
+
+  const [isDeleteLoanDialogOpen, setIsDeleteLoanDialogOpen] = useState(false);
+  const [loan, setLoan] = useState<LoanDetails | null>(null);
   const [formState, setFormState] = useState<FormState>("create");
 
-  const { data: bloods, isLoading, isError } = useFetchBloods();
+  const { data: loans, isLoading, isError } = useFetchLoans();
+
+  const handleLoanDeleted = () => {
+    setLoan(null);
+    setFormState("create");
+  };
 
   if (isLoading) return <MasterPagesSkeleton />;
   if (isError) return <ErrorComponent />;
 
-  const handleRowClick = (item: BloodDetails) => {
-    setBlood({
-      id: item.id,
-      name: item.name,
-      remarks: item.remarks || "",
-    });
-    setFormState("display");
-  };
-
-  const handleEdit = (item: BloodDetails) => {
-    setBlood({
-      id: item.id,
-      name: item.name,
-      remarks: item.remarks || "",
-    });
-    setFormState("edit");
-  };
-
-  const handleDelete = (item: BloodDetails) => {
-    setBlood(item);
-    setIsDeleteBloodDialogOpen(true);
-  };
-
   return (
     <main className="flex w-full max-w-full flex-col gap-4 md:flex-row">
       <AnimatePresence>
-        {isDeleteBloodDialogOpen && blood && (
-          <DialogBox setToggleDialogueBox={setIsDeleteBloodDialogOpen}>
-            <DeleteBloodDialogBox
-              setIsDeleteBloodDialogOpen={setIsDeleteBloodDialogOpen}
-              Blood={blood}
-              setBloodData={setBlood}
+        {isDeleteLoanDialogOpen && loan && (
+          <DialogBox setToggleDialogueBox={setIsDeleteLoanDialogOpen}>
+            <DeleteLoanDialogBox
+              setIsDeleteLoanDialogOpen={setIsDeleteLoanDialogOpen}
+              loan={loan}
+              onDeleted={handleLoanDeleted}
             />
           </DialogBox>
         )}
       </AnimatePresence>
 
-      {/* Left Table Section */}
+      {/* Table Section */}
       <section className="table-container flex w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm md:w-[50%]">
-        <header className="flex h-max flex-row items-center justify-between">
-          <PageHeader title="Blood Group Configuration" />
+        <header className="flex flex-row items-center justify-between">
+          <PageHeader title="Loan Configuration" />
         </header>
 
         <div className="tables flex w-full flex-col overflow-clip rounded-[9px]">
-          {/* Table Header */}
           <header className="header flex w-full flex-row items-center gap-2 bg-gray-200 px-3">
             <p className="w-max min-w-[100px] px-2 py-4 text-start text-sm font-semibold text-zinc-900">
               S.No
@@ -74,23 +65,22 @@ const BloodPage = () => {
               Name
             </p>
             <p className="w-full text-start text-sm font-semibold text-zinc-900">
-              Remarks
+              Max-Eligible Amount
             </p>
             <p className="min-w-[120px] text-start text-sm font-semibold text-zinc-900">
               Action
             </p>
           </header>
 
-          {/* No Data */}
-          {bloods?.length === 0 && (
+          {loans?.length === 0 && (
             <h2 className="text-md my-3 text-center font-medium text-zinc-600">
-              No Blood Group Found
+              No Loans Found
             </h2>
           )}
 
-          {/* Table Rows */}
-          {bloods?.map((item: BloodDetails, index) => {
-            const isSelected = blood?.id === item.id;
+          {loans?.map((item: LoanDetails, index) => {
+            const isSelected = loan?.id === item.id;
+
             return (
               <div
                 key={item.id}
@@ -98,33 +88,37 @@ const BloodPage = () => {
                   isSelected
                     ? "bg-gray-100"
                     : index % 2 === 0
-                      ? "bg-white"
-                      : "bg-slate-50"
+                    ? "bg-white"
+                    : "bg-slate-50"
                 } hover:bg-slate-100 active:bg-slate-200`}
-                onClick={() => handleRowClick(item)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (isSelected && formState === "display") return;
+                  setLoan(item);
+                  setFormState("display");
+                }}
               >
                 <p className="w-max min-w-[100px] px-2 py-4 text-start text-sm font-medium">
                   {index + 1}
                 </p>
+                <p className="w-full text-start text-sm font-medium">{item.name}</p>
                 <p className="w-full text-start text-sm font-medium">
-                  {item.name}
-                </p>
-                <p className="w-full text-start text-sm font-medium">
-                  {item.remarks}
+                  ${item.maxEligibilityAmount}
                 </p>
 
                 <div className="flex min-w-[120px] flex-row gap-2 text-start text-sm font-medium">
                   <ButtonSm
                     className={`${
                       formState === "edit" && isSelected
-                        ? "!hover:!bg-blue-600 !active:!bg-blue-700 !bg-blue-500 !text-white"
+                        ? "bg-blue-500 text-white hover:bg-blue-500 hover:text-black active:bg-blue-600"
                         : "bg-white"
                     }`}
                     state="outline"
                     text="Edit"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleEdit(item);
+                      setLoan(item);
+                      setFormState("edit");
                     }}
                   />
                   <ButtonSm
@@ -133,7 +127,8 @@ const BloodPage = () => {
                     text="Delete"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleDelete(item);
+                      setLoan(item);
+                      setIsDeleteLoanDialogOpen(true);
                     }}
                   />
                 </div>
@@ -143,17 +138,17 @@ const BloodPage = () => {
         </div>
       </section>
 
-      {/* Right Edit/Create Form Section */}
+      {/* Edit/Create Section */}
       <section className="table-container max-h-full w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm md:w-[50%]">
-        <BloodEdit
-          Blood={blood}
+        <LoanEdit
+          loanDetails={loan}
           formState={formState}
           setFormState={setFormState}
-          setBloodData={setBlood}
+          setLoanData={setLoan}
         />
       </section>
     </main>
   );
 };
 
-export default BloodPage;
+export default LoanPage;

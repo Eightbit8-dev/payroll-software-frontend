@@ -1,5 +1,4 @@
 import ButtonSm from "../../../components/common/Buttons";
-import DesignationEdit from "./EditResignation.component";
 import PageHeader from "../../../components/masterPage.components/PageHeader";
 import { AnimatePresence } from "motion/react";
 import { useState } from "react";
@@ -14,8 +13,10 @@ import ResignationEdit from "./EditResignation.component";
 
 const ResignationPage = () => {
   const [isDeleteResiginationDialogOpen, setIsDeleteResiginationDialogOpen] =
-  useState(false); //Mangae the state of the dialog box
-  const [resignation, setResignation] = useState<ResignationDetails | null>(null); //Store the selected Resignation details null if user wants to create one
+    useState(false); //Mangae the state of the dialog box
+  const [resignation, setResignation] = useState<ResignationDetails | null>(
+    null,
+  ); //Store the selected Resignation details null if user wants to create one
   const [formState, setFormState] = useState<FormState>("create"); //Manage the state  ["display", "create", "edit"]
   const { data: resignations, isLoading, isError } = useFetchResignations(); //Tanstack method
 
@@ -28,8 +29,11 @@ const ResignationPage = () => {
         {isDeleteResiginationDialogOpen && (
           <DialogBox setToggleDialogueBox={setIsDeleteResiginationDialogOpen}>
             <DeleteResignationDialogBox
-              setIsDeleteDesignationDialogOpen={setIsDeleteResiginationDialogOpen}
+              setIsDeleteDesignationDialogOpen={
+                setIsDeleteResiginationDialogOpen
+              }
               Resignation={resignation!}
+              setResignationData={setResignation}
             />
           </DialogBox>
         )}
@@ -37,7 +41,6 @@ const ResignationPage = () => {
       <section className="table-container flex w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm md:w-[50%]">
         <header className="flex h-max flex-row items-center justify-between">
           <PageHeader title="resignations configuration" />
-
         </header>
         <div className="tables flex w-full flex-col overflow-clip rounded-[9px]">
           {/* table header */}
@@ -84,7 +87,7 @@ const ResignationPage = () => {
                 <p className="w-full text-start text-sm font-medium">
                   {item.name}
                 </p>
-                                <p className="w-full text-start text-sm font-medium">
+                <p className="w-full text-start text-sm font-medium">
                   {item.remarks}
                 </p>
 
@@ -123,6 +126,7 @@ const ResignationPage = () => {
           Resignation={resignation}
           formState={formState}
           setFormState={setFormState}
+          setResignation={setResignation}
         />
       </section>
     </main>
