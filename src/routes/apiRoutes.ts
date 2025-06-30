@@ -9,4 +9,5 @@ export const apiRoutes = {
   attendanceTypes: "/api/admin/master-types?category=attendance_type",
   permissions: "/api/admin/permission-types",
   permissionTypes: "/api/admin/master-types?category=permission_type",
+  loans: "/api/admin/loantype",
 };

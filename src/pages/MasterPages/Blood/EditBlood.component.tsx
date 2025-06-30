@@ -145,6 +145,7 @@ const BloodEdit = ({
             <TextArea
               required
               disabled={isDisplay}
+              
               title="Remarks"
               inputValue={formData.remarks}
               name="remarks"

@@ -63,3 +63,12 @@ export interface PermissionDetails {
   endTime: string;
   remarks: string;
 }
+
+export interface LoanDetails {
+  id: number;
+  name: string;
+  maxEligibilityAmount: number;
+  loanRepaymentPeriod: number;
+  employeeWorkedMonths: number;
+  remarks: string;
+}

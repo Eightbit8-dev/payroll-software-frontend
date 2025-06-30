@@ -11,7 +11,6 @@ import ProtectedRoute from "./components/layout/ProtectedRoute";
 const AttendancePage = lazy(() => import("./pages/AttendancePage"));
 const DashBoardPage = lazy(() => import("./pages/DashBoardPage"));
 const EmployeesPage = lazy(() => import("./pages/EmployeesPage"));
-const LoanPage = lazy(() => import("./pages/LoanPage"));
 const UsersPage = lazy(() => import("./pages/UsersPage"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 const SignInPage = lazy(() => import("./pages/SignInPage"));
@@ -30,7 +29,7 @@ const BranchesPage = lazy(
 const DepartmentsPage = lazy(
   () => import("./pages/MasterPages/Department/DepartmentPage"),
 );
-const Bloodpage = lazy(
+const LoanPage = lazy(() => import("./pages/MasterPages/Loan/LoanPage"));const Bloodpage = lazy(
   () => import("../src/pages/MasterPages/Blood/BloodPage"),
 );
 const AttendanceTypePage = lazy(
@@ -96,18 +95,10 @@ const App = () => {
               element={<Bloodpage />}
             />
 
-            <Route
-              path={appRoutes.masterRoutes.children.departments}
-              element={<DepartmentsPage />}
-            />
-            <Route
-              path={appRoutes.masterRoutes.children.attendance}
-              element={<AttendanceTypePage />}
-            />
-            <Route
-              path={appRoutes.masterRoutes.children.permissions}
-              element={<PermissionPage />}
-            />
+        <Route
+          path={appRoutes.masterRoutes.children.departments}
+          element={<DepartmentsPage />}
+        />
 
             <Route path={appRoutes.usersPage} element={<UsersPage />} />
           </Route>
