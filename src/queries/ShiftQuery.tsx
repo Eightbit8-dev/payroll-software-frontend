@@ -3,6 +3,7 @@ import axios from "axios";
 import type { ShiftDetails } from "../types/apiTypes";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 /**
  * -------------------------------------------
