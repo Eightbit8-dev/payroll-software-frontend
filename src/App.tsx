@@ -7,6 +7,7 @@ import { appRoutes } from "./routes/appRoutes";
 import { Spinner } from "./components/layout/Spinner";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 import LoanPage from "./pages/LoanPage";
+import AllowancePage from "./pages/MasterPages/Allowance/AllowancePage";
 
 // Pages
 const AttendancePage = lazy(() => import("./pages/AttendancePage"));
@@ -113,7 +114,10 @@ const App = () => {
               path={appRoutes.masterRoutes.children.permissions}
               element={<PermissionPage />}
             />
-
+            <Route
+            path={appRoutes.masterRoutes.children.allowances}
+            element={<AllowancePage/>}
+            />
             <Route path={appRoutes.usersPage} element={<UsersPage />} />
           </Route>
         </Route>

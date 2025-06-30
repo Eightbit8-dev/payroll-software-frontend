@@ -123,7 +123,7 @@ export const MasterPage = () => {
       label: " Holiday & Benefits",
       labelColor: "bg-purple-500",
       btnText: "Configure",
-      onAction: () => console.log("Reports clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.allowances),
     },
   ];
   return (

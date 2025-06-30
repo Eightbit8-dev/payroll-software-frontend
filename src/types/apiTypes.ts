@@ -72,3 +72,13 @@ export interface LoanDetails {
   employeeWorkedMonths: number;
   remarks: string;
 }
+
+
+export interface AllowanceDetails {
+  id: number;
+  name: string;
+  mastertypeId: number;
+  percent: number;
+  on: string;
+  remarks: string;
+}
