@@ -10,7 +10,7 @@ const PageHeader: React.FC<PageTitleAndDescriptionProps> = ({ title }) => {
   return (
     <div className="flex flex-row items-center justify-start gap-2">
       <button
-        className="h-6 w-6 items-center justify-start rounded-full bg-blue-500"
+        className="h-6 w-6 items-center justify-start cursor-pointer rounded-full bg-blue-500"
         onClick={() => navigate(-1)}
       >
         <img src="/icons/back-icon.svg" alt="back " />

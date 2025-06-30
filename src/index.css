@@ -16,6 +16,21 @@ select:focus {
   outline: none;
 }
 
+:root {
+  --toastify-color-light: #fff;
+  --toastify-color-success: theme(colors.blue.500);
+  --toastify-font-family: "Satoshi", sans-serif;
+}
+
+/* ✅ Use your Tailwind font */
+.Toastify__toast {
+  font-family: "Satoshi", sans-serif;
+}
+
+.Toastify__progress-bar {
+  background: theme(colors.blue.500);
+}
+
 body {
   @apply antialiased;
   text-rendering: optimizeLegibility;

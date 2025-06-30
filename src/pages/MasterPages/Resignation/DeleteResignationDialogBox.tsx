@@ -1,21 +1,42 @@
 import { toast } from "react-toastify";
 import ButtonSm from "../../../components/common/Buttons";
-import type {  ResignationDetails } from "../../../types/apiTypes";
+import type { ResignationDetails } from "../../../types/apiTypes";
 import { useDeleteResignation } from "../../../queries/ResiginationQuery";
+import { useEffect } from "react";
 
 export const DeleteResignationDialogBox = ({
   setIsDeleteDesignationDialogOpen,
   Resignation,
+  setResignationData,
 }: {
-  setIsDeleteDesignationDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsDeleteDesignationDialogOpen: React.Dispatch<
+    React.SetStateAction<boolean>
+  >;
   Resignation: ResignationDetails;
+  setResignationData: React.Dispatch<
+    React.SetStateAction<ResignationDetails | null>
+  >;
 }) => {
-  const { mutate: deleteResignation, isPending: isDeleteResignationLoading } =
-    useDeleteResignation();
+  const {
+    mutate: deleteResignation,
+    isPending: isDeleteResignationLoading,
+    isSuccess,
+  } = useDeleteResignation();
 
   const handleDelete = (Resignation: ResignationDetails) => {
     deleteResignation(Resignation);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setResignationData({
+        id: 0,
+        name: "",
+        remarks: "",
+      } as ResignationDetails);
+    }
+  }, [isSuccess]);
+
   return (
     <form
       className="flex w-full flex-col gap-4"
@@ -36,8 +57,8 @@ export const DeleteResignationDialogBox = ({
       </header>
 
       <p className="text-md font-medium text-zinc-700">
-        Are you sure want to delete the Designation {Resignation.name} ? This action is
-        irreversable
+        Are you sure want to delete the Designation {Resignation.name} ? This
+        action is irreversable
       </p>
 
       <section className="mt-1 grid w-full grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3">

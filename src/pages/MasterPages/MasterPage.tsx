@@ -60,7 +60,7 @@ export const MasterPage = () => {
       label: "HR Essentials",
       labelColor: "bg-yellow-500",
       btnText: "Configure",
-      onAction: () => console.log("Leaves clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.bloodGroups),
     },
     {
       img: "/icons/Configpage/Attendance.svg",
@@ -69,7 +69,7 @@ export const MasterPage = () => {
       label: "Attendance",
       labelColor: "bg-green-500",
       btnText: "Configure",
-      onAction: () => console.log("Assets clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.attendance),
     },
     {
       img: "/icons/Configpage/Permission.svg",
@@ -78,7 +78,7 @@ export const MasterPage = () => {
       label: "Attendance",
       labelColor: "bg-green-500",
       btnText: "Configure",
-      onAction: () => console.log("Projects clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.permissions),
     },
     {
       img: "/icons/Configpage/Lop.svg",
@@ -96,7 +96,7 @@ export const MasterPage = () => {
       label: "Attendance",
       labelColor: "bg-green-500",
       btnText: "Configure",
-      onAction: () => console.log("Compliance clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.shifts),
     },
     {
       img: "/icons/Configpage/Holiday.svg",
@@ -105,7 +105,7 @@ export const MasterPage = () => {
       label: " Holiday & Benefits",
       labelColor: "bg-purple-500",
       btnText: "Configure",
-      onAction: () => console.log("Performance clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.holidays),
     },
     {
       img: "/icons/Configpage/Loan.svg",
@@ -114,7 +114,7 @@ export const MasterPage = () => {
       label: " Holiday & Benefits",
       labelColor: "bg-purple-500",
       btnText: "Configure",
-      onAction: () => console.log("Training clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.loans),
     },
     {
       img: "/icons/Configpage/Allowance.svg",
@@ -123,7 +123,7 @@ export const MasterPage = () => {
       label: " Holiday & Benefits",
       labelColor: "bg-purple-500",
       btnText: "Configure",
-      onAction: () => console.log("Reports clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.allowances),
     },
   ];
   return (

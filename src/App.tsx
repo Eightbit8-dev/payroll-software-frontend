@@ -6,12 +6,14 @@ import MainLayout from "./components/layout/MainLayout";
 import { appRoutes } from "./routes/appRoutes";
 import { Spinner } from "./components/layout/Spinner";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
+import LoanPage from "./pages/LoanPage";
+import AllowancePage from "./pages/MasterPages/Allowance/AllowancePage";
+import HolidayPage from "./pages/MasterPages/Holiday/HolidayPage";
 
 // Pages
 const AttendancePage = lazy(() => import("./pages/AttendancePage"));
 const DashBoardPage = lazy(() => import("./pages/DashBoardPage"));
 const EmployeesPage = lazy(() => import("./pages/EmployeesPage"));
-const LoanPage = lazy(() => import("./pages/LoanPage"));
 const UsersPage = lazy(() => import("./pages/UsersPage"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 const SignInPage = lazy(() => import("./pages/SignInPage"));
@@ -27,7 +29,21 @@ const DesignationsPage = lazy(
 const BranchesPage = lazy(
   () => import("./pages/MasterPages/Branch/BranchesPage"),
 );
+const DepartmentsPage = lazy(
+  () => import("./pages/MasterPages/Department/DepartmentPage"),
+);
+const LoanMPage = lazy(() => import("./pages/MasterPages/Loan/LoanPage"));
+const Bloodpage = lazy(
+  () => import("../src/pages/MasterPages/Blood/BloodPage"),
+);
+const AttendanceTypePage = lazy(
+  () => import("../src/pages/MasterPages/Attendance/AttendancePage"),
+);
 
+const PermissionPage = lazy(
+  () => import("./pages/MasterPages/Permission/PermissionPage"),
+);
+const ShiftPage = lazy(() => import("./pages/MasterPages/Shift/ShiftPage"));
 const App = () => {
   return (
     <Suspense
@@ -70,16 +86,48 @@ const App = () => {
               path={appRoutes.masterRoutes.children.branches}
               element={<BranchesPage />}
             />
-          {/* Designations pages */}
-          <Route
-          path={appRoutes.masterRoutes.children.designations}
-          element={<DesignationsPage/>}
-          />
-          <Route
-          path={appRoutes.masterRoutes.children.resignations}
-          element={<ResignationPage/>}
-        />
+            {/* Designations pages */}
+            <Route
+              path={appRoutes.masterRoutes.children.designations}
+              element={<DesignationsPage />}
+            />
+            <Route
+              path={appRoutes.masterRoutes.children.resignations}
+              element={<ResignationPage />}
+            />
+            <Route
+              path={appRoutes.masterRoutes.children.bloodGroups}
+              element={<Bloodpage />}
+            />
 
+            <Route
+              path={appRoutes.masterRoutes.children.departments}
+              element={<DepartmentsPage />}
+            />
+            <Route
+              path={appRoutes.masterRoutes.children.loans}
+              element={<LoanMPage />}
+            />
+            <Route
+              path={appRoutes.masterRoutes.children.attendance}
+              element={<AttendanceTypePage />}
+            />
+            <Route
+              path={appRoutes.masterRoutes.children.permissions}
+              element={<PermissionPage />}
+            />
+            <Route
+              path={appRoutes.masterRoutes.children.allowances}
+              element={<AllowancePage />}
+            />
+            <Route
+              path={appRoutes.masterRoutes.children.shifts}
+              element={<ShiftPage />}
+            />
+            <Route 
+              path={appRoutes.masterRoutes.children.holidays}
+              element={<HolidayPage/>}
+              />
             <Route path={appRoutes.usersPage} element={<UsersPage />} />
           </Route>
         </Route>

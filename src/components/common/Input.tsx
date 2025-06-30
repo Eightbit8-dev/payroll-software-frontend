@@ -53,6 +53,7 @@ interface InputProps<T extends string | number> {
  * ```
  */
 const Input = <T extends string | number>({
+  required = false,
   title,
   placeholder = "",
   inputValue,
@@ -64,7 +65,6 @@ const Input = <T extends string | number>({
   min,
   max,
   disabled = false,
-  required = false,
 }: InputProps<T>) => {
   const inputType = type === "num" ? "number" : "text";
 
@@ -75,11 +75,12 @@ const Input = <T extends string | number>({
     const raw = e.target.value;
 
     if (type === "num") {
-      const num = Number(raw);
       if (raw === "") {
-        onChange("" as T);
+        onChange("" as T); // allow browser to validate required
         return;
       }
+
+      const num = Number(raw);
       if (!isNaN(num)) {
         if (
           (min !== undefined && num < min) ||
@@ -89,7 +90,7 @@ const Input = <T extends string | number>({
         onChange(num as T);
       }
     } else {
-      if (raw.length > maxLength) return;
+      // just pass the raw string directly
       onChange(raw as T);
     }
   };
@@ -106,6 +107,7 @@ const Input = <T extends string | number>({
           </div>
         )}
         <input
+          required={required}
           readOnly={disabled}
           disabled={disabled}
           type={inputType}
@@ -117,7 +119,6 @@ const Input = <T extends string | number>({
           maxLength={type === "str" ? maxLength : undefined}
           min={type === "num" ? min : undefined}
           max={type === "num" ? max : undefined}
-          required={required} 
         />
       </div>
     </div>
@@ -125,3 +126,112 @@ const Input = <T extends string | number>({
 };
 
 export default Input;
+
+interface InputCheckboxProps {
+  title: string;
+  checked: boolean;
+  disabled?: boolean;
+  onChange: (value: boolean) => void;
+}
+
+/**
+ * Checkbox component styled like the main Input component.
+ * Label on the left, checkbox on the right inside bordered container.
+ */
+export const InputCheckbox: React.FC<InputCheckboxProps> = ({
+  title,
+  checked,
+  disabled = false,
+  onChange,
+}) => {
+  return (
+    <div className="relative w-full min-w-[180px] self-stretch">
+      <div
+        className={`input-container flex flex-row items-center justify-between rounded-xl border-2 border-slate-300 bg-white px-4 py-2 transition-all duration-200 ease-in-out`}
+      >
+        <span className="text-sm font-medium text-slate-600">{title}</span>
+
+        <div className="relative flex items-center">
+          <input
+            type="checkbox"
+            id={`checkbox-${title}`}
+            className="sr-only"
+            checked={checked}
+            disabled={disabled}
+            onChange={(e) => onChange(e.target.checked)}
+          />
+          <label
+            htmlFor={`checkbox-${title}`}
+            className={`relative block h-5 w-5 ${disabled ? "cursor-default" : "cursor-pointer"} rounded-[8px] border-2 p-[12px] transition-all outline-none focus:outline-none ${
+              checked
+                ? "border-green-500 bg-green-500"
+                : "border-slate-300 bg-white"
+            }`}
+          >
+            {checked && (
+              <img
+                className="pointer-events-none absolute top-1/2 left-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 cursor-default select-none"
+                src="/icons/tick-icon.svg"
+                alt="tick"
+              />
+            )}
+          </label>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+interface TimeInputProps {
+  title: string;
+  value: string;
+  onChange: (val: string) => void;
+  name?: string;
+  placeholder?: string;
+  required?: boolean;
+  disabled?: boolean;
+}
+
+export const TimeInput: React.FC<TimeInputProps> = ({
+  title,
+  value,
+  onChange,
+  name = "",
+  placeholder = "Select time",
+  required = false,
+  disabled = false,
+}) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value);
+  };
+
+  return (
+    <div className="relative w-full min-w-[180px] self-stretch">
+      <h3 className="mb-0.5 w-full justify-start text-xs leading-loose font-semibold text-slate-700">
+        {title}
+      </h3>
+
+      <div
+        className={`input-container group flex cursor-pointer flex-row items-center justify-between gap-2 overflow-clip rounded-xl border-2 border-slate-300 bg-white transition-all ${
+          !disabled && "focus-within:border-slate-500"
+        }`}
+      >
+        <input
+          required={required}
+          disabled={disabled}
+          readOnly={disabled}
+          type="time"
+          name={name}
+          placeholder={placeholder}
+          onChange={handleChange}
+          value={value}
+          style={{
+            zoom: 1, // ⬅️ makes entire input including clock icon bigger
+            WebkitAppearance: "textfield",
+          }}
+          className="min-h-max w-full px-3 py-3 text-start text-sm font-medium text-slate-600 autofill:text-black focus:outline-none"
+        />
+      </div>
+    </div>
+  );
+};

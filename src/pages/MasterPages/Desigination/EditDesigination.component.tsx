@@ -1,34 +1,34 @@
 import { useEffect, useState } from "react";
 import Input from "../../../components/common/Input";
+import TextArea from "../../../components/common/Textarea";
 import ButtonSm from "../../../components/common/Buttons";
 import type { FormState } from "../../../types/appTypes";
-import { useCreateDesignation, useEditDesignation } from "../../../queries/DesiginationQuery";
 import type { DesignationsDetails } from "../../../types/apiTypes";
-import { AnimatePresence, motion } from "framer-motion";
-import TextArea from "../../../components/common/Textarea";
-
-const containerVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-};
+import {
+  useCreateDesignation,
+  useEditDesignation,
+} from "../../../queries/DesiginationQuery";
 
 const DesignationEdit = ({
   DesignationDetails,
   formState,
   setFormState,
+  setDesignation,
 }: {
-  DesignationDetails: DesignationsDetails | null; //null so that user can create new Designation if the state is create
+  DesignationDetails: DesignationsDetails | null;
   formState: FormState;
   setFormState: React.Dispatch<React.SetStateAction<FormState>>;
+  setDesignation: React.Dispatch<React.SetStateAction<DesignationsDetails>>;
 }) => {
+  const [designationData, setDesignationData] =
+    useState<DesignationsDetails | null>(null);
+  const [title, setTitle] = useState("");
 
-
-  const [DesignationData, setDesignationData] = useState<DesignationsDetails | null>(null); //Original Designation data passed from above
-  const [newDesignationData, setNewDesignationData] = useState<DesignationsDetails | null>(
-    null,
-  ); //Local copy to reset if cancel is clicked
-
-  const { mutate: createDesignation, isPending, isSuccess } = useCreateDesignation();
+  const {
+    mutate: createDesignation,
+    isPending,
+    isSuccess,
+  } = useCreateDesignation();
   const {
     mutate: updateDesignation,
     isPending: isUpdatePending,
@@ -36,122 +36,149 @@ const DesignationEdit = ({
   } = useEditDesignation();
 
   useEffect(() => {
-    if (DesignationDetails) {
+    if (formState === "create") {
+      const newData = { id: 0, name: "", remarks: "", code: "" };
+      setDesignationData(newData);
+      setTitle("");
+    } else if (DesignationDetails) {
       setDesignationData(DesignationDetails);
-      setNewDesignationData(DesignationDetails);
+      setTitle(DesignationDetails.name || "");
     }
-  }, [DesignationDetails]);
+  }, [DesignationDetails, formState]);
 
   useEffect(() => {
     if (isSuccess) {
-      setDesignationData(newDesignationData);
-      setFormState("display");
+      const resetData = { id: 0, name: "", remarks: "", code: "" };
+      setFormState("create");
+      setDesignation(resetData);
+      setDesignationData(resetData);
+      setTitle("");
+    } else if (isUpdatingSuccess && designationData) {
+      setFormState("create");
+      setDesignation(designationData);
+      setTitle(designationData.name);
     }
-  }, [isSuccess]); //cleaning after sumission
+  }, [isSuccess, isUpdatingSuccess]);
 
-  useEffect(() => {
-    if (isUpdatingSuccess) {
-      setDesignationData(newDesignationData);
-      setFormState("display");
-    }
-  }, [isUpdatingSuccess]); //.cleanign after user updates
+  const handleCancel = () => {
+    setFormState("create");
+    const resetData = { id: 0, name: "", remarks: "", code: "" };
+    setDesignation(resetData);
+    setDesignationData(resetData);
+    setTitle("");
+  };
 
-
-
-  if (!DesignationData || !newDesignationData) {
+  if (!designationData) {
     return (
-      <p className="text-md my-1 self-center-safe text-center text-gray-600">
-        Select a Designation to view details.
+      <p className="text-center text-sm text-gray-500">
+        Select a designation to view details.
       </p>
     );
   }
 
+  const hasData = designationData.name || designationData.remarks;
+
   return (
-    <motion.main
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-      className={`flex max-h-full w-full max-w-[870px] flex-col gap-2`}
-    >
-      {/* Designation Configuration container */}
-      <motion.div
-        variants={containerVariants}
-        className="Designation-config-container flex flex-col gap-3 rounded-[20px] bg-white/80"
-      >
-        <header className="header flex w-full flex-row items-center justify-between">
-          <h1 className="my-1 text-start text-lg font-semibold text-zinc-800">
-            {DesignationData.name} Configuration
-          </h1>
-          <AnimatePresence mode="wait">
-            {formState === "create" && (
-              <ButtonSm
-                className="font-semibold text-white disabled:opacity-60"
-                state="default"
-                text={isPending ? "Creating..." : "Create new Designation"}
-                disabled={
-                  isPending ||
-                  newDesignationData.name === "" 
-                }
-                onClick={() => {
-                  createDesignation(newDesignationData);
-                }}
-              />
-            )}
-          </AnimatePresence>
-          {/* //To check if the data has changeg */}
-          {JSON.stringify(newDesignationData) !== JSON.stringify(DesignationData) &&
-            formState !== "create" && (
-              <section className="ml-auto flex flex-row items-center gap-3">
-                {formState === "edit" && (
-                  <>
-                    <ButtonSm
-                      className="font-medium"
-                      text="Cancel"
-                      state="outline"
-                      onClick={() => {
-                        setFormState("display");
-                        setNewDesignationData(DesignationData);
-                      }}
-                    />
-                    <ButtonSm
-                      className="font-medium text-white"
-                      text={isUpdatePending ? "Updating..." : "Save Changes"}
-                      state="default"
-                      onClick={() => updateDesignation(newDesignationData)}
-                    />
-                  </>
-                )}
-              </section>
-            )}
-        </header>
-
-        {/* Designation Details */}
-        <section className="Designation-details-section flex max-h-full w-full flex-col gap-2 overflow-clip px-3">
-          <Input
-            disabled={formState === "display"}
-            title="Designation Name *"
-            type="str"
-            inputValue={newDesignationData.name}
-            name="Designation"
-            placeholder="Enter Designation name"
-            maxLength={50}
-            onChange={(value) =>
-              setNewDesignationData({ ...newDesignationData, name: value })
+    <main className="flex max-h-full w-full max-w-[870px] flex-col gap-2">
+      <div className="designation-config-container flex flex-col gap-3 rounded-[20px]">
+        <form
+          className="flex flex-col gap-3"
+          onSubmit={(e) => {
+            e.preventDefault();
+            const updated = { ...designationData, name: title };
+            setDesignationData(updated);
+            if (formState === "create") {
+              createDesignation(updated);
             }
-          />
-          <TextArea
-          disabled={formState === "display" || formState === "edit"}
-          title="Remarks"
-          inputValue={newDesignationData.remarks}
-          name="Remark"
-          placeholder="remarks"
-          maxLength={300}
-          onChange={(value)=>setNewDesignationData({...newDesignationData,remarks:value})}
-          />
-        </section>
+          }}
+        >
+          <header className="flex w-full flex-row items-center justify-between">
+            <h1 className="text-start text-lg font-semibold text-zinc-800">
+              {formState === "create"
+                ? "Designation Configuration"
+                : `${designationData.name} Configuration`}
+            </h1>
+            <section className="ml-auto flex flex-row items-center gap-3">
+              {(formState === "edit" ||
+                (formState === "create" && hasData)) && (
+                <ButtonSm
+                  className="font-medium"
+                  text="Cancel"
+                  state="outline"
+                  type="button"
+                  onClick={handleCancel}
+                />
+              )}
 
-      </motion.div>
-    </motion.main>
+              {formState === "display" && designationData.id !== 0 && (
+                <ButtonSm
+                  className="font-medium"
+                  text="Back"
+                  state="outline"
+                  type="button"
+                  onClick={handleCancel}
+                />
+              )}
+
+              {formState === "create" && (
+                <ButtonSm
+                  className="font-medium text-white"
+                  text={isPending ? "Creating..." : "Create"}
+                  state="default"
+                  type="submit"
+                  disabled={isPending}
+                />
+              )}
+
+              {formState === "edit" && (
+                <ButtonSm
+                  className="font-medium text-white disabled:opacity-50"
+                  text={isUpdatePending ? "Updating..." : "Save Changes"}
+                  state="default"
+                  type="button"
+                  disabled={
+                    isUpdatePending ||
+                    JSON.stringify(designationData) ===
+                      JSON.stringify(DesignationDetails)
+                  }
+                  onClick={() => {
+                    const updated = { ...designationData, name: title };
+                    setDesignationData(updated);
+                    updateDesignation(updated);
+                  }}
+                />
+              )}
+            </section>
+          </header>
+
+          {/* Designation Details */}
+          <section className="flex w-full flex-col gap-2 overflow-clip px-3">
+            <Input
+              required
+              disabled={formState === "display"}
+              title="Designation Name *"
+              type="str"
+              inputValue={title}
+              name="designation"
+              placeholder="Enter designation name"
+              maxLength={50}
+              onChange={(value) => setTitle(value)}
+            />
+            <TextArea
+              disabled={formState === "display"}
+              title="Remarks"
+              inputValue={designationData.remarks}
+              name="remarks"
+              placeholder="Enter remarks"
+              maxLength={300}
+              onChange={(value) =>
+                setDesignationData({ ...designationData, remarks: value })
+              }
+            />
+          </section>
+        </form>
+      </div>
+    </main>
   );
 };
 

@@ -26,6 +26,7 @@ export const useFetchBranches = () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Unauthorized to perform this action.");
+      
 
       const res = await axiosInstance.get(apiRoutes.branches, {
         //All api routes are inside this file
@@ -69,6 +70,7 @@ export const useCreateBranch = () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Unauthorized to perform this action.");
+
 
       const res = await axiosInstance.post(apiRoutes.branches, newBranch, {
         headers: {

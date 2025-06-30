@@ -7,6 +7,7 @@ interface TextAreaProps {
   onChange: (value: string) => void;
   name?: string;
   prefixText?: string;
+  required?: boolean;
   maxLength?: number;
   disabled?: boolean;
 }
@@ -20,6 +21,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   prefixText = "",
   maxLength = 100,
   disabled = false,
+  required = false,
 }) => {
   const [count, setCount] = React.useState<string>(
     (inputValue ?? "").length.toString(),
@@ -49,6 +51,8 @@ const TextArea: React.FC<TextAreaProps> = ({
           </div>
         )}
         <textarea
+          required={required}
+          readOnly={disabled}
           name={name}
           placeholder={placeholder}
           onChange={handleChange}
