@@ -5,6 +5,7 @@ import ButtonSm from "../../../components/common/Buttons";
 import type { FormState } from "../../../types/appTypes";
 import type { BloodDetails } from "../../../types/apiTypes";
 import { useCreateBlood, useEditBlood } from "../../../queries/BloodQuery";
+import isEqual from "lodash.isequal";
 
 const BloodEdit = ({
   Blood,
@@ -110,7 +111,7 @@ const BloodEdit = ({
               {formState === "create" && (
                 <ButtonSm
                   className="font-medium text-white"
-                  text={isCreating ? "Creating..." : "Create"}
+                  text={isCreating ? "Creating..." : "Create New"}
                   state="default"
                   type="submit"
                   disabled={isCreating}
@@ -124,7 +125,7 @@ const BloodEdit = ({
                   state="default"
                   type="button"
                   onClick={handleUpdate}
-                  disabled={isUpdating || !formData.name || !formData.remarks}
+                  disabled={isUpdating || isEqual(formData, Blood)}
                 />
               )}
             </section>
@@ -143,9 +144,7 @@ const BloodEdit = ({
               onChange={(value) => setFormData({ ...formData, name: value })}
             />
             <TextArea
-              required
-              disabled={isDisplay}
-              
+              disabled={isDisplay} 
               title="Remarks"
               inputValue={formData.remarks}
               name="remarks"

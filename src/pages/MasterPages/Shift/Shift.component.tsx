@@ -7,6 +7,7 @@ import type { FormState } from "../../../types/appTypes";
 import type { ShiftDetails } from "../../../types/apiTypes";
 import { useCreateShift, useEditShift } from "../../../queries/ShiftQuery";
 import DropdownSelect from "../../../components/common/DropDown";
+import isEqual from "lodash.isequal";
 
 const ShiftEdit = ({
   Shift,
@@ -125,7 +126,7 @@ const ShiftEdit = ({
               {formState === "create" && (
                 <ButtonSm
                   className="font-medium text-white"
-                  text={isCreating ? "Creating..." : "Create Shift"}
+                  text={isCreating ? "Creating..." : "Create New"}
                   state="default"
                   type="submit"
                   disabled={isCreating}
@@ -139,13 +140,10 @@ const ShiftEdit = ({
                   state="default"
                   type="button"
                   onClick={handleUpdate}
+    
                   disabled={
                     isUpdating ||
-                    !formData.name ||
-                    !formData.type ||
-                    !formData.shiftIn ||
-                    !formData.shiftOut
-                  }
+                    isEqual(formData, Shift)}
                 />
               )}
             </section>
@@ -265,10 +263,10 @@ const ShiftEdit = ({
               />
             </div>
 
-            {formData.type === "Per Hour" && (
+            {formData.type === "Per Day" && (
               <div className="grid grid-cols-2 gap-3">
                 <TimeInput
-                  required={formData.type === "Per Hour"}
+                  required={formData.type === "Per Day"}
                   disabled={isDisplay}
                   title="Lunch Out Time"
                   value={formData.lunchOut}
@@ -278,7 +276,7 @@ const ShiftEdit = ({
                 />
 
                 <TimeInput
-                  required={formData.type === "Per Hour"}
+                  required={formData.type === "Per Day"}
                   disabled={isDisplay}
                   title="Lunch In Time"
                   value={formData.lunchIn}

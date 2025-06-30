@@ -22,27 +22,29 @@ const DesignationEdit = ({
 }) => {
   const [designationData, setDesignationData] =
     useState<DesignationsDetails | null>(null);
-  const [title, setTitle] = useState("");
 
   const {
     mutate: createDesignation,
     isPending,
     isSuccess,
   } = useCreateDesignation();
+
   const {
     mutate: updateDesignation,
     isPending: isUpdatePending,
     isSuccess: isUpdatingSuccess,
   } = useEditDesignation();
 
+  const disableButton =
+    DesignationDetails?.name === designationData?.name &&
+    DesignationDetails?.remarks === designationData?.remarks;
+
   useEffect(() => {
     if (formState === "create") {
       const newData = { id: 0, name: "", remarks: "", code: "" };
       setDesignationData(newData);
-      setTitle("");
     } else if (DesignationDetails) {
       setDesignationData(DesignationDetails);
-      setTitle(DesignationDetails.name || "");
     }
   }, [DesignationDetails, formState]);
 
@@ -52,11 +54,9 @@ const DesignationEdit = ({
       setFormState("create");
       setDesignation(resetData);
       setDesignationData(resetData);
-      setTitle("");
     } else if (isUpdatingSuccess && designationData) {
       setFormState("create");
       setDesignation(designationData);
-      setTitle(designationData.name);
     }
   }, [isSuccess, isUpdatingSuccess]);
 
@@ -65,7 +65,6 @@ const DesignationEdit = ({
     const resetData = { id: 0, name: "", remarks: "", code: "" };
     setDesignation(resetData);
     setDesignationData(resetData);
-    setTitle("");
   };
 
   if (!designationData) {
@@ -85,10 +84,8 @@ const DesignationEdit = ({
           className="flex flex-col gap-3"
           onSubmit={(e) => {
             e.preventDefault();
-            const updated = { ...designationData, name: title };
-            setDesignationData(updated);
-            if (formState === "create") {
-              createDesignation(updated);
+            if (formState === "create" && designationData) {
+              createDesignation(designationData);
             }
           }}
         >
@@ -123,7 +120,7 @@ const DesignationEdit = ({
               {formState === "create" && (
                 <ButtonSm
                   className="font-medium text-white"
-                  text={isPending ? "Creating..." : "Create"}
+                  text={isPending ? "Creating..." : "Create New"}
                   state="default"
                   type="submit"
                   disabled={isPending}
@@ -136,15 +133,11 @@ const DesignationEdit = ({
                   text={isUpdatePending ? "Updating..." : "Save Changes"}
                   state="default"
                   type="button"
-                  disabled={
-                    isUpdatePending ||
-                    JSON.stringify(designationData) ===
-                      JSON.stringify(DesignationDetails)
-                  }
+                  disabled={disableButton || isUpdatePending}
                   onClick={() => {
-                    const updated = { ...designationData, name: title };
-                    setDesignationData(updated);
-                    updateDesignation(updated);
+                    if (designationData) {
+                      updateDesignation(designationData);
+                    }
                   }}
                 />
               )}
@@ -158,11 +151,13 @@ const DesignationEdit = ({
               disabled={formState === "display"}
               title="Designation Name *"
               type="str"
-              inputValue={title}
+              inputValue={designationData.name}
               name="designation"
               placeholder="Enter designation name"
               maxLength={50}
-              onChange={(value) => setTitle(value)}
+              onChange={(value) =>
+                setDesignationData({ ...designationData, name: value })
+              }
             />
             <TextArea
               disabled={formState === "display"}

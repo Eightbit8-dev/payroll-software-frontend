@@ -5,6 +5,7 @@ import type { FormState } from "../../../types/appTypes";
 import type { LoanDetails } from "../../../types/apiTypes";
 import { useCreateLoan, useEditLoan } from "../../../queries/LoanQuery";
 import TextArea from "../../../components/common/Textarea";
+import isEqual from "lodash.isequal";
 
 const emptyLoan: LoanDetails = {
   id: 0,
@@ -129,7 +130,7 @@ const LoanEdit = ({
               {formState === "create" && (
                 <ButtonSm
                   className="font-medium text-white"
-                  text={isPending ? "Creating..." : "Create"}
+                  text={isPending ? "Creating..." : "Create New"}
                   state="default"
                   type="submit"
                   disabled={isPending}
@@ -137,11 +138,11 @@ const LoanEdit = ({
               )}
               {formState === "edit" && (
                 <ButtonSm
-                  className="font-medium text-white"
+                  className="font-medium text-white disabled:opacity-50"
                   text={isUpdatePending ? "Updating..." : "Save Changes"}
                   state="default"
                   type="submit"
-                  disabled={isUpdatePending}
+                  disabled={isUpdatePending || isEqual(newLoanData, loanDetails)}
                 />
               )}
             </section>

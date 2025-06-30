@@ -6,9 +6,9 @@ export interface signInRequestType {
 export interface SignInResponseType {
   token: string;
 }
+
 export interface BranchDetails {
   id: number;
-
   code: string;
   name: string;
   addressLine1: string;

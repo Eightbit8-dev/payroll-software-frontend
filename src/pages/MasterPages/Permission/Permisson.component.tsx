@@ -155,19 +155,9 @@ const PermissionEdit = ({
               {formState === "create" && (
                 <ButtonSm
                   className="font-medium text-white disabled:opacity-60"
-                  text={isCreating ? "Creating..." : "Create"}
+                  text={isCreating ? "Creating..." : "Create New"}
                   state="default"
                   type="submit"
-                  disabled={
-                    isCreating ||
-                    isUpdating ||
-                    !formData.name ||
-                    !formData.mastertypeId ||
-                    !formData.startTime ||
-                    !formData.endTime ||
-                    !formData.remarks ||
-                    formData.mastertypeId === 0
-                  }
                 />
               )}
 
@@ -179,13 +169,7 @@ const PermissionEdit = ({
                   type="button"
                   onClick={handleUpdate}
                   disabled={
-                    isUpdating ||
-                    !formData.name ||
-                    !formData.mastertypeId ||
-                    !formData.startTime ||
-                    !formData.endTime ||
-                    !formData.remarks ||
-                    isEqual(formData, permission)
+                    isUpdating || isEqual(formData, permission)
                   }
                 />
               )}
@@ -238,7 +222,6 @@ const PermissionEdit = ({
             </div>
 
             <TextArea
-              required
               disabled={isDisplay}
               title="Remarks"
               inputValue={formData.remarks}
