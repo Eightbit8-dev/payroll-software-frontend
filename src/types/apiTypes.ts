@@ -10,7 +10,6 @@ export interface BranchDetails {
   id: number;
 
   code: string;
-  companyId: number;
   name: string;
   addressLine1: string;
   addressLine2: string;
@@ -96,4 +95,16 @@ export interface ShiftDetails {
   shiftOut: string;
   lunchOut: string;
   lunchIn: string;
+}
+
+
+export interface HolidayDetails {
+  id: number;
+  name: string;
+  branchIds: number[];
+  departmentIds: number[];
+  month:string;
+  year: string;
+  leaveType: string;
+  remarks: string;
 }

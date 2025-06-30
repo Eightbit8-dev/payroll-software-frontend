@@ -12,4 +12,7 @@ export const apiRoutes = {
   loans: "/api/admin/loantype",
   allowance: "/api/admin/allowance-deduction",
   allowanceTypes: "/api/admin/master-types?category=salary_type",
+  holidays: "/api/admin/holiday",
+  holidaymonth: "/api/admin/months",
+  holidayyears: "/api/admin/years",
 };

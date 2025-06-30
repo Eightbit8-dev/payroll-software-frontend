@@ -39,7 +39,6 @@ const BranchEdit = ({
     addressLine1: "",
     addressLine2: "",
     remarks: "",
-    companyId: "",
   };
 
   useEffect(() => {

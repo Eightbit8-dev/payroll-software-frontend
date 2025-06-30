@@ -105,7 +105,7 @@ export const MasterPage = () => {
       label: " Holiday & Benefits",
       labelColor: "bg-purple-500",
       btnText: "Configure",
-      onAction: () => console.log("Performance clicked"),
+      onAction: () => navigate(appRoutes.masterRoutes.children.holidays),
     },
     {
       img: "/icons/Configpage/Loan.svg",

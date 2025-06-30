@@ -8,6 +8,7 @@ import { Spinner } from "./components/layout/Spinner";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 import LoanPage from "./pages/LoanPage";
 import AllowancePage from "./pages/MasterPages/Allowance/AllowancePage";
+import HolidayPage from "./pages/MasterPages/Holiday/HolidayPage";
 
 // Pages
 const AttendancePage = lazy(() => import("./pages/AttendancePage"));
@@ -123,6 +124,10 @@ const App = () => {
               path={appRoutes.masterRoutes.children.shifts}
               element={<ShiftPage />}
             />
+            <Route 
+              path={appRoutes.masterRoutes.children.holidays}
+              element={<HolidayPage/>}
+              />
             <Route path={appRoutes.usersPage} element={<UsersPage />} />
           </Route>
         </Route>
