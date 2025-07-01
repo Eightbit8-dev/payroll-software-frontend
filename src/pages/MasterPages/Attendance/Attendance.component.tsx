@@ -123,7 +123,7 @@ const AttendanceEdit = ({
             <h1 className="text-start text-lg font-semibold text-zinc-800">
               {formState === "create"
                 ? "Attendance type Configuration"
-                : `${formData.name || "Attendance"} Configuration`}
+                : `${attendanceDetails?.name || "Attendance"} Configuration`}
             </h1>
 
             <section className="ml-auto flex flex-row items-center gap-3">

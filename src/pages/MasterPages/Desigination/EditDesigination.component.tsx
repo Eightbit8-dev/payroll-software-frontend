@@ -93,7 +93,7 @@ const DesignationEdit = ({
             <h1 className="text-start text-lg font-semibold text-zinc-800">
               {formState === "create"
                 ? "Designation Configuration"
-                : `${designationData.name} Configuration`}
+                : `${DesignationDetails?.name} Configuration`}
             </h1>
             <section className="ml-auto flex flex-row items-center gap-3">
               {(formState === "edit" ||
