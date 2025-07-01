@@ -63,7 +63,7 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
         onClick={toggleDropdown}
         className={`input-container flex cursor-pointer flex-row items-center justify-between rounded-xl border-2 border-slate-300 bg-white px-3 py-3 transition-all ${
           isOpen ? "border-slate-500" : ""
-        } ${disabled ? "pointer-events-none opacity-50" : ""}`}
+        } ${disabled ? "pointer-events-none " : ""}`}
       >
         <span className="text-sm font-medium text-slate-600">
           {selected.label}

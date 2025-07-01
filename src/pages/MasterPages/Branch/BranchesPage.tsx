@@ -55,7 +55,7 @@ const BranchesPage = () => {
         )}
       </AnimatePresence>
 
-      <section className="table-container flex w-full flex-col gap-3 rounded-[12px] p-4 shadow-sm md:w-[50%]">
+      <section className="table-container flex w-full flex-col bg-white/80 gap-3 rounded-[12px] p-4 shadow-sm md:w-[50%]">
         <header className="flex flex-row items-center justify-between">
           <PageHeader title="Branch configuration" />
         </header>
