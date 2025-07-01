@@ -82,10 +82,10 @@ export const useCreateHoliday = () => {
     onSuccess: () => {
       toast.success("Holiday created successfully");
       queryClient.invalidateQueries({ queryKey: ["Holidays"] });
+      queryClient.invalidateQueries({ queryKey: ["FilteredHolidays"] }); // ✅ Added
     },
   });
 };
-
 
 /**
  * ✏️ Edit Holiday
@@ -124,6 +124,7 @@ export const useEditHoliday = () => {
     onSuccess: () => {
       toast.success("Holiday updated successfully");
       queryClient.invalidateQueries({ queryKey: ["Holidays"] });
+      queryClient.invalidateQueries({ queryKey: ["FilteredHolidays"] }); // ✅ Added
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
@@ -132,7 +133,6 @@ export const useEditHoliday = () => {
     },
   });
 };
-
 
 /**
  * ❌ Delete a Holiday
@@ -160,6 +160,7 @@ export const useDeleteHoliday = () => {
     onSuccess: () => {
       toast.success("Holiday deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["Holidays"] });
+      queryClient.invalidateQueries({ queryKey: ["FilteredHolidays"] }); // ✅ Added
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
@@ -185,7 +186,6 @@ export const useFetchHolidayMonths = () => {
       throw new Error(res.data?.message || "Failed to fetch months");
     }
 
-    // Map to dropdown option format
     return res.data.map((month: string, index: number) => ({
       id: index + 1,
       label: month,
@@ -216,7 +216,6 @@ export const useFetchHolidayYears = () => {
       throw new Error(res.data?.message || "Failed to fetch years");
     }
 
-    // Map to dropdown option format
     return res.data.map((year: string | number) => ({
       id: Number(year),
       label: String(year),
@@ -226,6 +225,46 @@ export const useFetchHolidayYears = () => {
   return useQuery({
     queryKey: ["HolidayYears"],
     queryFn: fetchYears,
+    staleTime: 0,
+    retry: 1,
+  });
+};
+
+/**
+ * 🎯 Filter Holidays by month & year
+ */
+export const useFilteredHolidays = (month: number, year: number) => {
+  const fetchFilteredHolidays = async (): Promise<HolidayDetails[]> => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("Unauthorized to perform this action.");
+
+      const res = await axiosInstance.get(
+        `/api/admin/holiday/filter?month=${month}&year=${year}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (res.status !== 200) {
+        throw new Error(res.data?.message || "Failed to fetch filtered Holidays");
+      }
+
+      return res.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message || "Failed to fetch Holidays");
+      } else {
+        toast.error("Something went wrong while fetching Holidays");
+      }
+      throw new Error("Filtered holiday fetch failed");
+    }
+  };
+
+  return useQuery({
+    queryKey: ["FilteredHolidays", month, year],
+    queryFn: fetchFilteredHolidays,
+    enabled: !!month && !!year,
     staleTime: 0,
     retry: 1,
   });

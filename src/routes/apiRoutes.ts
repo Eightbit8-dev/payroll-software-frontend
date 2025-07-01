@@ -13,6 +13,7 @@ export const apiRoutes = {
   allowance: "/api/admin/allowance-deduction",
   allowanceTypes: "/api/admin/master-types?category=salary_type",
   holidays: "/api/admin/holiday",
+  holidayFilter: "/api/admin/holiday/filter",
   holidaymonth: "/api/admin/months",
   holidayyears: "/api/admin/years",
 };

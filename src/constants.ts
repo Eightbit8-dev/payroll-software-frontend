@@ -1,41 +1,4 @@
-import type { HolidayDetailsResponse } from "./types/apiTypes";
 
-export const holidays: HolidayDetailsResponse[] = [
-  {
-    id: 1,
-    name: "New Year",
-    date: "2025-01-01",
-    branches: [
-      [1, "Chennai"],
-      [2, "Bangalore"],
-    ],
-    departments: [
-      [2, "AML"],
-      [3, "CSE"],
-    ],
-    month: "January",
-    year: "2025",
-    leaveType: "Public Holiday",
-    remarks: "Celebration of New Year",
-  },
-  {
-    id: 2,
-    name: "Independence Day",
-    date: "2025-08-15",
-    branches: [
-      [1, "Delhi"],
-      [3, "Pune"],
-    ],
-    departments: [
-      [1, "HR"],
-      [4, "Finance"],
-    ],
-    month: "August",
-    year: "2025",
-    leaveType: "National Holiday",
-    remarks: "Flag hoisting event",
-  },
-];
 export const monthOptions = [
   { id: 1, label: "January" },
   { id: 2, label: "February" },
@@ -51,7 +14,12 @@ export const monthOptions = [
   { id: 12, label: "December" },
 ];
 
-export const yearOptions = Array.from({ length: 15 }, (_, i) => ({
-  id: i + 1,
-  label: (2025 - i).toString(), //replace with js fun to get cur year
-}));
+const currentYear = new Date().getFullYear();
+
+export const yearOptions = Array.from({ length: 15 }, (_, i) => {
+  const year = currentYear - i;
+  return {
+    id: year,      // use actual year as id
+    label: year.toString(),
+  };
+});

@@ -165,7 +165,7 @@ const HolidayEdit = ({
             <h1 className="text-start text-lg font-semibold text-zinc-800">
               {formState === "create"
                 ? "Holiday Configuration"
-                : `${formData.name || "Holiday"} Configuration`}
+                : `${holidayDetails?.name || "Holiday"} Configuration`}
             </h1>
             <section className="ml-auto flex flex-row items-center gap-3">
               {(formState === "edit" ||
@@ -203,23 +203,16 @@ const HolidayEdit = ({
                   }
                 />
               )}
-              {formState === "edit" && (
-                <ButtonSm
-                  className="font-medium text-white disabled:opacity-50"
-                  text={isUpdating ? "Updating..." : "Save Changes"}
-                  state="default"
-                  type="button"
-                  onClick={handleUpdate}
-                  disabled={
-                    isUpdating ||
-                    !formData.name ||
-                    !formData.holidayDate ||
-                    !formData.leaveType ||
-                    !formData.departments.length ||
-                    !formData.branches.length
-                  }
-                />
-              )}
+             {formState === "edit" && (
+  <ButtonSm
+    className="font-medium text-white disabled:opacity-50"
+    text={isUpdating ? "Updating..." : "Save Changes"}
+    state="default"
+    type="button"
+    onClick={handleUpdate}
+    disabled={isUpdating} // ✅ Only disable if updating in progress
+  />
+)}
             </section>
           </header>
 
