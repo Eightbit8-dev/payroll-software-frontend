@@ -29,7 +29,7 @@ export const MasterPage = () => {
     {
       img: "/icons/Configpage/Department.svg",
       title: "Department",
-      desc: "Handle team member permissions and access levels.",
+      desc: "Define departments to better organize teams and responsibilities.",
       label: "Organisation",
       labelColor: "bg-red-500",
       btnText: "Configure",
@@ -38,7 +38,7 @@ export const MasterPage = () => {
     {
       img: "/icons/Configpage/Desigination.svg",
       title: "Desigination",
-      desc: "Configure payroll settings and salary structures.",
+      desc: "Create and manage job titles to clarify employee roles and hierarchy.",
       label: "HR Essentials",
       labelColor: "bg-yellow-500",
       btnText: "Configure",
@@ -47,7 +47,7 @@ export const MasterPage = () => {
     {
       img: "/icons/Configpage/Resigination.svg",
       title: "Resigination",
-      desc: "Track & manage employee attendance and working hours.",
+      desc: "Track and manage employee resignations efficiently with proper records.",
       label: "HR Essentials",
       labelColor: "bg-yellow-500",
       btnText: "Configure",
@@ -56,7 +56,7 @@ export const MasterPage = () => {
     {
       img: "/icons/Configpage/BloodGroup.svg",
       title: "Blood Group",
-      desc: "Manage employee leave requests and balances.",
+      desc: "Store employee blood group information for medical and emergency use.",
       label: "HR Essentials",
       labelColor: "bg-yellow-500",
       btnText: "Configure",
@@ -65,7 +65,7 @@ export const MasterPage = () => {
     {
       img: "/icons/Configpage/Attendance.svg",
       title: "Attendance",
-      desc: "Maintain an inventory of all office assets and equipment.",
+      desc: "Monitor and manage employee attendance records accurately",
       label: "Attendance",
       labelColor: "bg-green-500",
       btnText: "Configure",
@@ -74,7 +74,7 @@ export const MasterPage = () => {
     {
       img: "/icons/Configpage/Permission.svg",
       title: "Permission",
-      desc: "Oversee project timelines, teams, and deliverables.",
+      desc: "Allow short-duration leave requests and approvals through permission logs",
       label: "Attendance",
       labelColor: "bg-green-500",
       btnText: "Configure",
@@ -83,7 +83,7 @@ export const MasterPage = () => {
     {
       img: "/icons/Configpage/Lop.svg",
       title: "LOP",
-      desc: "Monitor and approve timesheet entries submitted by employees.",
+      desc: "Leave opening balance, Track leaves without pay and maintain data.",
       label: "Attendance",
       labelColor: "bg-green-500",
       btnText: "Configure",
@@ -92,7 +92,7 @@ export const MasterPage = () => {
     {
       img: "./icons/Configpage/Shift.svg",
       title: "Shift",
-      desc: "Ensure all regulatory and policy requirements are met.",
+      desc: "Define work shifts and allocate employees accordingly.",
       label: "Attendance",
       labelColor: "bg-green-500",
       btnText: "Configure",
@@ -101,7 +101,7 @@ export const MasterPage = () => {
     {
       img: "/icons/Configpage/Holiday.svg",
       title: "Holiday",
-      desc: "Evaluate employee performance and appraisals.",
+      desc: "lan and manage company-wide holidays and off days",
       label: " Holiday & Benefits",
       labelColor: "bg-purple-500",
       btnText: "Configure",
@@ -110,7 +110,7 @@ export const MasterPage = () => {
     {
       img: "/icons/Configpage/Loan.svg",
       title: "Loan",
-      desc: "Organize skill development sessions for employees.",
+      desc: "Track employee loans and repayment details with ease",
       label: " Holiday & Benefits",
       labelColor: "bg-purple-500",
       btnText: "Configure",
@@ -119,7 +119,7 @@ export const MasterPage = () => {
     {
       img: "/icons/Configpage/Allowance.svg",
       title: "Allowance",
-      desc: "Access detailed analytics and operational reports.",
+      desc: "Configure various allowances provided to employees beyond salary.",
       label: " Holiday & Benefits",
       labelColor: "bg-purple-500",
       btnText: "Configure",
