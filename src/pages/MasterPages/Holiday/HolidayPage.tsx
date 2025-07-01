@@ -167,7 +167,6 @@ const HolidayPage = () => {
         )}
       </section>
 
-      {/* Right Edit/Create Form Section */}
       <section className="table-container max-h-full w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm md:w-[60%]">
         <HolidayEdit
           holidayDetails={holiday}

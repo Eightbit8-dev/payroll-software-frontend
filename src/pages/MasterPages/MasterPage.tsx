@@ -82,7 +82,7 @@ export const MasterPage = () => {
     },
     {
       img: "/icons/Configpage/Lop.svg",
-      title: "LOP",
+      title: "LOB",
       desc: "Leave opening balance, Track leaves without pay and maintain data.",
       label: "Attendance",
       labelColor: "bg-green-500",
@@ -135,7 +135,7 @@ export const MasterPage = () => {
           </div>
           <div>
             <p className="text-base font-medium text-slate-500">
-              Configure your app and connecct the tool your app will need
+              Configure your app and connect the tool your app will need
             </p>
           </div>
         </div>
