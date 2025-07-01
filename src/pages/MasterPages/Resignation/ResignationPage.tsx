@@ -93,7 +93,7 @@ const ResignationPage = () => {
 
                 <div className="flex min-w-[120px] flex-row gap-2 text-start text-sm font-medium">
                   <ButtonSm
-                    className={`${formState === "edit" && resignation?.id === item.id ? "bg-blue-500 text-white hover:bg-blue-500 hover:text-black active:bg-blue-600" : "bg-white"}`}
+                    className={`${formState === "edit" && resignation?.id === item.id ? "!bg-blue-500 !text-white !hover:bg-blue-500 !hover:text-black !active:bg-blue-600" : "bg-white"}`}
                     state="outline"
                     text="Edit"
                     onClick={(e) => {

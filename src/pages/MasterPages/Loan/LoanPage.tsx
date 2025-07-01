@@ -110,7 +110,7 @@ const LoanPage = () => {
                   <ButtonSm
                     className={`${
                       formState === "edit" && isSelected
-                        ? "bg-blue-500 text-white hover:bg-blue-500 hover:text-black active:bg-blue-600"
+                        ? "!bg-blue-500 !text-white !hover:bg-blue-500 !hover:text-black !active:bg-blue-600"
                         : "bg-white"
                     }`}
                     state="outline"
