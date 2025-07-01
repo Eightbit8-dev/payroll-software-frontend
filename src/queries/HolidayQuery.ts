@@ -1,6 +1,6 @@
 import axiosInstance from "../utils/axios";
 import axios from "axios";
-import type { HolidayDetails } from "../types/apiTypes";
+import type { HolidayDetails, HolidayPayload } from "../types/apiTypes";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { apiRoutes } from "../routes/apiRoutes";
@@ -53,7 +53,7 @@ export const useFetchHolidays = () => {
 export const useCreateHoliday = () => {
   const queryClient = useQueryClient();
 
-  const createHoliday = async (newHoliday: HolidayDetails) => {
+  const createHoliday = async (newHoliday: HolidayPayload) => {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("Unauthorized to perform this action.");
 
@@ -86,27 +86,37 @@ export const useCreateHoliday = () => {
   });
 };
 
+
 /**
- * ✏️ Edit an existing Holiday
+ * ✏️ Edit Holiday
  */
 export const useEditHoliday = () => {
   const queryClient = useQueryClient();
 
-  const editHoliday = async (updatedHoliday: HolidayDetails) => {
+  const editHoliday = async (updatedHoliday: HolidayPayload & { id: number }) => {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("Unauthorized to perform this action.");
 
     const { id, ...payload } = updatedHoliday;
 
-    const res = await axiosInstance.put(`${apiRoutes.holidays}/${id}`, payload, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    try {
+      const res = await axiosInstance.put(`${apiRoutes.holidays}/${id}`, payload, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-    if (res.status !== 200) {
-      throw new Error(res.data?.message || "Failed to update Holiday");
+      if (res.status !== 200) {
+        throw new Error(res.data?.message || "Failed to update Holiday");
+      }
+
+      return res.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message || "Failed to update Holiday");
+      } else {
+        toast.error("Something went wrong while updating Holiday");
+      }
+      throw error;
     }
-
-    return res.data;
   };
 
   return useMutation({
@@ -122,6 +132,7 @@ export const useEditHoliday = () => {
     },
   });
 };
+
 
 /**
  * ❌ Delete a Holiday

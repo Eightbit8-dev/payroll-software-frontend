@@ -98,26 +98,26 @@ export interface ShiftDetails {
   lunchIn: string;
 }
 
-export interface HolidayDetailsRequest {
-  id: number;
-  name: string;
-  createdDate: string;
-  branchIds: number[];
-  departmentIds: number[];
-  month: string;
-  year: string;
-  leaveType: string;
-  remarks: string;
-}
 
-export interface HolidayDetailsResponse {
+export interface HolidayDetails {
   id: number;
   name: string;
-  date: string;
+  holidayDate: string;
   branches: [number, string][]; // this easy to hanlde [[1:"branch1"]]
   departments: [number, string][]; //[[2:"AML"],[3:"CSE"]]
   month: string;
   year: string;
   leaveType: string;
   remarks: string;
+}
+export interface HolidayPayload {
+  id: number;
+  name: string;
+  holidayDate: string;
+  branchIds: number[];
+  departmentIds: number[];
+  leaveType: string;
+  remarks: string;
+  month: string;
+  year: string;
 }

@@ -4,6 +4,7 @@ import type { DepartmentDetails } from "../types/apiTypes";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { apiRoutes } from "../routes/apiRoutes";
+import type { DropdownOption } from "../components/common/DropDown";
 
 /**
  * -------------------------------------------
@@ -44,6 +45,35 @@ export const useFetchDepartments = () => {
   return useQuery({
     queryKey: ["departments"],
     queryFn: fetchAllDepartments,
+    staleTime: 1000 * 60 * 0,
+    retry: 1,
+  });
+};
+
+
+export const useFetchDepartmentOptions = () => {
+  const fetchOptions = async (): Promise<DropdownOption[]> => {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("Unauthorized to perform this action.");
+
+    const res = await axiosInstance.get(apiRoutes.departments, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (res.status !== 200) {
+      throw new Error(res.data?.message || "Failed to fetch departments");
+    }
+
+    // Convert to options format
+    return res.data.map((dept: DepartmentDetails) => ({
+      id: dept.id,
+      label: dept.name,
+    }));
+  };
+
+  return useQuery({
+    queryKey: ["departmentOptions"],
+    queryFn: fetchOptions,
     staleTime: 1000 * 60 * 0,
     retry: 1,
   });

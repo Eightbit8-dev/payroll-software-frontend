@@ -4,6 +4,7 @@ import type { BranchDetails } from "../types/apiTypes";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { apiRoutes } from "../routes/apiRoutes";
+import type { DropdownOption } from "../components/common/DropDown";
 
 /**
  * -------------------------------------------
@@ -60,6 +61,33 @@ export const useFetchBranches = () => {
   });
 };
 
+export const useFetchBranchOptions = () => {
+  const fetchOptions = async (): Promise<DropdownOption[]> => {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("Unauthorized to perform this action.");
+
+    const res = await axiosInstance.get(apiRoutes.branches, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (res.status !== 200) {
+      throw new Error(res.data?.message || "Failed to fetch branches");
+    }
+
+    // Convert to id-label options
+    return res.data.map((branch: BranchDetails) => ({
+      id: branch.id,
+      label: branch.name,
+    }));
+  };
+
+  return useQuery({
+    queryKey: ["branchOptions"],
+    queryFn: fetchOptions,
+    staleTime: 1000 * 60 * 0,
+    retry: 1,
+  });
+};
 /**
  * ➕ Create a new branch
  */

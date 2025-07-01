@@ -7,23 +7,11 @@ import {
   useCreateHoliday,
   useEditHoliday,
 } from "../../../queries/HolidayQuery";
-import type { HolidayDetailsResponse } from "../../../types/apiTypes";
-import { monthOptions, yearOptions } from "../../../constants";
+import type { HolidayDetails } from "../../../types/apiTypes";
 import Chip from "../../../components/common/Chips";
-
-const departmentOptions = [
-  { id: 1, label: "HR" },
-  { id: 2, label: "Engineering" },
-  { id: 3, label: "Sales" },
-  { id: 4, label: "Marketing" },
-];
-
-const branchOptions = [
-  { id: 101, label: "Chennai" },
-  { id: 102, label: "Mumbai" },
-  { id: 103, label: "Delhi" },
-  { id: 104, label: "Bangalore" },
-];
+import { useFetchAttendancesTypes } from "../../../queries/AttendanceQuery";
+import { useFetchBranchOptions } from "../../../queries/BranchQuery";
+import { useFetchDepartmentOptions } from "../../../queries/DepartmentQuery";
 
 const HolidayEdit = ({
   holidayDetails,
@@ -31,27 +19,24 @@ const HolidayEdit = ({
   setFormState,
   setHolidayData,
 }: {
-  holidayDetails: HolidayDetailsResponse | null;
+  holidayDetails: HolidayDetails | null;
   formState: FormState;
   setFormState: React.Dispatch<React.SetStateAction<FormState>>;
-  setHolidayData: React.Dispatch<
-    React.SetStateAction<HolidayDetailsResponse | null>
-  >;
+  setHolidayData: React.Dispatch<React.SetStateAction<HolidayDetails | null>>;
 }) => {
-  const emptyHoliday: HolidayDetailsResponse = {
+  const emptyHoliday: HolidayDetails = {
     id: 0,
     name: "",
-    date: "",
+    holidayDate: "",
     branches: [],
     departments: [],
-    month: "",
-    year: "",
     leaveType: "",
     remarks: "",
+    month: "",
+    year: "",
   };
 
-  const [formData, setFormData] =
-    useState<HolidayDetailsResponse>(emptyHoliday);
+  const [formData, setFormData] = useState<HolidayDetails>(emptyHoliday);
 
   const {
     mutate: createHoliday,
@@ -65,11 +50,29 @@ const HolidayEdit = ({
     isSuccess: isUpdated,
   } = useEditHoliday();
 
+  const { data: attendanceTypes } = useFetchAttendancesTypes();
+  const { data: departmentOptions } = useFetchDepartmentOptions();
+  const { data: branchOptions } = useFetchBranchOptions();
+
   useEffect(() => {
     if (formState === "create") {
       setFormData(emptyHoliday);
     } else if (holidayDetails) {
-      setFormData(holidayDetails);
+      const formattedBranches =
+        holidayDetails.branches && Array.isArray(holidayDetails.branches[0])
+          ? holidayDetails.branches
+          : [];
+
+      const formattedDepartments =
+        holidayDetails.departments && Array.isArray(holidayDetails.departments[0])
+          ? holidayDetails.departments
+          : [];
+
+      setFormData({
+        ...holidayDetails,
+        branches: formattedBranches,
+        departments: formattedDepartments,
+      });
     }
   }, [formState, holidayDetails]);
 
@@ -87,16 +90,34 @@ const HolidayEdit = ({
     setHolidayData(null);
   };
 
+  const preparePayload = () => {
+    const dateObj = new Date(formData.holidayDate);
+    const month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
+    const year = dateObj.getFullYear().toString();
+
+    return {
+      id: formData.id,
+      name: formData.name,
+      holidayDate: formData.holidayDate,
+      branchIds: formData.branches.map(([id]) => id),
+      departmentIds: formData.departments.map(([id]) => id),
+      leaveType: formData.leaveType,
+      remarks: formData.remarks,
+      month,
+      year,
+    };
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (formState === "create") {
-      createHoliday(formData);
+      createHoliday(preparePayload());
     }
   };
 
   const handleUpdate = () => {
     if (formState === "edit") {
-      updateHoliday(formData);
+      updateHoliday(preparePayload());
     }
   };
 
@@ -175,10 +196,8 @@ const HolidayEdit = ({
                   disabled={
                     isCreating ||
                     !formData.name ||
-                    !formData.month ||
-                    !formData.year ||
+                    !formData.holidayDate ||
                     !formData.leaveType ||
-                    !formData.remarks ||
                     !formData.departments.length ||
                     !formData.branches.length
                   }
@@ -194,10 +213,8 @@ const HolidayEdit = ({
                   disabled={
                     isUpdating ||
                     !formData.name ||
-                    !formData.month ||
-                    !formData.year ||
+                    !formData.holidayDate ||
                     !formData.leaveType ||
-                    !formData.remarks ||
                     !formData.departments.length ||
                     !formData.branches.length
                   }
@@ -220,46 +237,45 @@ const HolidayEdit = ({
             />
 
             <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3">
-              <DropdownSelect
-                title="Month *"
-                options={monthOptions}
-                selected={
-                  monthOptions.find((opt) => opt.label === formData.month) ?? {
-                    id: 0,
-                    label: "Select Month",
-                  }
-                }
-                onChange={(opt) =>
-                  setFormData({ ...formData, month: opt.label })
+              <Input
+                required
+                disabled={isDisplay}
+                title="Holiday Date *"
+                inputValue={formData.holidayDate}
+                name="holidayDate"
+                placeholder="Select date"
+                onChange={(value) =>
+                  setFormData({ ...formData, holidayDate: value })
                 }
               />
-              <DropdownSelect
-                title="Year *"
-                options={yearOptions}
-                selected={
-                  yearOptions.find((opt) => opt.label === formData.year) ?? {
-                    id: 0,
-                    label: "Select Year",
-                  }
-                }
-                onChange={(opt) =>
-                  setFormData({ ...formData, year: opt.label })
-                }
-              />
-            </div>
 
-            <Input
-              required
-              disabled={isDisplay}
-              title="Leave Type *"
-              type="str"
-              inputValue={formData.leaveType}
-              name="leaveType"
-              placeholder="Optional, Earned, etc."
-              onChange={(value) =>
-                setFormData({ ...formData, leaveType: value })
-              }
-            />
+              {!isDisplay && attendanceTypes && (
+                <DropdownSelect
+                  title="Leave Type *"
+                  options={attendanceTypes}
+                  selected={
+                    attendanceTypes.find(
+                      (opt) => opt.label === formData.leaveType
+                    ) || { id: 0, label: "Select leave type" }
+                  }
+                  onChange={(opt) =>
+                    setFormData({ ...formData, leaveType: opt.label })
+                  }
+                />
+              )}
+
+              {isDisplay && (
+                <Input
+                  disabled
+                  title="Leave Type"
+                  type="str"
+                  inputValue={formData.leaveType}
+                  name="leaveType"
+                  placeholder=""
+                  onChange={() => {}}
+                />
+              )}
+            </div>
 
             {/* Departments Section */}
             <div className="flex flex-col gap-2">
@@ -276,7 +292,7 @@ const HolidayEdit = ({
                   />
                 ))}
               </div>
-              {!isDisplay && (
+              {!isDisplay && departmentOptions && (
                 <DropdownSelect
                   title="Select departments to add"
                   options={departmentOptions}
@@ -299,7 +315,7 @@ const HolidayEdit = ({
                   />
                 ))}
               </div>
-              {!isDisplay && (
+              {!isDisplay && branchOptions && (
                 <DropdownSelect
                   title="Select branches to add"
                   options={branchOptions}
