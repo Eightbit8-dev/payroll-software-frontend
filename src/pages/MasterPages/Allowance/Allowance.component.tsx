@@ -10,6 +10,7 @@ import {
   useEditAllowance,
   useFetchAllowanceTypes,
 } from "../../../queries/AllowanceQuery";
+import isEqual from "lodash.isequal";
 
 const AllowanceEdit = ({
   allowanceDetails,
@@ -155,18 +156,9 @@ const AllowanceEdit = ({
               {formState === "create" && (
                 <ButtonSm
                   className="font-medium text-white disabled:opacity-50"
-                  text={isCreating ? "Creating..." : "Create Allowance"}
+                  text={isCreating ? "Creating..." : "Create New"}
                   state="default"
                   type="submit"
-                  disabled={
-                    isCreating ||
-                    !formData.name ||
-                    !formData.percent ||
-                    !formData.on ||
-                    !formData.remarks ||
-                    selectedMasterType.id === 0 ||
-                    selectedOn.id === 0
-                  }
                 />
               )}
 
@@ -179,12 +171,7 @@ const AllowanceEdit = ({
                   onClick={handleUpdate}
                   disabled={
                     isUpdating ||
-                    !formData.name ||
-                    !formData.percent ||
-                    !formData.on ||
-                    !formData.remarks ||
-                    selectedMasterType.id === 0 ||
-                    selectedOn.id === 0
+                    isEqual(formData, allowanceDetails)
                   }
                 />
               )}
@@ -215,6 +202,7 @@ const AllowanceEdit = ({
                 name="percent"
                 placeholder="Enter allowance percentage"
                 max={100}
+                min={0}
                 onChange={(value) =>
                   setFormData({ ...formData, percent: value })
                 }
@@ -247,9 +235,8 @@ const AllowanceEdit = ({
             />
 
             <TextArea
-              required
               disabled={isDisplay}
-              title="Remarks *"
+              title="Remarks"
               inputValue={formData.remarks}
               name="Remarks"
               placeholder="Enter description"

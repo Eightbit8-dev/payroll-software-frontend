@@ -11,6 +11,7 @@ const popUpVariants = {
 
 interface DialogBoxProps {
   children: React.ReactNode;
+
   setToggleDialogueBox: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

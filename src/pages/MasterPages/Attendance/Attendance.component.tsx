@@ -4,7 +4,6 @@ import ButtonSm from "../../../components/common/Buttons";
 import type { FormState } from "../../../types/appTypes";
 import type { AttendanceDetails } from "../../../types/apiTypes";
 import { usersData } from "../../../utils/userData";
-import UserAccessDetails from "../Users.component";
 import TextArea from "../../../components/common/Textarea";
 import DropdownSelect from "../../../components/common/DropDown";
 import ToggleField from "../../../components/common/ToggleField";
@@ -13,6 +12,7 @@ import {
   useEditAttendance,
   useFetchAttendancesTypes,
 } from "../../../queries/AttendanceQuery";
+import isEqual from "lodash.isequal";
 
 const AttendanceEdit = ({
   attendanceDetails,
@@ -40,7 +40,6 @@ const AttendanceEdit = ({
     factor: 0,
   };
   const [formData, setFormData] = useState<AttendanceDetails>(emptyAttendance);
-  const [users, setUsers] = useState(usersData);
   const [selectedOption, setSelectedOption] = useState({
     id: 0,
     label: "Select type",
@@ -96,6 +95,7 @@ const AttendanceEdit = ({
   const handleCancel = () => {
     setFormState("create");
     setFormData(emptyAttendance);
+    setSelectedOption({ id: 0, label: "Select type" });
     setAttendanceData(null);
   };
 
@@ -109,6 +109,7 @@ const AttendanceEdit = ({
   const handleUpdate = () => {
     if (formState === "edit") {
       updateAttendanceType(formData);
+    setSelectedOption({ id: 0, label: "Select type" });
     }
   };
 
@@ -151,19 +152,9 @@ const AttendanceEdit = ({
               {formState === "create" && (
                 <ButtonSm
                   className="font-medium text-white disabled:opacity-50"
-                  text={isCreating ? "Creating..." : "Create new type"}
+                  text={isCreating ? "Creating..." : "Create new "}
                   state="default"
                   type="submit"
-                  disabled={
-                    isCreating ||
-                    !formData.name ||
-                    !formData.remarks ||
-                    !formData.code ||
-                    !formData.factor ||
-                    !selectedOption.id ||
-                    !formData.carryForward ||
-                    selectedOption.id === 0
-                  }
                 />
               )}
 
@@ -174,14 +165,7 @@ const AttendanceEdit = ({
                   state="default"
                   type="button"
                   onClick={handleUpdate}
-                  disabled={
-                    isUpdating ||
-                    !formData.name ||
-                    !formData.remarks ||
-                    !formData.code ||
-                    !formData.factor ||
-                    !selectedOption.id
-                  }
+                  disabled={isUpdating || isEqual(formData, attendanceDetails)}
                 />
               )}
             </section>
@@ -220,6 +204,7 @@ const AttendanceEdit = ({
                 inputValue={formData.factor}
                 name="factor"
                 placeholder="Factor ranging from 0 to 1"
+                min={0}
                 max={1}
                 onChange={(value) =>
                   setFormData({ ...formData, factor: value })
@@ -249,9 +234,8 @@ const AttendanceEdit = ({
               />
             </div>
             <TextArea
-              required
               disabled={isDisplay}
-              title="Remarks *"
+              title="Remarks"
               inputValue={formData.remarks}
               name="Remarks"
               placeholder="Enter description"
@@ -261,8 +245,6 @@ const AttendanceEdit = ({
           </section>
         </form>
 
-        {/* User Access Details */}
-        <UserAccessDetails userData={users} setUserData={setUsers} />
       </div>
     </main>
   );

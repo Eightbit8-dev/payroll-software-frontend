@@ -228,8 +228,9 @@ export const TimeInput: React.FC<TimeInputProps> = ({
           style={{
             zoom: 1, // ⬅️ makes entire input including clock icon bigger
             WebkitAppearance: "textfield",
+            cursor: "pointer",
           }}
-          className="min-h-max w-full px-3 py-3 text-start text-sm font-medium text-slate-600 autofill:text-black focus:outline-none"
+          className="min-h-max w-full cursor-pointer px-3 py-3 text-start text-sm font-medium text-slate-600 autofill:text-black focus:outline-none"
         />
       </div>
     </div>

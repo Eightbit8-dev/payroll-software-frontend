@@ -128,7 +128,7 @@ const BranchEdit = ({
               {formState === "create" && (
                 <ButtonSm
                   className="font-medium text-white"
-                  text={isPending ? "Creating..." : "Create branch"}
+                  text={isPending ? "Creating..." : "Create New"}
                   state="default"
                   type="submit"
                 />
@@ -178,7 +178,6 @@ const BranchEdit = ({
                 }
               />
               <Input
-                required
                 disabled={formState === "display"}
                 title="Address Line 2"
                 type="str"

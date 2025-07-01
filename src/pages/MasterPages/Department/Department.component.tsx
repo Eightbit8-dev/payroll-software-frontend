@@ -120,7 +120,7 @@ const DepartmentEdit = ({
                   type="submit"
                   className="font-semibold text-white"
                   state="default"
-                  text={isPending ? "Creating..." : "Create new department"}
+                  text={isPending ? "Creating..." : "Create new "}
                 />
               )}
             </AnimatePresence>

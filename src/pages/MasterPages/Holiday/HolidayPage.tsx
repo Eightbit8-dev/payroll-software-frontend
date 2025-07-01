@@ -2,35 +2,47 @@ import ButtonSm from "../../../components/common/Buttons";
 import HolidayEdit from "./Holiday.component";
 import PageHeader from "../../../components/masterPage.components/PageHeader";
 import { AnimatePresence } from "motion/react";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import MasterPagesSkeleton from "../../../components/masterPage.components/LoadingSkeleton";
 import ErrorComponent from "../../../components/common/Error";
 import type { FormState } from "../../../types/appTypes";
-import type { HolidayDetails } from "../../../types/apiTypes";
+import type { HolidayDetailsResponse } from "../../../types/apiTypes";
 import { useFetchHolidays } from "../../../queries/HolidayQuery";
 import DialogBox from "../../../components/common/DialogBox";
 import { DeleteHolidayDialogBox } from "./DeleteHoliday";
+import { toast } from "react-toastify";
+import DropdownSelect from "../../../components/common/DropDown";
+import { holidays, monthOptions, yearOptions } from "../../../constants";
 
 const HolidayPage = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [holiday, setHoliday] = useState<HolidayDetails | null>(null);
+  const [holiday, setHoliday] = useState<HolidayDetailsResponse | null>(null);
   const [formState, setFormState] = useState<FormState>("create");
+  const [viewMonthYear, setViewMonthYear] = useState({
+    year: { id: 0, label: "Select year" },
+    month: { id: 0, label: "Select month" },
+  });
 
-  const { data: holidays, isLoading, isError } = useFetchHolidays();
-  if (isLoading) return <MasterPagesSkeleton />;
-  if (isError) return <ErrorComponent />;
+  // const { data: holidays, isLoading, isError, isSuccess } = useFetchHolidays();
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     toast.success(JSON.stringify(holidays));
+  //   }
+  // }, [isSuccess]);
+  // if (isLoading) return <MasterPagesSkeleton />;
+  // if (isError) return <ErrorComponent />;
 
-  const handleRowClick = (item: HolidayDetails) => {
+  const handleRowClick = (item: HolidayDetailsResponse) => {
     setHoliday(item);
     setFormState("display");
   };
 
-  const handleEdit = (item: HolidayDetails) => {
+  const handleEdit = (item: HolidayDetailsResponse) => {
     setHoliday(item);
     setFormState("edit");
   };
 
-  const handleDelete = (item: HolidayDetails) => {
+  const handleDelete = (item: HolidayDetailsResponse) => {
     setHoliday(item);
     setIsDeleteDialogOpen(true);
   };
@@ -38,21 +50,45 @@ const HolidayPage = () => {
   return (
     <main className="flex w-full max-w-full flex-col gap-4 md:flex-row">
       <AnimatePresence>
-        {isDeleteDialogOpen && holiday && (
-          <DialogBox setToggleDialogueBox={setIsDeleteDialogOpen}>
-            <DeleteHolidayDialogBox
-              setIsDeleteDialogOpen={setIsDeleteDialogOpen}
-              holiday={holiday}
-              setHolidayDetails={setHoliday}
-            />
-          </DialogBox>
-        )}
+        {/* {isDeleteDialogOpen && holiday && (
+          // <DialogBox setToggleDialogueBox={setIsDeleteDialogOpen}>
+          //   <DeleteHolidayDialogBox
+          //     setIsDeleteDialogOpen={setIsDeleteDialogOpen}
+          //     holiday={holiday}
+          //     setHolidayDetailsResponse={setHoliday}
+          //   />
+          // </DialogBox>
+        )} */}
       </AnimatePresence>
 
       {/* Left Table Section */}
-      <section className="table-container flex w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm md:w-[40%]">
+      <section className="table-container flex w-full flex-col gap-3 rounded-[12px] bg-white/80 p-4 shadow-sm md:w-[50%]">
         <header className="flex h-max flex-row items-center justify-between">
           <PageHeader title="Holiday Configuration" />
+          <DropdownSelect
+            title="Month *"
+            options={monthOptions}
+            selected={
+              viewMonthYear.month.id === 0
+                ? { id: 0, label: "Select month" }
+                : viewMonthYear.month
+            }
+            onChange={(opt) =>
+              setViewMonthYear({ ...viewMonthYear, month: opt })
+            }
+          />
+          <DropdownSelect
+            title="Year *"
+            options={yearOptions}
+            selected={
+              viewMonthYear.month.id === 0
+                ? { id: 0, label: "Select year" }
+                : viewMonthYear.year
+            }
+            onChange={(opt) =>
+              setViewMonthYear({ ...viewMonthYear, year: opt })
+            }
+          />
         </header>
 
         <div className="tables flex w-full flex-col overflow-clip rounded-[9px]">
@@ -64,7 +100,7 @@ const HolidayPage = () => {
               Name
             </p>
             <p className="w-full text-start text-sm font-semibold text-zinc-900">
-              Month
+              Date
             </p>
             <p className="min-w-[120px] text-start text-sm font-semibold text-zinc-900">
               Action
@@ -77,7 +113,7 @@ const HolidayPage = () => {
             </h2>
           )}
 
-          {holidays?.map((item: HolidayDetails, index) => {
+          {holidays?.map((item: HolidayDetailsResponse, index) => {
             const isSelected = holiday?.id === item.id;
             return (
               <div
@@ -86,16 +122,20 @@ const HolidayPage = () => {
                   isSelected
                     ? "bg-gray-100"
                     : index % 2 === 0
-                    ? "bg-white"
-                    : "bg-slate-50"
+                      ? "bg-white"
+                      : "bg-slate-50"
                 } hover:bg-slate-100 active:bg-slate-200`}
                 onClick={() => handleRowClick(item)}
               >
                 <p className="w-max min-w-[100px] px-2 py-4 text-start text-sm font-medium">
                   {index + 1}
                 </p>
-                <p className="w-full text-start text-sm font-medium">{item.name}</p>
-                <p className="w-full text-start text-sm font-medium">{item.month}</p>
+                <p className="w-full text-start text-sm font-medium">
+                  {item.name}
+                </p>
+                <p className="w-full text-start text-sm font-medium">
+                  {item.date}
+                </p>
 
                 <div className="flex min-w-[120px] flex-row gap-2 text-start text-sm font-medium">
                   <ButtonSm

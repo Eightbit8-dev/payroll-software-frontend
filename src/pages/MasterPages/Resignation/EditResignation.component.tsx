@@ -26,6 +26,9 @@ const ResignationEdit = ({
     useState<ResignationDetails | null>(null);
   const [title, setTitle] = useState("");
 
+  const disable = resignationData?.name ===Resignation?.name &&
+    resignationData?.remarks === Resignation?.remarks;
+
   const {
     mutate: createResignation,
     isPending,
@@ -122,20 +125,21 @@ const ResignationEdit = ({
 
               {formState === "create" && (
                 <ButtonSm
-                  className="font-medium text-white"
-                  text={isPending ? "Creating..." : "Create"}
+                  className="font-medium text-white "
+                  text={isPending ? "Creating..." : "Create New"}
                   state="default"
                   type="submit"
-                  disabled={isPending}
+                  disabled={isPending }
                 />
               )}
 
               {formState === "edit" && (
                 <ButtonSm
-                  className="font-medium text-white"
+                  className="font-medium text-white disabled:opacity-50"
                   text={isUpdatePending ? "Updating..." : "Save Changes"}
                   state="default"
                   type="button"
+                  disabled={isPending || disable}
                   onClick={() => updateResignation(resignationData)}
                 />
               )}

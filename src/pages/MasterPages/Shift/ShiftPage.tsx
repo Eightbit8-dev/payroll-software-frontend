@@ -91,7 +91,7 @@ const ShiftPage = () => {
             <p className="w-full text-start text-sm font-semibold text-zinc-900">
               Name
             </p>
-            <p className="w-full text-start text-sm font-semibold text-zinc-900">
+            <p className="w-full max-w-[120px] text-start text-sm font-semibold text-zinc-900">
               Type
             </p>
 
@@ -128,7 +128,7 @@ const ShiftPage = () => {
                 <p className="w-full text-start text-sm font-medium">
                   {item.name}
                 </p>
-                <p className="w-full text-start text-sm font-medium">
+                <p className="w-full max-w-[120px] text-start text-sm font-medium">
                   {item.type}
                 </p>
 
