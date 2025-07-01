@@ -17,7 +17,6 @@ export const DeleteAllowanceDialogBox = ({
   const handleDelete = () => {
     mutate(allowance, {
       onSuccess: () => {
-        toast.success(`Deleted allowance type "${allowance.name}" successfully.`);
         setAllowanceDetails(null);
         setIsDeleteAllowanceDialogOpen(false);
       },
