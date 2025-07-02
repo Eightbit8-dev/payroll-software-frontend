@@ -3,7 +3,6 @@ import Input from "../../../components/common/Input";
 import ButtonSm from "../../../components/common/Buttons";
 import type { FormState } from "../../../types/appTypes";
 import type { AttendanceDetails } from "../../../types/apiTypes";
-import { usersData } from "../../../utils/userData";
 import TextArea from "../../../components/common/Textarea";
 import DropdownSelect from "../../../components/common/DropDown";
 import ToggleField from "../../../components/common/ToggleField";
