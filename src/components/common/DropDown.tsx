@@ -6,7 +6,7 @@ export interface DropdownOption {
 }
 
 interface DropdownSelectProps {
-  title: string;
+  title?: string;
   options: DropdownOption[];
   selected: DropdownOption;
   onChange: (option: DropdownOption) => void;
@@ -54,10 +54,12 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
       className={`relative w-full min-w-[180px] self-stretch ${className}`}
       ref={dropdownRef}
     >
-      <h3 className="mb-0.5 w-full justify-start text-xs leading-loose font-semibold text-slate-700">
-        {title}
-        {required && <span className="text-red-500">*</span>}
-      </h3>
+      {title && (
+        <h3 className="mb-0.5 w-full justify-start text-xs leading-loose font-semibold text-slate-700">
+          {title}
+          {required && <span className="text-red-500">*</span>}
+        </h3>
+      )}
 
       <div
         onClick={toggleDropdown}
