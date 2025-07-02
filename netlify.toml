@@ -1,0 +1,8 @@
+[build]
+  command = "npm install && npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_ENV = "production"
+  LIGHTNINGCSS_FORCE_BUILD = "1"
+  LIGHTNINGCSS_DISABLE_CACHE = "1"
