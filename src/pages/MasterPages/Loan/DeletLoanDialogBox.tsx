@@ -1,8 +1,6 @@
 import ButtonSm from "../../../components/common/Buttons";
 import { useDeleteLoan } from "../../../queries/LoanQuery";
-import type {  LoanDetails } from "../../../types/apiTypes";
-import type { FormState } from "../../../types/appTypes";
-
+import type { LoanDetails } from "../../../types/apiTypes";
 
 export const DeleteLoanDialogBox = ({
   setIsDeleteLoanDialogOpen,
@@ -10,23 +8,21 @@ export const DeleteLoanDialogBox = ({
   onDeleted,
 }: {
   setIsDeleteLoanDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setFormState: React.Dispatch<React.SetStateAction<FormState>>;
-  setLoan: React.Dispatch<React.SetStateAction<LoanDetails | null>>;
   loan: LoanDetails;
   onDeleted?: () => void;
 }) => {
   const { mutate: deleteLoan, isPending: isDeleteLoanLoading } = useDeleteLoan();
 
-const handleDelete = () => {
-  deleteLoan(loan, {
-    onSuccess: () => {
-      setIsDeleteLoanDialogOpen(false);
-      if (onDeleted) {
-        onDeleted();
-      }
-    },
-  });
-};
+  const handleDelete = () => {
+    deleteLoan(loan, {
+      onSuccess: () => {
+        setIsDeleteLoanDialogOpen(false);
+        if (onDeleted) {
+          onDeleted();
+        }
+      },
+    });
+  };
 
   return (
     <div className="flex w-full flex-col gap-4">
@@ -41,7 +37,7 @@ const handleDelete = () => {
       </header>
 
       <p className="text-md font-medium text-zinc-700">
-        Are you sure you want to delete the branch <strong>{loan.name}</strong>? This action is irreversible.
+        Are you sure you want to delete the loan <strong>{loan.name}</strong>? This action is irreversible.
       </p>
 
       <section className="mt-1 grid w-full grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3">
