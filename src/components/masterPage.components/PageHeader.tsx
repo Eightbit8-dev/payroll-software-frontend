@@ -10,12 +10,12 @@ const PageHeader: React.FC<PageTitleAndDescriptionProps> = ({ title }) => {
   return (
     <div className="flex flex-row items-center justify-start gap-2">
       <button
-        className="h-6 w-6 items-center justify-start cursor-pointer rounded-full bg-blue-500"
+        className="min-h-6 min-w-6 cursor-pointer items-center justify-start rounded-full bg-blue-500"
         onClick={() => navigate(-1)}
       >
-        <img src="/icons/back-icon.svg" alt="back " />
+        <img className="aspect-auto" src="/icons/back-icon.svg" alt="back " />
       </button>
-      <h1 className="my-1 text-start text-lg font-semibold text-zinc-800">
+      <h1 className="my-1 flex w-max text-start text-lg font-semibold text-zinc-800">
         {title}
       </h1>
     </div>

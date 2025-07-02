@@ -127,11 +127,11 @@ export const MasterPage = () => {
     },
   ];
   return (
-    <div className="mx-auto flex w-full max-w-[1390px] flex-col gap-8">
+    <div className="mx-auto flex w-full max-w-[1390px] origin-top flex-col gap-6">
       <div className="flex items-center justify-between">
-        <div className="flex flex-col gap-[5px]">
+        <div className="flex flex-col gap-[2px]">
           <div>
-            <p className="text-2xl font-bold text-zinc-800">Configuration</p>
+            <p className="text-xl font-bold text-zinc-800">Configuration</p>
           </div>
           <div>
             <p className="text-base font-medium text-slate-500">
