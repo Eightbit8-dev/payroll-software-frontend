@@ -103,7 +103,7 @@ const LoanPage = () => {
                 </p>
                 <p className="w-full text-start text-sm font-medium">{item.name}</p>
                 <p className="w-full text-start text-sm font-medium">
-                  ${item.maxEligibilityAmount}
+                  ₹{item.maxEligibilityAmount}
                 </p>
 
                 <div className="flex min-w-[120px] flex-row gap-2 text-start text-sm font-medium">
